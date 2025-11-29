@@ -1,0 +1,22 @@
+[project]
+authors = [{name = "Toby Driscoll", email = "driscoll@udel.edu"}]
+dependencies = ["juliacall>=0.9.30,<0.10", "cxregions>=0.1.0,<0.2"]
+name = "pyrat"
+requires-python = ">= 3.11"
+version = "0.1.0"
+
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+pyrat = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+numpy = ">=2.3.5,<3"
