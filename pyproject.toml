@@ -20,3 +20,5 @@ pyrat = { path = ".", editable = true }
 
 [tool.pixi.dependencies]
 numpy = ">=2.3.5,<3"
+ipykernel = ">=7.1.0,<8"
+python = "3.13.*"
