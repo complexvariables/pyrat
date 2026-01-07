@@ -16,7 +16,7 @@ jl.seval("using RationalFunctionApproximation, ComplexRegions, PythonCall")
 RFA = jl.RationalFunctionApproximation
 CR = jl.ComplexRegions
 
-__all__ = ['Thiele', 'Bary', 'ContinuumApprox', 'DiscreteApprox', 'approximate', 'unitcircle', 'unitinterval', 'unitdisk', 'RFA', 'CR', 'TCF', 'AAA']
+__all__ = ['Thiele', 'Bary', 'JuliaApprox', 'ContinuumApprox', 'DiscreteApprox', 'approximate', 'unitcircle', 'unitinterval', 'unitdisk', 'RFA', 'CR', 'TCF', 'AAA']
 
 unitcircle = cr.Circle(0.0, 1.0)
 unitinterval = cr.Segment(-1.0, 1.0)
@@ -210,9 +210,6 @@ class JuliaApprox:
         rt = jl.roots(self.julia)
         return np.array(rt)
     
-    def isapprox(self, other):
-        return jl.isapprox(self.julia, other.julia)
-    
     def isempty(self):
         return jl.isempty(self.julia)
     
@@ -251,6 +248,21 @@ class ContinuumApprox(JuliaApprox):
         pts = jl.test_points(self.julia)
         return np.array(pts)
     
+    def nodes(self):
+        nds = jl.nodes(self.julia)
+        return np.array(nds)
+    
+    def values(self):
+        vals = jl.values(self.julia)
+        return np.array(vals)
+    
+    def isapprox(self, other):
+        if isinstance(other, JuliaApprox):
+            return jl.isapprox(self.julia, other.julia)
+        else:
+            x = self.testpoints()
+            return np.all([np.isclose(self(xk), other(xk)) for xk in x])
+    
 class DiscreteApprox(JuliaApprox):
     def __init__(self, julia_obj):
         if isinstance(julia_obj, juliacall.AnyValue):  # type: ignore
@@ -272,7 +284,26 @@ class DiscreteApprox(JuliaApprox):
     def getfunction(self):
         f = jl.get_function(self.julia)
         return JuliaRatfun(f)
+    
+    def testpoints(self):
+        pts = np.array(self.domain)
+        return pts[self.test_index]
  
+    def nodes(self):
+        nds = jl.nodes(self.julia)
+        return np.array(nds)
+    
+    def values(self):
+        vals = jl.values(self.julia)
+        return np.array(vals)
+
+    def isapprox(self, other):
+        if isinstance(other, JuliaApprox):
+            return jl.isapprox(self.julia, other.julia)
+        else:
+            x = self.domain
+            return np.all([np.isclose(self(xk), other(xk)) for xk in x])
+
 def approximate(fun, domain, zeta=None, **kwargs):
     if not callable(fun):
         fun = np.array(fun).flatten()
@@ -291,3 +322,5 @@ def approximate(fun, domain, zeta=None, **kwargs):
         return ContinuumApprox(julia_approx)
     elif jl.isa(julia_approx, RFA.DiscreteApproximation):
         return DiscreteApprox(julia_approx)
+    else:
+        raise ValueError("Unknown approximation type returned")
