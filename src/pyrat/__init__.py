@@ -38,7 +38,7 @@ class JuliaRatfun:
     def __call__(self, z):
         if np.ndim(z) > 0:
             vec_z = juliacall.convert(jl.Vector, z)
-            result = self.julia(vec_z)
+            result = jl.map(self.julia, vec_z)
             return np.array(result)
         else:
             return np.complex128(self.julia(z))
@@ -72,6 +72,8 @@ class JuliaRatfun:
     
     def __add__(self, other):
         julia_add = getattr(jl, "+")
+        if isinstance(other, JuliaRatfun):
+            other = other.julia
         t = julia_add(self.julia, other)
         return type(self)(t)
 
@@ -132,8 +134,8 @@ class JuliaRatinterp(JuliaRatfun):
     def length(self):
         return jl.length(self.julia)
 
-class Thiele(JuliaRatfun):
-    def __init__(self, nodes, values, weights=None):
+class Thiele(JuliaRatinterp):
+    def __init__(self, nodes, values=None, weights=None):
         if isinstance(nodes, juliacall.AnyValue): # type: ignore
             if jl.isa(nodes, RFA.Thiele):
                 self.julia = nodes
@@ -148,28 +150,27 @@ class Thiele(JuliaRatfun):
                 vw = juliacall.convert(jl.Vector, weights)
                 self.julia = RFA.Thiele(vn, vv, vw)
 
-        self.nodes = JuliaRatfun.get(self, "nodes")
-        self.values = JuliaRatfun.get(self, "values")
-        self.weights = JuliaRatfun.get(self, "weights")
+        self.weights = np.array(JuliaRatfun.get(self, "weights"))
 
     def __repr__(self):
         return f"Thiele continued fraction of type {self.degrees()}"
     
-class Bary(JuliaRatfun):
-    def __init__(self, nodes, values, weights=None):
+class Bary(JuliaRatinterp):
+    def __init__(self, nodes, values=None, weights=None):
         if isinstance(nodes, juliacall.AnyValue): # type: ignore
-            if jl.isa(nodes, RFA.Bary):
+            if jl.isa(nodes, RFA.Barycentric):
                 self.julia = nodes
             else:
                 raise ValueError("Invalid argument to Bary constructor")
-        elif weights is not None:
-            self.julia = RFA.Bary(nodes, values, weights)
+        elif weights is None:
+            raise ValueError("Weights must be provided for Barycentric constructor")
         else:
-            self.julia = RFA.Bary(nodes, values)
+            vn = juliacall.convert(jl.Vector, nodes)
+            vv = juliacall.convert(jl.Vector, values)
+            vw = juliacall.convert(jl.Vector, weights)
+            self.julia = RFA.Barycentric(vn, vv, vw)
 
-        self.nodes = JuliaRatfun.get(self, "nodes")
-        self.values = JuliaRatfun.get(self, "values")
-        self.weights = JuliaRatfun.get(self, "weights")
+        self.weights = np.array(JuliaRatfun.get(self, "weights"))
     
     def __repr__(self):
         return f"Barycentric rational function of type {self.degrees()}"
@@ -187,11 +188,12 @@ class JuliaApprox:
     
     def __call__(self, z):
         if np.ndim(z) > 0:
-            return np.array([self.julia(zi) for zi in z])
+            vec_z = juliacall.convert(jl.Vector, z)
+            result = jl.map(self.julia, vec_z)
+            return np.array(result)
         else:
-            f = self.julia(z)
-            return f
-        
+            return np.complex128(self.julia(z))
+
     def degree(self):
         return jl.degree(self.julia)
     
@@ -271,10 +273,10 @@ class DiscreteApprox(JuliaApprox):
         else:
             raise ValueError("Invalid argument to constructor")
         
-        self.data = JuliaApprox.get(self, "data")
-        self.domain = JuliaApprox.get(self, "domain")
+        self.data = np.array(JuliaApprox.get(self, "data"))
+        self.domain = np.array(JuliaApprox.get(self, "domain"))
         self.fun = JuliaApprox.get(self, "fun")
-        self.test_index = JuliaApprox.get(self, "test_index")
+        self.test_index = np.array(JuliaApprox.get(self, "test_index"))
         self.allowed = JuliaApprox.get(self, "allowed")
         self.history = JuliaApprox.get(self, "history")
 
