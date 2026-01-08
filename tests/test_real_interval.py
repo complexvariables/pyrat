@@ -10,13 +10,12 @@ def test_continuum_build():
         f = approximate(np.sin, unitinterval, method=method)
         assert isinstance(f, ContinuumApprox)
         assert callable(f)
-        assert isinstance(f.original, juliacall.AnyValue)
-        assert isinstance(f.domain, juliacall.AnyValue)
-        assert isinstance(f.fun, juliacall.AnyValue)
-        assert isinstance(f.allowed, juliacall.AnyValue)
-        assert isinstance(f.path, juliacall.AnyValue)
-        assert isinstance(f.history, juliacall.AnyValue)
-
+        assert isinstance(f.original, juliacall.AnyValue) # type: ignore
+        assert isinstance(f.domain, juliacall.AnyValue) # type: ignore
+        assert isinstance(f.fun, juliacall.AnyValue) # type: ignore
+        assert isinstance(f.allowed, juliacall.AnyValue) # type: ignore
+        assert isinstance(f.path, juliacall.AnyValue) # type: ignore
+        assert isinstance(f.history, juliacall.AnyValue) # type: ignore
 
 def test_continuum_accuracy():
     pts = np.linspace(-1, 1, 2000)
