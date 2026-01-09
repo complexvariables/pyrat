@@ -51,7 +51,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/matplotlib-inline-0.2.1-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/ncurses-6.5-h5e97a16_3.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/nest-asyncio-1.6.0-pyhd8ed1ab_1.conda
-      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/numpy-2.3.5-py313h9771d21_0.conda
+      - conda: https://conda.anaconda.org/conda-forge/osx-arm64/numpy-2.4.0-py313h16eae64_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/openssl-3.6.0-h5503f6c_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/packaging-25.0-pyh29332c3_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/parso-0.8.5-pyhcf101f3_0.conda
@@ -81,8 +81,8 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/wcwidth-0.2.14-pyhd8ed1ab_0.conda
       - conda: https://conda.anaconda.org/conda-forge/osx-arm64/zeromq-4.3.5-h888dc83_9.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/zipp-3.23.0-pyhd8ed1ab_0.conda
-      - pypi: https://files.pythonhosted.org/packages/e2/8f/8d8fa5c3c657d287c682eaf57115dca44a07a2e6d699e27c51fb9600d63a/cxregions-0.1.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/e3/7f/a1a97644e39e7316d850784c642093c99df1290a460df4ede27659056834/filelock-3.20.1-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/53/b4/6505cc6081d7b39c0ee40cfb23efec5bedc2379edfb43be2bad17e5e454c/cxregions-0.1.4-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/9a/30/ab407e2ec752aa541704ed8f93c11e2a5d92c168b8a755d818b74a3c5c2d/filelock-3.20.2-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/14/1d/d6d77bd84c5261a5cbcb17e5000527d0f895e512545bd442caf28a7e3336/juliacall-0.9.31-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/39/6e/361d176cc94ccb8aac22a39677e146a91406005f8f6bb098b15606c523f6/juliapkg-0.1.22-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/a6/24/4d91e05817e92e3a61c8a21e08fd0f390f5301f1c448b137c57c4bc6e543/semver-3.0.4-py3-none-any.whl
@@ -188,10 +188,10 @@ packages:
   purls: []
   size: 48397
   timestamp: 1761175097707
-- pypi: https://files.pythonhosted.org/packages/e2/8f/8d8fa5c3c657d287c682eaf57115dca44a07a2e6d699e27c51fb9600d63a/cxregions-0.1.3-py3-none-any.whl
+- pypi: https://files.pythonhosted.org/packages/53/b4/6505cc6081d7b39c0ee40cfb23efec5bedc2379edfb43be2bad17e5e454c/cxregions-0.1.4-py3-none-any.whl
   name: cxregions
-  version: 0.1.3
-  sha256: 8effcebdd25e26078c478b48cabda88172ded2a03750f7ba8a1454037a2aee36
+  version: 0.1.4
+  sha256: 0fa84d9f08ff4ca42a2bca2517cfd3984ab8537d34c5281843042e05a92313ff
   requires_dist:
   - juliacall>=0.9.30,<0.10
   - numpy>=2.1,<3
@@ -244,10 +244,10 @@ packages:
   - pkg:pypi/executing?source=hash-mapping
   size: 30753
   timestamp: 1756729456476
-- pypi: https://files.pythonhosted.org/packages/e3/7f/a1a97644e39e7316d850784c642093c99df1290a460df4ede27659056834/filelock-3.20.1-py3-none-any.whl
+- pypi: https://files.pythonhosted.org/packages/9a/30/ab407e2ec752aa541704ed8f93c11e2a5d92c168b8a755d818b74a3c5c2d/filelock-3.20.2-py3-none-any.whl
   name: filelock
-  version: 3.20.1
-  sha256: 15d9e9a67306188a44baa72f569d2bfd803076269365fdea0934385da4dc361a
+  version: 3.20.2
+  sha256: fbba7237d6ea277175a32c54bb71ef814a8546d8601269e1bfc388de333974e8
   requires_python: '>=3.10'
 - conda: https://conda.anaconda.org/conda-forge/noarch/importlib-metadata-8.7.0-pyhe01879c_1.conda
   sha256: c18ab120a0613ada4391b15981d86ff777b5690ca461ea7e9e49531e8f374745
@@ -652,17 +652,17 @@ packages:
   - pkg:pypi/nest-asyncio?source=hash-mapping
   size: 11543
   timestamp: 1733325673691
-- conda: https://conda.anaconda.org/conda-forge/osx-arm64/numpy-2.3.5-py313h9771d21_0.conda
-  sha256: 508a9a39c4e5707bbc80c3bf5bb814b458f3948562f326d135e7707bfc052bd1
-  md5: 3f8330206033158d3e443120500af416
+- conda: https://conda.anaconda.org/conda-forge/osx-arm64/numpy-2.4.0-py313h16eae64_0.conda
+  sha256: 843f4a0a5e90f13e186310ff0769a726f0f8024c6c617aff614fae032c28e2fc
+  md5: c87aab85fa09a22ef300bd50ffcf4691
   depends:
   - python
-  - python 3.13.* *_cp313
   - __osx >=11.0
   - libcxx >=19
+  - python 3.13.* *_cp313
   - libblas >=3.9.0,<4.0a0
-  - libcblas >=3.9.0,<4.0a0
   - python_abi 3.13.* *_cp313
+  - libcblas >=3.9.0,<4.0a0
   - liblapack >=3.9.0,<4.0a0
   constrains:
   - numpy-base <0a0
@@ -670,8 +670,8 @@ packages:
   license_family: BSD
   purls:
   - pkg:pypi/numpy?source=hash-mapping
-  size: 6791770
-  timestamp: 1763350918650
+  size: 6915799
+  timestamp: 1766373798268
 - conda: https://conda.anaconda.org/conda-forge/osx-arm64/openssl-3.6.0-h5503f6c_0.conda
   sha256: ebe93dafcc09e099782fe3907485d4e1671296bc14f8c383cb6f3dfebb773988
   md5: b34dc4172653c13dcf453862f251af2b
@@ -805,10 +805,10 @@ packages:
 - pypi: ./
   name: pyrat
   version: 0.1.0
-  sha256: 13ee34b2300aedb0218da3c9058b151358b70e92ce4c541e7a44564ccf8787f9
+  sha256: 1f5e1e8379de20104d6b7c7a5db81e48728117a500bf3395d296e466316bfb5f
   requires_dist:
-  - juliacall>=0.9.30,<0.10
-  - cxregions>=0.1.3,<0.2
+  - juliacall>=0.9.31,<0.10
+  - cxregions>=0.1.4,<0.2
   requires_python: '>=3.11'
 - conda: https://conda.anaconda.org/conda-forge/noarch/pytest-9.0.2-pyhcf101f3_0.conda
   sha256: 9e749fb465a8bedf0184d8b8996992a38de351f7c64e967031944978de03a520
