@@ -22,4 +22,4 @@ pyrat = { path = ".", editable = true }
 numpy = ">=2.4.0,<3"
 ipykernel = ">=7.1.0,<8"
 python = "3.13.*"
-hatch = ">=1.16.1,<2"
+pytest = ">=9.0.2,<10"
