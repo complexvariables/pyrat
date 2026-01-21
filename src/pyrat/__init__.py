@@ -175,6 +175,18 @@ class Bary(JuliaRatinterp):
     def __repr__(self):
         return f"Barycentric rational function of type {self.degrees()}"
 
+def wrap_jl_ratfun(julia_obj):
+    if jl.isa(julia_obj, RFA.Thiele):
+        return Thiele(julia_obj)
+    elif jl.isa(julia_obj, RFA.Barycentric):
+        return Bary(julia_obj)
+    elif jl.isa(julia_obj, RFA.AbstractRationalInterpolant):
+        return JuliaRatinterp(julia_obj)
+    elif jl.isa(julia_obj, RFA.AbstractRationalFunction):
+        return JuliaRatfun(julia_obj)
+    else:
+        raise ValueError("Unknown rational function type")
+
 class JuliaApprox:
     def __init__(self, julia_obj):
         if isinstance(julia_obj, juliacall.AnyValue):  # type: ignore
@@ -224,6 +236,14 @@ class JuliaApprox:
     def __repr__(self):
         return f"Rational function of type {self.degrees()}"
  
+def wrap_approx_domain(domain):
+    if jl.isa(domain, CR.AbstractRegion):
+        return cr.wrap_jl_region(domain)
+    elif jl.isa(domain, CR.AbstractCurve) or jl.isa(domain, CR.AbstractPath):
+        return cr.wrap_jl_curve(domain)
+    else:
+        raise ValueError("Unknown domain type")
+    
 class ContinuumApprox(JuliaApprox):
     def __init__(self, julia_obj):
         if isinstance(julia_obj, juliacall.AnyValue):  # type: ignore
@@ -233,8 +253,8 @@ class ContinuumApprox(JuliaApprox):
             raise ValueError("Invalid argument to constructor")
         
         self.original = JuliaApprox.get(self, "original")
-        self.domain = JuliaApprox.get(self, "domain")
-        self.fun = JuliaApprox.get(self, "fun")
+        self.domain = wrap_approx_domain(JuliaApprox.get(self, "domain"))
+        self.fun = wrap_jl_ratfun(JuliaApprox.get(self, "fun"))
         self.allowed = JuliaApprox.get(self, "allowed")
         self.path = JuliaApprox.get(self, "path")
         self.history = JuliaApprox.get(self, "history")
@@ -243,8 +263,7 @@ class ContinuumApprox(JuliaApprox):
         return f"Rational approximation of type {self.degrees()} on {self.domain}"
     
     def getfunction(self):
-        f = jl.get_function(self.julia)
-        return JuliaRatfun(f)
+        return self.fun
     
     def testpoints(self):
         pts = jl.test_points(self.julia)
@@ -274,8 +293,8 @@ class DiscreteApprox(JuliaApprox):
             raise ValueError("Invalid argument to constructor")
         
         self.data = np.array(JuliaApprox.get(self, "data"))
-        self.domain = np.array(JuliaApprox.get(self, "domain"))
-        self.fun = JuliaApprox.get(self, "fun")
+        self.domain = wrap_approx_domain(JuliaApprox.get(self, "domain"))
+        self.fun = wrap_jl_ratfun(JuliaApprox.get(self, "fun"))
         self.test_index = np.array(JuliaApprox.get(self, "test_index"))
         self.allowed = JuliaApprox.get(self, "allowed")
         self.history = JuliaApprox.get(self, "history")
@@ -284,8 +303,7 @@ class DiscreteApprox(JuliaApprox):
         return f"Rational approximation of type {self.degrees()} on a discrete domain"
     
     def getfunction(self):
-        f = jl.get_function(self.julia)
-        return JuliaRatfun(f)
+        return self.fun
     
     def testpoints(self):
         pts = np.array(self.domain)
