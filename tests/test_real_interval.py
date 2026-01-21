@@ -10,9 +10,13 @@ def test_continuum_build():
         f = approximate(np.sin, unitinterval, method=method)
         assert isinstance(f, ContinuumApprox)
         assert callable(f)
-        assert isinstance(f.original, juliacall.AnyValue) # type: ignore
-        assert isinstance(f.domain, juliacall.AnyValue) # type: ignore
-        assert isinstance(f.fun, juliacall.AnyValue) # type: ignore
+        # Verify wrapped Julia objects have correct types
+        assert isinstance(f.original, juliacall.AnyValue), \
+            f"Expected f.original to be juliacall.AnyValue, got {type(f.original)}"
+        assert isinstance(f.domain, (cr.Segment, cr.JuliaCurve, cr.JuliaPath, cr.JuliaRegion)), \
+            f"Expected f.domain to be a wrapped region/curve type, got {type(f.domain)}"
+        assert hasattr(f.fun, 'julia') and callable(f.fun), \
+            f"Expected f.fun to be a wrapped Julia rational function, got {type(f.fun)}"
         assert isinstance(f.allowed, juliacall.AnyValue) # type: ignore
         assert isinstance(f.path, juliacall.AnyValue) # type: ignore
         assert isinstance(f.history, juliacall.AnyValue) # type: ignore
@@ -52,11 +56,12 @@ def test_discrete_build():
     for method in [TCF, AAA]:
         f = approximate(np.sin, x, method=method)
         assert callable(f)
-        assert hasattr(f, 'data')
-        assert hasattr(f, 'domain')
-        assert hasattr(f, 'fun')
+        assert isinstance(f.data, np.ndarray)
+        assert isinstance(f.domain, np.ndarray)
+        assert hasattr(f.fun, 'julia') and callable(f.fun), \
+            f"Expected f.fun to be a wrapped Julia rational function, got {type(f.fun)}"
+        assert isinstance(f.test_index, np.ndarray)
         assert hasattr(f, 'allowed')
-        assert hasattr(f, 'test_index')
         assert hasattr(f, 'history')
 
 
