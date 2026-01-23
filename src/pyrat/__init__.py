@@ -293,7 +293,7 @@ class DiscreteApprox(JuliaApprox):
             raise ValueError("Invalid argument to constructor")
         
         self.data = np.array(JuliaApprox.get(self, "data"))
-        self.domain = np.asarray(JuliaApprox.get(self, "domain"))
+        self.domain = np.array(JuliaApprox.get(self, "domain"))
         self.fun = wrap_jl_ratfun(JuliaApprox.get(self, "fun"))
         self.test_index = np.array(JuliaApprox.get(self, "test_index"))
         self.allowed = JuliaApprox.get(self, "allowed")
