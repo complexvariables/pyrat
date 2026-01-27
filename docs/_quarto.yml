@@ -22,6 +22,8 @@ website:
         text: Home
       - href: structure.qmd
         text: Package structure
+      - href: comparison.qmd
+        text: Comparison to SciPy
   repo-url: https://github.com/complexvariables/pyratapprox
   repo-actions: [source, issue] 
 

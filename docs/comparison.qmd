@@ -1,0 +1,102 @@
+---
+kernelspec: 
+    name: python3
+---
+# Comparison to AAA in SciPy
+
+The SciPy library includes an [implementation](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.AAA.html) of the AAA algorithm for rational approximation in its `scipy.interpolate` module. Below is a comparison of `pyratapprox`'s AAA and Thiele continued fraction methods against SciPy's AAA implementation.
+
+## Timing
+
+```{python}
+from pyratapprox import *
+import numpy as np
+from scipy.interpolate import AAA as spAAA
+import matplotlib.pyplot as plt
+
+x = np.linspace(-3, 5, 1000)
+f = np.tanh(50 * x)
+plt.plot(x, f, label='f(x) = tanh(50x)')
+plt.title('Function on a real interval')
+plt.legend();
+```
+
+Here, we generate rational approximations using all three methods:
+
+```{python}
+r_scipy = spAAA(x, f)
+r_aaa = approximate(f, x, method=AAA)
+r_tcf = approximate(f, x, method=TCF)
+print("Degrees:")
+d = len(r_scipy.support_points) - 1
+print(f"scipy AAA:       ({d}, {d})")
+print(f"pyratapprox AAA: {r_aaa.degrees()}")
+print(f"pyratapprox TCF: {r_tcf.degrees()}")
+```
+
+As you see above, the results of the three methods are nearly identical in terms of the resulting rational type. Both of the AAA results use essentially the same algorithm, while TCF uses an algorithm that is asymptotically faster. The errors are all similar:
+
+```{python}
+fig, ax = plt.subplots()
+test_pts = np.linspace(-3, 5, 1000)
+ax.plot(test_pts, np.tanh(50 * test_pts) - r_scipy(test_pts), '-', label='scipy AAA', lw=2)
+ax.plot(test_pts, np.tanh(50 * test_pts) - r_aaa(test_pts), '-', label='pyratapprox AAA', lw=2)
+ax.plot(test_pts, np.tanh(50 * test_pts) - r_tcf(test_pts), '-', label='pyratapprox TCF', lw=2)
+ax.legend()
+ax.set_title('Error comparison');
+```
+
+When the rational degree exceeds about 20, the `pyratapprox` methods are significantly faster to build than SciPy's AAA implementation, as shown below:
+
+```{python}
+import timeit
+n = 50
+time_scipy = timeit.timeit('spAAA(x, f)', globals=globals(), number=n) / n
+time_aaa = timeit.timeit('approximate(f, x, method=AAA)', globals=globals(), number=n) / n
+time_tcf = timeit.timeit('approximate(f, x, method=TCF)', globals=globals(), number=n) / n
+print(f"Average build time over {n} runs:")
+print(f"scipy AAA: {time_scipy*1e3:.2f} milliseconds")
+print(f"pyratapprox AAA: {time_aaa*1e3:.2f} milliseconds")
+print(f"pyratapprox TCF: {time_tcf*1e3:.2f} milliseconds")
+```
+
+Evaluation times also favor `pyratapprox`:
+
+```{python}
+n = 200
+time_scipy = timeit.timeit('r_scipy(test_pts)', globals=globals(), number=n) / n
+time_aaa = timeit.timeit('r_aaa(test_pts)', globals=globals(), number=n) / n
+time_tcf = timeit.timeit('r_tcf(test_pts)', globals=globals(), number=n) / n
+print(f"Average evaluation time over {n} runs:")
+print(f"scipy AAA: {time_scipy*1e6:.2f} microseconds")
+print(f"pyratapprox AAA: {time_aaa*1e6:.2f} microseconds")
+print(f"pyratapprox TCF: {time_tcf*1e6:.2f} microseconds")
+```
+
+## Approximation in continuous mode
+
+In addition, `pyratapprox` offers automatic refinement of the domain discretization, which can safeguard against accuracy loss when singularities are present near the domain. For example, consider approximation on the unit circle of the function $f(z) = \sqrt{1.001 + z}$. If we use 400 points in SciPy's AAA, everything seems OK:
+
+```{python}
+z = np.exp(1j * np.pi * np.linspace(-1, 1, 200))
+f = np.sqrt(1.001 + z)
+r = spAAA(z, f)
+print(f"In scipy AAA, degree {len(r.support_points) - 1} achieves estimated accuracy {r.errors[-1]:.2e}")
+```
+
+However, if we look more closely near the branch point at $z = -1.001$, we see that the domain is badly under-resolved:
+
+```{python}
+test_pts = np.exp(1j * np.pi * np.linspace(-1, 1, 5000))
+test_f = np.sqrt(1.001 + test_pts)
+print(f"Max observed error on 5000 points: {np.max(np.abs(test_f - r(test_pts))):.2e}")
+```
+
+By approximating on the `unitcircle` domain without prior discretization, the algorithm automatically refines the point set to achieve the advertised accuracy:
+
+```{python}
+f = lambda z: np.sqrt(1.001 + z)
+r = approximate(f, unitcircle)    # AAA is the default method
+max_err = np.max(np.abs(test_f - r(test_pts)))
+print(f"In pyratapprox AAA, degree {r.degree()} achieves max observed error {max_err:.2e}")
+```

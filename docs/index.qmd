@@ -6,6 +6,14 @@ kernelspec:
 
 This package provides classes and methods for approximating functions or data using rational functions in Python. It includes algorithms for both discrete and continuous approximation, as well as tools for working with various representations of rational functions. It presents a Pythonic interface to the functionality provided by the Julia package [RationalFunctionApproximation.jl](https://complexvariables.github.io/RationalFunctionApproximation.jl/stable/), which is the computational engine. Julia and the necessary dependencies are installed automatically when you first import `pyratapprox`.
 
+## Installation
+
+You can install the package using pip:
+
+```bash
+pip install pyratapprox
+```
+
 ## Examples
 Here are some simple examples of how to use the package:
 
