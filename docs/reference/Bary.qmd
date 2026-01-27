@@ -1,0 +1,14 @@
+# Bary { #pyrat.Bary }
+
+```python
+Bary(nodes, values=None, weights=None)
+```
+
+Barycentric rational interpolant.
+
+Implements rational interpolation using the barycentric formula, which
+provides numerical stability and efficient evaluation.
+
+Attributes:
+    julia: The underlying Julia Barycentric object.
+    weights: Numpy array of barycentric weights.

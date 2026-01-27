@@ -1,0 +1,88 @@
+# DiscreteApprox { #pyrat.DiscreteApprox }
+
+```python
+DiscreteApprox(julia_obj)
+```
+
+Rational approximation on a discrete point set.
+
+Represents a rational function approximation computed on a discrete set of
+points in the complex plane. The approximation is constructed adaptively
+using methods like AAA or TCF.
+
+Attributes:
+    julia: The underlying Julia DiscreteApproximation object.
+    data: The discrete data points and values.
+    domain: The discrete point set (numpy array).
+    fun: The rational function approximation (Thiele, Bary, etc.).
+    test_index: Indices of points used for testing.
+    allowed: Allowed pole locations.
+    history: History of the approximation process.
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [getfunction](#pyrat.DiscreteApprox.getfunction) | Get the underlying rational function. |
+| [isapprox](#pyrat.DiscreteApprox.isapprox) | Check if this approximation is close to another function. |
+| [nodes](#pyrat.DiscreteApprox.nodes) | Get the interpolation nodes of the approximation. |
+| [testpoints](#pyrat.DiscreteApprox.testpoints) | Get the test points used to validate the approximation. |
+| [values](#pyrat.DiscreteApprox.values) | Get the function values at the interpolation nodes. |
+
+### getfunction { #pyrat.DiscreteApprox.getfunction }
+
+```python
+DiscreteApprox.getfunction()
+```
+
+Get the underlying rational function.
+
+Returns:
+    Thiele, Bary, or JuliaRatfun: The rational function approximation.
+
+### isapprox { #pyrat.DiscreteApprox.isapprox }
+
+```python
+DiscreteApprox.isapprox(other)
+```
+
+Check if this approximation is close to another function.
+
+Args:
+    other: Another JuliaApprox or callable function.
+
+Returns:
+    bool: True if approximations are close on all domain points.
+
+### nodes { #pyrat.DiscreteApprox.nodes }
+
+```python
+DiscreteApprox.nodes()
+```
+
+Get the interpolation nodes of the approximation.
+
+Returns:
+    np.ndarray: Array of node locations.
+
+### testpoints { #pyrat.DiscreteApprox.testpoints }
+
+```python
+DiscreteApprox.testpoints()
+```
+
+Get the test points used to validate the approximation.
+
+Returns:
+    np.ndarray: Array of test point locations from the domain.
+
+### values { #pyrat.DiscreteApprox.values }
+
+```python
+DiscreteApprox.values()
+```
+
+Get the function values at the interpolation nodes.
+
+Returns:
+    np.ndarray: Array of function values.

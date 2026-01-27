@@ -1,0 +1,34 @@
+---
+---
+# Package structure
+
+The most straightforward way to use `pyrat` is to call the `approximate` function, which returns a rational approximation to a given function or data set in the form of an object. The primary properties of such an object are the rational function representation and the domain of approximation.
+
+## Approximation over domains
+
+Supplied with a function and a domain, or values and a point set, the package can compute rational approximations using either representation. For the barycentric case, the AAA algorithm is used, while for continued fractions, a related greedy algorithm is used.
+
+### Base class: [JuliaApprox](reference/JuliaApprox.qmd)
+
+## Function on a domain: [ContinuumApprox](reference/ContinuumApprox.qmd)
+
+The domains `unitinterval` for $[-1,1]$, `unitcircle` for the unit circle, and `unitdisk` for the unit disk are predefined. Other domains can be constructed using the [cxregions](https://complexvariables.github.io/cxregions) package.
+
+### Data on a point set: [DiscreteApprox](reference/DiscreteApprox.qmd)
+
+## Rational function representations
+
+There are two ways to represent rational functions in this package: the barycentric form and the Thiele continued fraction form. While these can be constructed directly, they are most often created as the result of an approximation process.
+
+### Barycentric: [Bary](reference/Bary.qmd)
+
+The barycentric form represents a rational function as a weighted sum of basis functions defined at specified support (i.e., interpolation) points. This form is numerically stable and efficient for evaluation and differentiation.
+
+### Thiele continued fraction: [Thiele](reference/Thiele.qmd)
+
+The Thiele continued fraction form represents a rational function as a continued fraction with coefficients determined by a sequence of support points and function values. This form is empirically stable and typically faster than the barycentric form for high-degree approximations.
+
+### Base classes
+
+Each of these classes is subclassed from a common base, [JuliaRatinterp](reference/JuliaRatinterp.qmd), itself derived from [JuliaRatfun](reference/JuliaRatfun.qmd). The base classes define most of the functionality.
+

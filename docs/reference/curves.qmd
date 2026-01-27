@@ -1,0 +1,949 @@
+# curves { #cxregions.curves }
+
+`curves`
+
+Curve classes for the cxregions package.
+
+This module contains all curve-related classes including the base JuliaCurve class
+and specific curve types like Line, Circle, Segment, Ray, and Arc.
+
+## Attributes
+
+| Name | Description |
+| --- | --- |
+| [unitcircle](#cxregions.curves.unitcircle) | Unit circle centered at the origin. |
+
+## Classes
+
+| Name | Description |
+| --- | --- |
+| [Arc](#cxregions.curves.Arc) | A circular arc in the complex plane. |
+| [Circle](#cxregions.curves.Circle) | A circle in the complex plane. |
+| [ClosedCurve](#cxregions.curves.ClosedCurve) | A closed parametric curve in the complex plane. |
+| [Curve](#cxregions.curves.Curve) | A general parametric curve in the complex plane. |
+| [JuliaCurve](#cxregions.curves.JuliaCurve) | Base class for wrapping Julia curve objects from ComplexRegions.jl. |
+| [Line](#cxregions.curves.Line) | An infinite straight line in the complex plane. |
+| [Ray](#cxregions.curves.Ray) | A semi-infinite ray in the complex plane. |
+| [Segment](#cxregions.curves.Segment) | A line segment in the complex plane. |
+
+### Arc { #cxregions.curves.Arc }
+
+```python
+curves.Arc(a, b=None, c=None)
+```
+
+A circular arc in the complex plane.
+
+An arc is a portion of a circle between two points.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                   | Description                                            | Default    |
+|--------|----------------------------------------|--------------------------------------------------------|------------|
+| a      | complex, Circle, or juliacall.AnyValue | Start point, circle, or Julia Arc object to wrap       | _required_ |
+| b      | complex                                | End point (if a is start point)                        | `None`     |
+| c      | complex                                | Center point (if constructing from start, end, center) | `None`     |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type              | Description                                   |
+|--------|-------------------|-----------------------------------------------|
+| circle | Circle or Segment | The underlying circle (or degenerate segment) |
+| start  | float             | Starting parameter on the circle              |
+| delta  | float             | Parameter range of the arc                    |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Quarter circle arc from 1 to i around origin
+>>> arc = Arc(1, 1j, 0)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [inv](#cxregions.curves.Arc.inv) | Compute the inversion of the arc with respect to the origin. |
+
+##### inv { #cxregions.curves.Arc.inv }
+
+```python
+curves.Arc.inv()
+```
+
+Compute the inversion of the arc with respect to the origin.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                 | Description                                      |
+|--------|----------------------|--------------------------------------------------|
+|        | Arc, Ray, or Segment | The type depends on the geometry after inversion |
+
+### Circle { #cxregions.curves.Circle }
+
+```python
+curves.Circle(a, b=None, c=None, ccw=True)
+```
+
+A circle in the complex plane.
+
+Circles can be constructed in several ways:
+- From center and radius
+- From three points on the circle
+- From a Julia Circle object
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                          | Description                                                       | Default    |
+|--------|-------------------------------|-------------------------------------------------------------------|------------|
+| a      | complex or juliacall.AnyValue | Center point, first point on circle, or Julia Circle object       | _required_ |
+| b      | float or complex              | Radius (if a is center) or second point on circle                 | `None`     |
+| c      | complex                       | Third point on circle (if constructing from three points)         | `None`     |
+| ccw    | bool                          | Whether the circle has counterclockwise orientation, default True | `True`     |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type    | Description                                         |
+|--------|---------|-----------------------------------------------------|
+| center | complex | Center of the circle                                |
+| radius | float   | Radius of the circle                                |
+| ccw    | bool    | Whether the circle has counterclockwise orientation |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Unit circle at origin
+>>> circle1 = Circle(0, 1)
+>>> # Circle from center and radius with clockwise orientation
+>>> circle2 = Circle(1+1j, 2, ccw=False)
+>>> # Circle through three points
+>>> circle3 = Circle(1, 1j, -1)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [inv](#cxregions.curves.Circle.inv) | Compute the inversion of the circle with respect to the origin. |
+| [isfinite](#cxregions.curves.Circle.isfinite) | Check if the circle is finite. |
+| [ispositive](#cxregions.curves.Circle.ispositive) | Check if the circle has positive (counterclockwise) orientation. |
+
+##### inv { #cxregions.curves.Circle.inv }
+
+```python
+curves.Circle.inv()
+```
+
+Compute the inversion of the circle with respect to the origin.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type           | Description                                                                    |
+|--------|----------------|--------------------------------------------------------------------------------|
+|        | Circle or Line | Circle if the original circle doesn't pass through the origin, Line if it does |
+
+##### isfinite { #cxregions.curves.Circle.isfinite }
+
+```python
+curves.Circle.isfinite()
+```
+
+Check if the circle is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                     |
+|--------|--------|---------------------------------|
+|        | bool   | Always returns True for circles |
+
+##### ispositive { #cxregions.curves.Circle.ispositive }
+
+```python
+curves.Circle.ispositive()
+```
+
+Check if the circle has positive (counterclockwise) orientation.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                  |
+|--------|--------|----------------------------------------------|
+|        | bool   | True if counterclockwise, False if clockwise |
+
+### ClosedCurve { #cxregions.curves.ClosedCurve }
+
+```python
+curves.ClosedCurve(point, tangent=None, domain=(0.0, 1.0))
+```
+
+A closed parametric curve in the complex plane.
+
+This class represents a closed curve that forms a Jordan curve,
+enabling computation of winding numbers and interior/exterior tests.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name    | Type                           | Description                                                                                            | Default      |
+|---------|--------------------------------|--------------------------------------------------------------------------------------------------------|--------------|
+| point   | callable or juliacall.AnyValue | Either a function that maps parameter values to complex points, or a Julia closed curve object to wrap | _required_   |
+| tangent | callable                       | Function that maps parameter values to tangent vectors                                                 | `None`       |
+| domain  | tuple of float                 | Parameter domain as (start, end), default is (0.0, 1.0)                                                | `(0.0, 1.0)` |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Create a closed curve (unit circle)
+>>> point = lambda t: np.exp(2j * np.pi * t)
+>>> tangent = lambda t: 2j * np.pi * np.exp(2j * np.pi * t)
+>>> curve = ClosedCurve(point, tangent)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [hasinside](#cxregions.curves.ClosedCurve.hasinside) | Check if point z is in the interior of the closed curve. |
+| [winding](#cxregions.curves.ClosedCurve.winding) | Compute the winding number of the curve around point z. |
+
+##### hasinside { #cxregions.curves.ClosedCurve.hasinside }
+
+```python
+curves.ClosedCurve.hasinside(z)
+```
+
+Check if point z is in the interior of the closed curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description   | Default    |
+|--------|---------|---------------|------------|
+| z      | complex | Point to test | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                   |
+|--------|--------|-----------------------------------------------|
+|        | bool   | True if z is in the interior, False otherwise |
+
+##### winding { #cxregions.curves.ClosedCurve.winding }
+
+```python
+curves.ClosedCurve.winding(z)
+```
+
+Compute the winding number of the curve around point z.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description                                  | Default    |
+|--------|---------|----------------------------------------------|------------|
+| z      | complex | Point around which to compute winding number | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                |
+|--------|--------|------------------------------------------------------------|
+|        | int    | Winding number (positive for counterclockwise orientation) |
+
+### Curve { #cxregions.curves.Curve }
+
+```python
+curves.Curve(point, tangent=None, domain=(0.0, 1.0))
+```
+
+A general parametric curve in the complex plane.
+
+This class represents a curve defined by a point function and optional
+tangent function over a parameter domain.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name    | Type                           | Description                                                                                     | Default      |
+|---------|--------------------------------|-------------------------------------------------------------------------------------------------|--------------|
+| point   | callable or juliacall.AnyValue | Either a function that maps parameter values to complex points, or a Julia curve object to wrap | _required_   |
+| tangent | callable                       | Function that maps parameter values to tangent vectors                                          | `None`       |
+| domain  | tuple of float                 | Parameter domain as (start, end), default is (0.0, 1.0)                                         | `(0.0, 1.0)` |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Create a curve from a function
+>>> curve = Curve(lambda t: t + 1j*t**2, lambda t: 1 + 2j*t)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [inv](#cxregions.curves.Curve.inv) | Compute the inversion of the curve with respect to the origin. |
+
+##### inv { #cxregions.curves.Curve.inv }
+
+```python
+curves.Curve.inv()
+```
+
+Compute the inversion of the curve with respect to the origin.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description    |
+|--------|--------|----------------|
+|        | Curve  | Inverted curve |
+
+### JuliaCurve { #cxregions.curves.JuliaCurve }
+
+```python
+curves.JuliaCurve(julia_obj)
+```
+
+Base class for wrapping Julia curve objects from ComplexRegions.jl.
+
+This class provides a Python interface to Julia curve objects, handling
+the conversion between Python and Julia types and providing access to
+geometric operations on curves.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name      | Type               | Description                                 | Default    |
+|-----------|--------------------|---------------------------------------------|------------|
+| julia_obj | juliacall.AnyValue | A Julia curve object from ComplexRegions.jl | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type               | Description                       |
+|--------|--------------------|-----------------------------------|
+| julia  | juliacall.AnyValue | The underlying Julia curve object |
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [arclength](#cxregions.curves.JuliaCurve.arclength) | Compute the arc length of the curve. |
+| [arg](#cxregions.curves.JuliaCurve.arg) | Find the parameter value corresponding to point z on the curve. |
+| [closest](#cxregions.curves.JuliaCurve.closest) | Find the closest point on the curve to z. |
+| [conj](#cxregions.curves.JuliaCurve.conj) | Return the complex conjugate of the curve. |
+| [dist](#cxregions.curves.JuliaCurve.dist) | Compute the distance from point z to the curve. |
+| [get](#cxregions.curves.JuliaCurve.get) | Get a field from the underlying Julia object. |
+| [intersect](#cxregions.curves.JuliaCurve.intersect) | Find intersection points with another curve. |
+| [inv](#cxregions.curves.JuliaCurve.inv) | Compute the inversion of the curve with respect to the origin. |
+| [isapprox](#cxregions.curves.JuliaCurve.isapprox) | Check if this curve is approximately equal to another. |
+| [isfinite](#cxregions.curves.JuliaCurve.isfinite) | Check if the curve has finite length. |
+| [isleft](#cxregions.curves.JuliaCurve.isleft) | Check if point z is to the left of the curve. |
+| [ispositive](#cxregions.curves.JuliaCurve.ispositive) | Check if the curve has positive orientation. |
+| [isreal](#cxregions.curves.JuliaCurve.isreal) | Check if the curve lies on the real axis. |
+| [isright](#cxregions.curves.JuliaCurve.isright) | Check if point z is to the right of the curve. |
+| [normal](#cxregions.curves.JuliaCurve.normal) | Compute the normal at parameter t. |
+| [point](#cxregions.curves.JuliaCurve.point) | Evaluate the curve at parameter value t. |
+| [reflect](#cxregions.curves.JuliaCurve.reflect) | Reflect point z across the curve. |
+| [reverse](#cxregions.curves.JuliaCurve.reverse) | Return the curve with reversed orientation. |
+| [tangent](#cxregions.curves.JuliaCurve.tangent) | Compute the tangent at parameter t. |
+| [unittangent](#cxregions.curves.JuliaCurve.unittangent) | Compute the unit tangent at parameter t. |
+
+##### arclength { #cxregions.curves.JuliaCurve.arclength }
+
+```python
+curves.JuliaCurve.arclength()
+```
+
+Compute the arc length of the curve.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                   |
+|--------|--------|-------------------------------|
+|        | float  | Total arc length of the curve |
+
+##### arg { #cxregions.curves.JuliaCurve.arg }
+
+```python
+curves.JuliaCurve.arg(z)
+```
+
+Find the parameter value corresponding to point z on the curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description                  | Default    |
+|--------|---------|------------------------------|------------|
+| z      | complex | Point to locate on the curve | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type          | Description                                          |
+|--------|---------------|------------------------------------------------------|
+|        | float or None | Parameter value if z is on the curve, None otherwise |
+
+##### closest { #cxregions.curves.JuliaCurve.closest }
+
+```python
+curves.JuliaCurve.closest(z)
+```
+
+Find the closest point on the curve to z.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description     | Default    |
+|--------|---------|-----------------|------------|
+| z      | complex | Reference point | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                     |
+|--------|---------|---------------------------------|
+|        | complex | Closest point on the curve to z |
+
+##### conj { #cxregions.curves.JuliaCurve.conj }
+
+```python
+curves.JuliaCurve.conj()
+```
+
+Return the complex conjugate of the curve.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type       | Description                     |
+|--------|------------|---------------------------------|
+|        | JuliaCurve | Complex conjugate of this curve |
+
+##### dist { #cxregions.curves.JuliaCurve.dist }
+
+```python
+curves.JuliaCurve.dist(z)
+```
+
+Compute the distance from point z to the curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description     | Default    |
+|--------|---------|-----------------|------------|
+| z      | complex | Reference point | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                       |
+|--------|--------|---------------------------------------------------|
+|        | float  | Distance from z to the closest point on the curve |
+
+##### get { #cxregions.curves.JuliaCurve.get }
+
+```python
+curves.JuliaCurve.get(field)
+```
+
+Get a field from the underlying Julia object.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default    |
+|--------|--------|-------------------------------|------------|
+| field  | str    | Name of the field to retrieve | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                      |
+|--------|--------|----------------------------------|
+|        | Any    | The value of the requested field |
+
+##### intersect { #cxregions.curves.JuliaCurve.intersect }
+
+```python
+curves.JuliaCurve.intersect(other)
+```
+
+Find intersection points with another curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type       | Description                     | Default    |
+|--------|------------|---------------------------------|------------|
+| other  | JuliaCurve | Another curve to intersect with | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                        | Description                                                                                |
+|--------|-----------------------------|--------------------------------------------------------------------------------------------|
+|        | numpy.ndarray or JuliaCurve | Array of intersection points, or a curve if the intersection is a continuous curve segment |
+
+##### inv { #cxregions.curves.JuliaCurve.inv }
+
+```python
+curves.JuliaCurve.inv()
+```
+
+Compute the inversion of the curve with respect to the origin.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type               | Description                                  |
+|--------|--------------------|----------------------------------------------|
+|        | juliacall.AnyValue | Julia object representing the inverted curve |
+
+###### Notes {.doc-section .doc-section-notes}
+
+This method returns a raw Julia object. Subclasses should override
+this method to return properly wrapped Python objects.
+
+##### isapprox { #cxregions.curves.JuliaCurve.isapprox }
+
+```python
+curves.JuliaCurve.isapprox(other)
+```
+
+Check if this curve is approximately equal to another.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type       | Description                   | Default    |
+|--------|------------|-------------------------------|------------|
+| other  | JuliaCurve | Another curve to compare with | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                             |
+|--------|--------|---------------------------------------------------------|
+|        | bool   | True if curves are approximately equal, False otherwise |
+
+##### isfinite { #cxregions.curves.JuliaCurve.isfinite }
+
+```python
+curves.JuliaCurve.isfinite()
+```
+
+Check if the curve has finite length.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                  |
+|--------|--------|----------------------------------------------|
+|        | bool   | True if the curve is finite, False otherwise |
+
+##### isleft { #cxregions.curves.JuliaCurve.isleft }
+
+```python
+curves.JuliaCurve.isleft(z)
+```
+
+Check if point z is to the left of the curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description   | Default    |
+|--------|---------|---------------|------------|
+| z      | complex | Point to test | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                            |
+|--------|--------|--------------------------------------------------------|
+|        | bool   | True if z is to the left of the curve, False otherwise |
+
+##### ispositive { #cxregions.curves.JuliaCurve.ispositive }
+
+```python
+curves.JuliaCurve.ispositive()
+```
+
+Check if the curve has positive orientation.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                  |
+|--------|--------|----------------------------------------------|
+|        | bool   | True if positively oriented, False otherwise |
+
+##### isreal { #cxregions.curves.JuliaCurve.isreal }
+
+```python
+curves.JuliaCurve.isreal()
+```
+
+Check if the curve lies on the real axis.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                |
+|--------|--------|--------------------------------------------|
+|        | bool   | True if the curve is real, False otherwise |
+
+##### isright { #cxregions.curves.JuliaCurve.isright }
+
+```python
+curves.JuliaCurve.isright(z)
+```
+
+Check if point z is to the right of the curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description   | Default    |
+|--------|---------|---------------|------------|
+| z      | complex | Point to test | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                             |
+|--------|--------|---------------------------------------------------------|
+|        | bool   | True if z is to the right of the curve, False otherwise |
+
+##### normal { #cxregions.curves.JuliaCurve.normal }
+
+```python
+curves.JuliaCurve.normal(t)
+```
+
+Compute the normal at parameter t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description     | Default    |
+|--------|--------|-----------------|------------|
+| t      | float  | Parameter value | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description           |
+|--------|---------|-----------------------|
+|        | complex | Normal at parameter t |
+
+##### point { #cxregions.curves.JuliaCurve.point }
+
+```python
+curves.JuliaCurve.point(t)
+```
+
+Evaluate the curve at parameter value t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                          | Default    |
+|--------|--------|--------------------------------------|------------|
+| t      | float  | Parameter value, typically in [0, 1] | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                       |
+|--------|---------|-----------------------------------|
+|        | complex | Point on the curve at parameter t |
+
+##### reflect { #cxregions.curves.JuliaCurve.reflect }
+
+```python
+curves.JuliaCurve.reflect(z)
+```
+
+Reflect point z across the curve.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description      | Default    |
+|--------|---------|------------------|------------|
+| z      | complex | Point to reflect | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description     |
+|--------|---------|-----------------|
+|        | complex | Reflected point |
+
+##### reverse { #cxregions.curves.JuliaCurve.reverse }
+
+```python
+curves.JuliaCurve.reverse()
+```
+
+Return the curve with reversed orientation.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type       | Description                     |
+|--------|------------|---------------------------------|
+|        | JuliaCurve | Curve with reversed orientation |
+
+##### tangent { #cxregions.curves.JuliaCurve.tangent }
+
+```python
+curves.JuliaCurve.tangent(t=0.0)
+```
+
+Compute the tangent at parameter t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default   |
+|--------|--------|-------------------------------|-----------|
+| t      | float  | Parameter value, default is 0 | `0.0`     |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description            |
+|--------|---------|------------------------|
+|        | complex | Tangent at parameter t |
+
+##### unittangent { #cxregions.curves.JuliaCurve.unittangent }
+
+```python
+curves.JuliaCurve.unittangent(t=0.0)
+```
+
+Compute the unit tangent at parameter t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default   |
+|--------|--------|-------------------------------|-----------|
+| t      | float  | Parameter value, default is 0 | `0.0`     |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                 |
+|--------|---------|-----------------------------|
+|        | complex | Unit tangent at parameter t |
+
+### Line { #cxregions.curves.Line }
+
+```python
+curves.Line(a, b=None, direction=None)
+```
+
+An infinite straight line in the complex plane.
+
+A line can be constructed from two points, or from a point and a direction.
+Lines have infinite arc length and are always considered to have positive
+orientation.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name      | Type                          | Description                                                             | Default    |
+|-----------|-------------------------------|-------------------------------------------------------------------------|------------|
+| a         | complex or juliacall.AnyValue | Either a point on the line, or a Julia Line object to wrap              | _required_ |
+| b         | complex                       | Second point on the line (if constructing from two points)              | `None`     |
+| direction | complex                       | Direction vector of the line (if constructing from point and direction) | `None`     |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name      | Type    | Description                  |
+|-----------|---------|------------------------------|
+| base      | complex | A base point on the line     |
+| direction | complex | Direction vector of the line |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Line through two points
+>>> line1 = Line(0, 1+1j)
+>>> # Line through origin with given direction
+>>> line2 = Line(0, direction=1+1j)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [angle](#cxregions.curves.Line.angle) | Get the angle of the line's direction vector. |
+| [arclength](#cxregions.curves.Line.arclength) | Return infinite arc length for lines. |
+| [inv](#cxregions.curves.Line.inv) | Compute the inversion of the line with respect to the origin. |
+| [isfinite](#cxregions.curves.Line.isfinite) | Check if the line is finite. |
+| [ispositive](#cxregions.curves.Line.ispositive) | Check if the line has positive orientation. |
+| [slope](#cxregions.curves.Line.slope) | Get the slope of the line. |
+
+##### angle { #cxregions.curves.Line.angle }
+
+```python
+curves.Line.angle()
+```
+
+Get the angle of the line's direction vector.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description      |
+|--------|--------|------------------|
+|        | float  | Angle in radians |
+
+##### arclength { #cxregions.curves.Line.arclength }
+
+```python
+curves.Line.arclength()
+```
+
+Return infinite arc length for lines.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description              |
+|--------|--------|--------------------------|
+|        | float  | Always returns numpy.inf |
+
+##### inv { #cxregions.curves.Line.inv }
+
+```python
+curves.Line.inv()
+```
+
+Compute the inversion of the line with respect to the origin.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type           | Description                                                        |
+|--------|----------------|--------------------------------------------------------------------|
+|        | Circle or Line | Circle if the line doesn't pass through the origin, Line otherwise |
+
+##### isfinite { #cxregions.curves.Line.isfinite }
+
+```python
+curves.Line.isfinite()
+```
+
+Check if the line is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                    |
+|--------|--------|--------------------------------|
+|        | bool   | Always returns False for lines |
+
+##### ispositive { #cxregions.curves.Line.ispositive }
+
+```python
+curves.Line.ispositive()
+```
+
+Check if the line has positive orientation.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                   |
+|--------|--------|-------------------------------|
+|        | bool   | Always returns True for lines |
+
+##### slope { #cxregions.curves.Line.slope }
+
+```python
+curves.Line.slope()
+```
+
+Get the slope of the line.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description               |
+|--------|--------|---------------------------|
+|        | float  | Slope of the line (dy/dx) |
+
+### Ray { #cxregions.curves.Ray }
+
+```python
+curves.Ray(base, angle=None)
+```
+
+A semi-infinite ray in the complex plane.
+
+A ray starts at a base point and extends infinitely in a given direction.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                          | Description                                           | Default    |
+|--------|-------------------------------|-------------------------------------------------------|------------|
+| base   | complex or juliacall.AnyValue | Starting point of the ray or Julia Ray object to wrap | _required_ |
+| angle  | float                         | Angle of the ray direction in radians                 | `None`     |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type    | Description                |
+|--------|---------|----------------------------|
+| base   | complex | Starting point of the ray  |
+| angle  | float   | Angle of the ray direction |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Ray from origin at 45 degrees
+>>> ray = Ray(0, np.pi/4)
+```
+
+### Segment { #cxregions.curves.Segment }
+
+```python
+curves.Segment(a, b=None)
+```
+
+A line segment in the complex plane.
+
+A segment is a finite portion of a line connecting two endpoints.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                          | Description                                    | Default    |
+|--------|-------------------------------|------------------------------------------------|------------|
+| a      | complex or juliacall.AnyValue | First endpoint or Julia Segment object to wrap | _required_ |
+| b      | complex                       | Second endpoint (if a is first endpoint)       | `None`     |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type    | Description                   |
+|--------|---------|-------------------------------|
+| first  | complex | First endpoint of the segment |
+| last   | complex | Last endpoint of the segment  |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Segment from origin to (1,1)
+>>> seg = Segment(0, 1+1j)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [inv](#cxregions.curves.Segment.inv) | Compute the inversion of the segment with respect to the origin. |
+
+##### inv { #cxregions.curves.Segment.inv }
+
+```python
+curves.Segment.inv()
+```
+
+Compute the inversion of the segment with respect to the origin.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                 | Description                                      |
+|--------|----------------------|--------------------------------------------------|
+|        | Arc, Ray, or Segment | The type depends on the geometry after inversion |
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [wrap_jl_curve](#cxregions.curves.wrap_jl_curve) | Wrap a Julia curve object in the appropriate Python class. |
+
+### wrap_jl_curve { #cxregions.curves.wrap_jl_curve }
+
+```python
+curves.wrap_jl_curve(jul)
+```
+
+Wrap a Julia curve object in the appropriate Python class.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type               | Description                                 | Default    |
+|--------|--------------------|---------------------------------------------|------------|
+| jul    | juliacall.AnyValue | A Julia curve object from ComplexRegions.jl | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                                  |
+|--------|--------|------------------------------------------------------------------------------|
+|        | Curve  | The appropriate Python curve wrapper (Circle, Arc, Line, Segment, Ray, etc.) |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type       | Description                                                          |
+|--------|------------|----------------------------------------------------------------------|
+|        | ValueError | If the argument is not a Julia object or not a recognized curve type |

@@ -1,0 +1,130 @@
+# JuliaApprox { #pyrat.JuliaApprox }
+
+```python
+JuliaApprox(julia_obj)
+```
+
+Base class for rational function approximations.
+
+Wraps Julia's AbstractApproximation type, providing methods for evaluating
+approximations, analyzing their properties, and managing the approximation
+history.
+
+Attributes:
+    julia: The underlying Julia approximation object.
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [check](#pyrat.JuliaApprox.check) | Check the quality of the approximation. |
+| [degree](#pyrat.JuliaApprox.degree) | Get the total degree of the approximation. |
+| [degrees](#pyrat.JuliaApprox.degrees) | Get the numerator and denominator degrees. |
+| [get](#pyrat.JuliaApprox.get) | Get a property from the underlying Julia object. |
+| [isempty](#pyrat.JuliaApprox.isempty) | Check if the approximation is empty/undefined. |
+| [poles](#pyrat.JuliaApprox.poles) | Compute the poles of the approximation. |
+| [residues](#pyrat.JuliaApprox.residues) | Compute poles and their residues. |
+| [rewind](#pyrat.JuliaApprox.rewind) | Rewind the approximation history by n steps. |
+| [roots](#pyrat.JuliaApprox.roots) | Compute the zeros of the approximation. |
+
+### check { #pyrat.JuliaApprox.check }
+
+```python
+JuliaApprox.check()
+```
+
+Check the quality of the approximation.
+
+Returns:
+    Approximation quality metrics from Julia.
+
+### degree { #pyrat.JuliaApprox.degree }
+
+```python
+JuliaApprox.degree()
+```
+
+Get the total degree of the approximation.
+
+Returns:
+    int: Maximum of numerator and denominator degrees.
+
+### degrees { #pyrat.JuliaApprox.degrees }
+
+```python
+JuliaApprox.degrees()
+```
+
+Get the numerator and denominator degrees.
+
+Returns:
+    tuple: (numerator_degree, denominator_degree).
+
+### get { #pyrat.JuliaApprox.get }
+
+```python
+JuliaApprox.get(field)
+```
+
+Get a property from the underlying Julia object.
+
+Args:
+    field: Name of the property to retrieve.
+
+Returns:
+    The value of the requested property.
+
+### isempty { #pyrat.JuliaApprox.isempty }
+
+```python
+JuliaApprox.isempty()
+```
+
+Check if the approximation is empty/undefined.
+
+Returns:
+    bool: True if the approximation is empty.
+
+### poles { #pyrat.JuliaApprox.poles }
+
+```python
+JuliaApprox.poles()
+```
+
+Compute the poles of the approximation.
+
+Returns:
+    np.ndarray: Array of pole locations in the complex plane.
+
+### residues { #pyrat.JuliaApprox.residues }
+
+```python
+JuliaApprox.residues()
+```
+
+Compute poles and their residues.
+
+Returns:
+    tuple: (poles, residues) as numpy arrays.
+
+### rewind { #pyrat.JuliaApprox.rewind }
+
+```python
+JuliaApprox.rewind(n=1)
+```
+
+Rewind the approximation history by n steps.
+
+Args:
+    n: Number of steps to rewind (default: 1).
+
+### roots { #pyrat.JuliaApprox.roots }
+
+```python
+JuliaApprox.roots()
+```
+
+Compute the zeros of the approximation.
+
+Returns:
+    np.ndarray: Array of zero locations in the complex plane.

@@ -1,0 +1,66 @@
+project:
+  type: website
+  render:
+    - "*.qmd"
+
+website:
+  title: "pyrat"
+  favicon: i-con.ico
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: reference/index.qmd
+        text: Reference
+    right:
+      - icon: github
+        href: https://github.com/complexvariables/pyrat
+  sidebar:
+    search: true
+    contents:
+      - href: index.qmd
+        text: Home
+      - href: structure.qmd
+        text: Package structure
+  repo-url: https://github.com/complexvariables/pyrat
+  repo-actions: [source, issue] 
+
+format:
+  html:
+    theme:
+      - spacelab
+    css: styles.css
+    toc: true
+
+quartodoc:
+  style: pkgdown
+  dir: reference
+  package: pyrat
+  render_interlinks: true
+  sidebar: reference/_sidebar.yml
+  css: reference/_styles-quartodoc.css
+
+  sections:
+    - title: Rational functions
+      desc: How rational functions are represented in `pyrat`.
+      contents:
+        - JuliaRatfun
+        - JuliaRatinterp
+        - Bary
+        - Thiele
+    - title: Approximations
+      desc: Rational approximations over domains.
+      contents:
+        - JuliaApprox
+        - ContinuumApprox
+        - DiscreteApprox
+
+filters:
+  - interlinks
+
+# interlinks:
+#   sources:
+#     pyrat:
+#       url: https://complexvariables.github.io/pyrat
+    # cxregions:
+      # url: https://complexvariables.github.io/cxregions

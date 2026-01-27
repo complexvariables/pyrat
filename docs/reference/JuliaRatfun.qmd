@@ -1,0 +1,118 @@
+# JuliaRatfun { #pyrat.JuliaRatfun }
+
+```python
+JuliaRatfun(julia_obj)
+```
+
+Python wrapper for Julia rational functions.
+
+This class wraps Julia's AbstractRationalFunction type, providing a Python
+interface for rational function operations including evaluation, arithmetic,
+and analysis of poles, zeros, and residues.
+
+Attributes:
+    julia: The underlying Julia rational function object.
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [degree](#pyrat.JuliaRatfun.degree) | Get the total degree of the rational function. |
+| [degrees](#pyrat.JuliaRatfun.degrees) | Get the numerator and denominator degrees. |
+| [get](#pyrat.JuliaRatfun.get) | Get a property from the underlying Julia object. |
+| [isempty](#pyrat.JuliaRatfun.isempty) | Check if the rational function is empty/undefined. |
+| [isreal](#pyrat.JuliaRatfun.isreal) | Check if the rational function has real coefficients. |
+| [poles](#pyrat.JuliaRatfun.poles) | Compute the poles of the rational function. |
+| [residues](#pyrat.JuliaRatfun.residues) | Compute poles and their residues. |
+| [roots](#pyrat.JuliaRatfun.roots) | Compute the zeros of the rational function. |
+
+### degree { #pyrat.JuliaRatfun.degree }
+
+```python
+JuliaRatfun.degree()
+```
+
+Get the total degree of the rational function.
+
+Returns:
+    int: Maximum of numerator and denominator degrees.
+
+### degrees { #pyrat.JuliaRatfun.degrees }
+
+```python
+JuliaRatfun.degrees()
+```
+
+Get the numerator and denominator degrees.
+
+Returns:
+    tuple: (numerator_degree, denominator_degree).
+
+### get { #pyrat.JuliaRatfun.get }
+
+```python
+JuliaRatfun.get(field)
+```
+
+Get a property from the underlying Julia object.
+
+Args:
+    field: Name of the property to retrieve.
+
+Returns:
+    The value of the requested property.
+
+### isempty { #pyrat.JuliaRatfun.isempty }
+
+```python
+JuliaRatfun.isempty()
+```
+
+Check if the rational function is empty/undefined.
+
+Returns:
+    bool: True if the function is empty.
+
+### isreal { #pyrat.JuliaRatfun.isreal }
+
+```python
+JuliaRatfun.isreal()
+```
+
+Check if the rational function has real coefficients.
+
+Returns:
+    bool: True if all coefficients are real.
+
+### poles { #pyrat.JuliaRatfun.poles }
+
+```python
+JuliaRatfun.poles()
+```
+
+Compute the poles of the rational function.
+
+Returns:
+    np.ndarray: Array of pole locations in the complex plane.
+
+### residues { #pyrat.JuliaRatfun.residues }
+
+```python
+JuliaRatfun.residues()
+```
+
+Compute poles and their residues.
+
+Returns:
+    tuple: (poles, residues) as numpy arrays.
+
+### roots { #pyrat.JuliaRatfun.roots }
+
+```python
+JuliaRatfun.roots()
+```
+
+Compute the zeros of the rational function.
+
+Returns:
+    np.ndarray: Array of zero locations in the complex plane.

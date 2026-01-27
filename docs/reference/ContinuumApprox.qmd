@@ -1,0 +1,88 @@
+# ContinuumApprox { #pyrat.ContinuumApprox }
+
+```python
+ContinuumApprox(julia_obj)
+```
+
+Rational approximation on a continuum domain.
+
+Represents a rational function approximation computed on a continuous domain
+such as a curve, path, or region in the complex plane. The approximation is
+constructed adaptively using methods like AAA or TCF.
+
+Attributes:
+    julia: The underlying Julia ContinuumApproximation object.
+    original: The original function being approximated.
+    domain: The continuum domain (curve, path, or region).
+    fun: The rational function approximation (Thiele, Bary, etc.).
+    allowed: Allowed pole locations.
+    path: Integration path used in approximation.
+    history: History of the approximation process.
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [getfunction](#pyrat.ContinuumApprox.getfunction) | Get the underlying rational function. |
+| [isapprox](#pyrat.ContinuumApprox.isapprox) | Check if this approximation is close to another function. |
+| [nodes](#pyrat.ContinuumApprox.nodes) | Get the interpolation nodes of the approximation. |
+| [testpoints](#pyrat.ContinuumApprox.testpoints) | Get the test points used to validate the approximation. |
+| [values](#pyrat.ContinuumApprox.values) | Get the function values at the interpolation nodes. |
+
+### getfunction { #pyrat.ContinuumApprox.getfunction }
+
+```python
+ContinuumApprox.getfunction()
+```
+
+Get the underlying rational function.
+
+Returns:
+    Thiele, Bary, or JuliaRatfun: The rational function approximation.
+
+### isapprox { #pyrat.ContinuumApprox.isapprox }
+
+```python
+ContinuumApprox.isapprox(other)
+```
+
+Check if this approximation is close to another function.
+
+Args:
+    other: Another JuliaApprox or callable function.
+
+Returns:
+    bool: True if approximations are close on test points.
+
+### nodes { #pyrat.ContinuumApprox.nodes }
+
+```python
+ContinuumApprox.nodes()
+```
+
+Get the interpolation nodes of the approximation.
+
+Returns:
+    np.ndarray: Array of node locations.
+
+### testpoints { #pyrat.ContinuumApprox.testpoints }
+
+```python
+ContinuumApprox.testpoints()
+```
+
+Get the test points used to validate the approximation.
+
+Returns:
+    np.ndarray: Array of test point locations.
+
+### values { #pyrat.ContinuumApprox.values }
+
+```python
+ContinuumApprox.values()
+```
+
+Get the function values at the interpolation nodes.
+
+Returns:
+    np.ndarray: Array of function values.

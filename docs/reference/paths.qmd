@@ -1,0 +1,879 @@
+# paths { #cxregions.paths }
+
+`paths`
+
+Path classes for the cxregions package.
+
+This module contains all path-related classes including the base JuliaPath class
+and specific path types like Polygon, CircularPolygon, and Rectangle.
+
+## Classes
+
+| Name | Description |
+| --- | --- |
+| [CircularPolygon](#cxregions.paths.CircularPolygon) | A polygon with circular arc sides. |
+| [ClosedPath](#cxregions.paths.ClosedPath) | A closed path that forms a Jordan curve. |
+| [JuliaPath](#cxregions.paths.JuliaPath) | Base class for wrapping Julia path objects from ComplexRegions.jl. |
+| [Path](#cxregions.paths.Path) | A path composed of connected curves. |
+| [Polygon](#cxregions.paths.Polygon) | A polygon with straight sides. |
+| [Rectangle](#cxregions.paths.Rectangle) | A rectangular polygon. |
+
+### CircularPolygon { #cxregions.paths.CircularPolygon }
+
+```python
+paths.CircularPolygon(arg)
+```
+
+A polygon with circular arc sides.
+
+This class represents a polygon where each side can be either a straight
+line segment or a circular arc.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                 | Description                                                                                             | Default    |
+|--------|--------------------------------------|---------------------------------------------------------------------------------------------------------|------------|
+| arg    | list of curves or juliacall.AnyValue | List of curves (segments and arcs) that form the polygon sides, or Julia CircularPolygon object to wrap | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type       | Description                |
+|--------|------------|----------------------------|
+| path   | ClosedPath | The underlying closed path |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Arc, Segment
+>>> arc1 = Arc(1, 2 + 1j, 1j)
+>>> seg1 = Segment(1j, -1)
+>>> arc2 = Arc(-1, -0.5j, -1j)
+>>> seg2 = Segment(-1j, 1)
+>>> cpoly = CircularPolygon([arc1, seg1, arc2, seg2])
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [side](#cxregions.paths.CircularPolygon.side) | Get the k-th side of the polygon. |
+| [sides](#cxregions.paths.CircularPolygon.sides) | Get all sides of the polygon. |
+
+##### side { #cxregions.paths.CircularPolygon.side }
+
+```python
+paths.CircularPolygon.side(k)
+```
+
+Get the k-th side of the polygon.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description       | Default    |
+|--------|--------|-------------------|------------|
+| k      | int    | Index of the side | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type       | Description                  |
+|--------|------------|------------------------------|
+|        | JuliaCurve | The k-th side of the polygon |
+
+##### sides { #cxregions.paths.CircularPolygon.sides }
+
+```python
+paths.CircularPolygon.sides()
+```
+
+Get all sides of the polygon.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type               | Description                                |
+|--------|--------------------|--------------------------------------------|
+|        | list of JuliaCurve | List of curves that form the polygon sides |
+
+### ClosedPath { #cxregions.paths.ClosedPath }
+
+```python
+paths.ClosedPath(curves)
+```
+
+A closed path that forms a Jordan curve.
+
+This class represents a closed sequence of curves that form a continuous
+closed path, enabling computation of winding numbers and containment tests.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                            | Description                                                                  | Default    |
+|--------|-------------------------------------------------|------------------------------------------------------------------------------|------------|
+| curves | list of JuliaCurve, Path, or juliacall.AnyValue | List of curves that form the closed path, or Julia ClosedPath object to wrap | _required_ |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Segment
+>>> seg1 = Segment(0, 1)
+>>> seg2 = Segment(1, 1+1j)
+>>> seg3 = Segment(1+1j, 1j)
+>>> seg4 = Segment(1j, 0)
+>>> closed_path = ClosedPath([seg1, seg2, seg3, seg4])
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [isinside](#cxregions.paths.ClosedPath.isinside) | Check if point z is inside the closed path. |
+| [winding](#cxregions.paths.ClosedPath.winding) | Compute the winding number around point z. |
+
+##### isinside { #cxregions.paths.ClosedPath.isinside }
+
+```python
+paths.ClosedPath.isinside(z)
+```
+
+Check if point z is inside the closed path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description   | Default    |
+|--------|---------|---------------|------------|
+| z      | complex | Point to test | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                   |
+|--------|--------|-----------------------------------------------|
+|        | bool   | True if z is inside the path, False otherwise |
+
+##### winding { #cxregions.paths.ClosedPath.winding }
+
+```python
+paths.ClosedPath.winding(z)
+```
+
+Compute the winding number around point z.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description                                  | Default    |
+|--------|---------|----------------------------------------------|------------|
+| z      | complex | Point around which to compute winding number | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                |
+|--------|--------|------------------------------------------------------------|
+|        | int    | Winding number (positive for counterclockwise orientation) |
+
+### JuliaPath { #cxregions.paths.JuliaPath }
+
+```python
+paths.JuliaPath(julia_obj)
+```
+
+Base class for wrapping Julia path objects from ComplexRegions.jl.
+
+This class provides a Python interface to Julia path objects, which are
+sequences of connected curves forming a continuous path.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name      | Type               | Description                                | Default    |
+|-----------|--------------------|--------------------------------------------|------------|
+| julia_obj | juliacall.AnyValue | A Julia path object from ComplexRegions.jl | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type               | Description                      |
+|--------|--------------------|----------------------------------|
+| julia  | juliacall.AnyValue | The underlying Julia path object |
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [angles](#cxregions.paths.JuliaPath.angles) | Get the turning angles at all vertices. |
+| [arclength](#cxregions.paths.JuliaPath.arclength) | Compute the total arc length of the path. |
+| [arg](#cxregions.paths.JuliaPath.arg) | Find the parameter value corresponding to point z on the path. |
+| [closest](#cxregions.paths.JuliaPath.closest) | Find the closest point on the path to z. |
+| [conj](#cxregions.paths.JuliaPath.conj) | Return the complex conjugate of the path. |
+| [curve](#cxregions.paths.JuliaPath.curve) | Get the k-th curve in the path. |
+| [curves](#cxregions.paths.JuliaPath.curves) | Get all curves that make up the path. |
+| [dist](#cxregions.paths.JuliaPath.dist) | Compute the distance from point z to the path. |
+| [get](#cxregions.paths.JuliaPath.get) | Get a field from the underlying Julia object. |
+| [intersect](#cxregions.paths.JuliaPath.intersect) | Find intersection points with another path. |
+| [inv](#cxregions.paths.JuliaPath.inv) | Compute the inversion of the path with respect to the unit circle. |
+| [isapprox](#cxregions.paths.JuliaPath.isapprox) | Check if this path is approximately equal to another. |
+| [isfinite](#cxregions.paths.JuliaPath.isfinite) | Check if the path has finite length. |
+| [ispositive](#cxregions.paths.JuliaPath.ispositive) | Check if the path has positive orientation. |
+| [isreal](#cxregions.paths.JuliaPath.isreal) | Check if the path lies on the real axis. |
+| [length](#cxregions.paths.JuliaPath.length) | Get the number of curves in the path. |
+| [normal](#cxregions.paths.JuliaPath.normal) | Compute the normal vector at parameter t. |
+| [point](#cxregions.paths.JuliaPath.point) | Evaluate the path at parameter value t. |
+| [reflect](#cxregions.paths.JuliaPath.reflect) | Reflect point z across the path. |
+| [reverse](#cxregions.paths.JuliaPath.reverse) | Return the path with reversed orientation. |
+| [tangent](#cxregions.paths.JuliaPath.tangent) | Compute the tangent vector at parameter t. |
+| [unittangent](#cxregions.paths.JuliaPath.unittangent) | Compute the unit tangent vector at parameter t. |
+| [vertex](#cxregions.paths.JuliaPath.vertex) | Get the k-th vertex of the path. |
+| [vertices](#cxregions.paths.JuliaPath.vertices) | Get all vertices of the path. |
+
+##### angles { #cxregions.paths.JuliaPath.angles }
+
+```python
+paths.JuliaPath.angles()
+```
+
+Get the turning angles at all vertices.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type          | Description                         |
+|--------|---------------|-------------------------------------|
+|        | numpy.ndarray | Array of turning angles at vertices |
+
+##### arclength { #cxregions.paths.JuliaPath.arclength }
+
+```python
+paths.JuliaPath.arclength()
+```
+
+Compute the total arc length of the path.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                |
+|--------|--------|--------------------------------------------|
+|        | float  | Total arc length of all curves in the path |
+
+##### arg { #cxregions.paths.JuliaPath.arg }
+
+```python
+paths.JuliaPath.arg(z)
+```
+
+Find the parameter value corresponding to point z on the path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description                 | Default    |
+|--------|---------|-----------------------------|------------|
+| z      | complex | Point to locate on the path | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type          | Description                                         |
+|--------|---------------|-----------------------------------------------------|
+|        | float or None | Parameter value if z is on the path, None otherwise |
+
+##### closest { #cxregions.paths.JuliaPath.closest }
+
+```python
+paths.JuliaPath.closest(z)
+```
+
+Find the closest point on the path to z.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description     | Default    |
+|--------|---------|-----------------|------------|
+| z      | complex | Reference point | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                    |
+|--------|---------|--------------------------------|
+|        | complex | Closest point on the path to z |
+
+##### conj { #cxregions.paths.JuliaPath.conj }
+
+```python
+paths.JuliaPath.conj()
+```
+
+Return the complex conjugate of the path.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type      | Description                    |
+|--------|-----------|--------------------------------|
+|        | JuliaPath | Complex conjugate of this path |
+
+##### curve { #cxregions.paths.JuliaPath.curve }
+
+```python
+paths.JuliaPath.curve(k)
+```
+
+Get the k-th curve in the path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                  | Default    |
+|--------|--------|------------------------------|------------|
+| k      | int    | Index of the curve (0-based) | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type       | Description                |
+|--------|------------|----------------------------|
+|        | JuliaCurve | The k-th curve in the path |
+
+##### curves { #cxregions.paths.JuliaPath.curves }
+
+```python
+paths.JuliaPath.curves()
+```
+
+Get all curves that make up the path.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type               | Description                              |
+|--------|--------------------|------------------------------------------|
+|        | list of JuliaCurve | List of curve objects that form the path |
+
+##### dist { #cxregions.paths.JuliaPath.dist }
+
+```python
+paths.JuliaPath.dist(z)
+```
+
+Compute the distance from point z to the path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description     | Default    |
+|--------|---------|-----------------|------------|
+| z      | complex | Reference point | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                      |
+|--------|--------|--------------------------------------------------|
+|        | float  | Distance from z to the closest point on the path |
+
+##### get { #cxregions.paths.JuliaPath.get }
+
+```python
+paths.JuliaPath.get(field)
+```
+
+Get a field from the underlying Julia object.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default    |
+|--------|--------|-------------------------------|------------|
+| field  | str    | Name of the field to retrieve | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                      |
+|--------|--------|----------------------------------|
+|        | Any    | The value of the requested field |
+
+##### intersect { #cxregions.paths.JuliaPath.intersect }
+
+```python
+paths.JuliaPath.intersect(other)
+```
+
+Find intersection points with another path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type      | Description                    | Default    |
+|--------|-----------|--------------------------------|------------|
+| other  | JuliaPath | Another path to intersect with | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                   | Description                                  |
+|--------|------------------------|----------------------------------------------|
+|        | numpy.ndarray or other | Array of intersection points or other result |
+
+##### inv { #cxregions.paths.JuliaPath.inv }
+
+```python
+paths.JuliaPath.inv()
+```
+
+Compute the inversion of the path with respect to the unit circle.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type      | Description   |
+|--------|-----------|---------------|
+|        | JuliaPath | Inverted path |
+
+##### isapprox { #cxregions.paths.JuliaPath.isapprox }
+
+```python
+paths.JuliaPath.isapprox(other)
+```
+
+Check if this path is approximately equal to another.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type      | Description                  | Default    |
+|--------|-----------|------------------------------|------------|
+| other  | JuliaPath | Another path to compare with | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                            |
+|--------|--------|--------------------------------------------------------|
+|        | bool   | True if paths are approximately equal, False otherwise |
+
+##### isfinite { #cxregions.paths.JuliaPath.isfinite }
+
+```python
+paths.JuliaPath.isfinite()
+```
+
+Check if the path has finite length.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                 |
+|--------|--------|---------------------------------------------|
+|        | bool   | True if the path is finite, False otherwise |
+
+##### ispositive { #cxregions.paths.JuliaPath.ispositive }
+
+```python
+paths.JuliaPath.ispositive()
+```
+
+Check if the path has positive orientation.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                  |
+|--------|--------|----------------------------------------------|
+|        | bool   | True if positively oriented, False otherwise |
+
+##### isreal { #cxregions.paths.JuliaPath.isreal }
+
+```python
+paths.JuliaPath.isreal()
+```
+
+Check if the path lies on the real axis.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                               |
+|--------|--------|-------------------------------------------|
+|        | bool   | True if the path is real, False otherwise |
+
+##### length { #cxregions.paths.JuliaPath.length }
+
+```python
+paths.JuliaPath.length()
+```
+
+Get the number of curves in the path.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                  |
+|--------|--------|------------------------------|
+|        | int    | Number of curves in the path |
+
+##### normal { #cxregions.paths.JuliaPath.normal }
+
+```python
+paths.JuliaPath.normal(t=0.0)
+```
+
+Compute the normal vector at parameter t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default   |
+|--------|--------|-------------------------------|-----------|
+| t      | float  | Parameter value, default is 0 | `0.0`     |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                  |
+|--------|---------|------------------------------|
+|        | complex | Normal vector at parameter t |
+
+##### point { #cxregions.paths.JuliaPath.point }
+
+```python
+paths.JuliaPath.point(t)
+```
+
+Evaluate the path at parameter value t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                          | Default    |
+|--------|--------|--------------------------------------|------------|
+| t      | float  | Parameter value, typically in [0, 1] | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                      |
+|--------|---------|----------------------------------|
+|        | complex | Point on the path at parameter t |
+
+##### reflect { #cxregions.paths.JuliaPath.reflect }
+
+```python
+paths.JuliaPath.reflect(z)
+```
+
+Reflect point z across the path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description      | Default    |
+|--------|---------|------------------|------------|
+| z      | complex | Point to reflect | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description     |
+|--------|---------|-----------------|
+|        | complex | Reflected point |
+
+##### reverse { #cxregions.paths.JuliaPath.reverse }
+
+```python
+paths.JuliaPath.reverse()
+```
+
+Return the path with reversed orientation.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type      | Description                    |
+|--------|-----------|--------------------------------|
+|        | JuliaPath | Path with reversed orientation |
+
+##### tangent { #cxregions.paths.JuliaPath.tangent }
+
+```python
+paths.JuliaPath.tangent(t=0.0)
+```
+
+Compute the tangent vector at parameter t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default   |
+|--------|--------|-------------------------------|-----------|
+| t      | float  | Parameter value, default is 0 | `0.0`     |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                   |
+|--------|---------|-------------------------------|
+|        | complex | Tangent vector at parameter t |
+
+##### unittangent { #cxregions.paths.JuliaPath.unittangent }
+
+```python
+paths.JuliaPath.unittangent(t=0.0)
+```
+
+Compute the unit tangent vector at parameter t.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default   |
+|--------|--------|-------------------------------|-----------|
+| t      | float  | Parameter value, default is 0 | `0.0`     |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                        |
+|--------|---------|------------------------------------|
+|        | complex | Unit tangent vector at parameter t |
+
+##### vertex { #cxregions.paths.JuliaPath.vertex }
+
+```python
+paths.JuliaPath.vertex(k)
+```
+
+Get the k-th vertex of the path.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description         | Default    |
+|--------|--------|---------------------|------------|
+| k      | int    | Index of the vertex | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                    |
+|--------|---------|--------------------------------|
+|        | complex | Coordinates of the k-th vertex |
+
+##### vertices { #cxregions.paths.JuliaPath.vertices }
+
+```python
+paths.JuliaPath.vertices()
+```
+
+Get all vertices of the path.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type          | Description                 |
+|--------|---------------|-----------------------------|
+|        | numpy.ndarray | Array of vertex coordinates |
+
+### Path { #cxregions.paths.Path }
+
+```python
+paths.Path(curves)
+```
+
+A path composed of connected curves.
+
+This class represents a sequence of curves that form a continuous path.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                     | Description                                                     | Default    |
+|--------|------------------------------------------|-----------------------------------------------------------------|------------|
+| curves | list of JuliaCurve or juliacall.AnyValue | List of curves that form the path, or Julia Path object to wrap | _required_ |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Segment
+>>> seg1 = Segment(0, 1)
+>>> seg2 = Segment(1, 1+1j)
+>>> path = Path([seg1, seg2])
+```
+
+### Polygon { #cxregions.paths.Polygon }
+
+```python
+paths.Polygon(arg)
+```
+
+A polygon with straight sides.
+
+This class represents a polygon where all sides are straight line segments.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                  | Description                                                | Default    |
+|--------|---------------------------------------|------------------------------------------------------------|------------|
+| arg    | list of complex or juliacall.AnyValue | List of vertex coordinates or Julia Polygon object to wrap | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type       | Description                |
+|--------|------------|----------------------------|
+| path   | ClosedPath | The underlying closed path |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Unit square
+>>> poly = Polygon([0, 1, 1+1j, 1j])
+>>> # More complex polygon
+>>> poly2 = Polygon([4, 4 + 3j, 3j, -2j, 6 - 2j, 6])
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [side](#cxregions.paths.Polygon.side) | Get the k-th side of the polygon. |
+| [sides](#cxregions.paths.Polygon.sides) | Get all sides of the polygon. |
+
+##### side { #cxregions.paths.Polygon.side }
+
+```python
+paths.Polygon.side(k)
+```
+
+Get the k-th side of the polygon.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description       | Default    |
+|--------|--------|-------------------|------------|
+| k      | int    | Index of the side | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type       | Description                  |
+|--------|------------|------------------------------|
+|        | JuliaCurve | The k-th side of the polygon |
+
+##### sides { #cxregions.paths.Polygon.sides }
+
+```python
+paths.Polygon.sides()
+```
+
+Get all sides of the polygon.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type               | Description                                       |
+|--------|--------------------|---------------------------------------------------|
+|        | list of JuliaCurve | List of line segments that form the polygon sides |
+
+### Rectangle { #cxregions.paths.Rectangle }
+
+```python
+paths.Rectangle(a, b=None)
+```
+
+A rectangular polygon.
+
+This class represents a rectangle, which is a special case of a polygon
+with four sides at right angles.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                 | Description                                                       | Default    |
+|--------|--------------------------------------|-------------------------------------------------------------------|------------|
+| a      | complex, list, or juliacall.AnyValue | Center point, list of vertices, or Julia Rectangle object to wrap | _required_ |
+| b      | array - like or complex              | Radii array (if a is center) or opposite corner (if a is corner)  | `None`     |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name     | Type         | Description                           |
+|----------|--------------|---------------------------------------|
+| center   | complex      | Center of the rectangle               |
+| radii    | array - like | Half-widths in x and y directions     |
+| rotation | float        | Rotation angle of the rectangle       |
+| polygon  | Polygon      | The underlying polygon representation |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Rectangle from center and radii
+>>> rect1 = Rectangle(0+0j, np.array([1.0, 0.5]))
+>>> # Rectangle from opposite corners
+>>> rect2 = Rectangle(-1-1j, 1+1j)
+```
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [get_julia](#cxregions.paths.get_julia) | Extract the Julia object from a Python wrapper. |
+| [n_gon](#cxregions.paths.n_gon) | Construct a regular n-gon as a Polygon object. |
+| [quad](#cxregions.paths.quad) | Construct a quadrilateral region from a Rectangle. |
+| [wrap_jl_path](#cxregions.paths.wrap_jl_path) | Wrap a Julia path object in the appropriate Python class. |
+
+### get_julia { #cxregions.paths.get_julia }
+
+```python
+paths.get_julia(p)
+```
+
+Extract the Julia object from a Python wrapper.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                            | Description                               | Default    |
+|--------|---------------------------------|-------------------------------------------|------------|
+| p      | JuliaCurve, JuliaPath, or other | Python wrapper object or raw Julia object | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                        | Description                                                |
+|--------|-----------------------------|------------------------------------------------------------|
+|        | juliacall.AnyValue or other | The underlying Julia object, or the input if not a wrapper |
+
+### n_gon { #cxregions.paths.n_gon }
+
+```python
+paths.n_gon(n)
+```
+
+Construct a regular n-gon as a Polygon object.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description     | Default    |
+|--------|--------|-----------------|------------|
+| n      | int    | Number of sides | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type    | Description                                                       |
+|--------|---------|-------------------------------------------------------------------|
+|        | Polygon | Regular n-sided polygon centered at origin with unit circumradius |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Regular hexagon
+>>> hex_poly = n_gon(6)
+>>> # Regular triangle
+>>> triangle = n_gon(3)
+```
+
+### quad { #cxregions.paths.quad }
+
+```python
+paths.quad(rect)
+```
+
+Construct a quadrilateral region from a Rectangle.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type      | Description                      | Default    |
+|--------|-----------|----------------------------------|------------|
+| rect   | Rectangle | Rectangle to convert to a region | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type             | Description                      |
+|--------|------------------|----------------------------------|
+|        | Interior1CRegion | Interior region of the rectangle |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> rect = Rectangle(0+0j, np.array([1.0, 0.5]))
+>>> region = quad(rect)
+```
+
+### wrap_jl_path { #cxregions.paths.wrap_jl_path }
+
+```python
+paths.wrap_jl_path(jul)
+```
+
+Wrap a Julia path object in the appropriate Python class.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type               | Description                                | Default    |
+|--------|--------------------|--------------------------------------------|------------|
+| jul    | juliacall.AnyValue | A Julia path object from ComplexRegions.jl | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                         |
+|--------|--------|-------------------------------------|
+|        | Path   | The appropriate Python path wrapper |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type       | Description                                                         |
+|--------|------------|---------------------------------------------------------------------|
+|        | ValueError | If the argument is not a Julia object or not a recognized path type |

@@ -1,0 +1,17 @@
+website:
+  sidebar:
+  - contents:
+    - reference/index.qmd
+    - contents:
+      - reference/JuliaRatfun.qmd
+      - reference/JuliaRatinterp.qmd
+      - reference/Bary.qmd
+      - reference/Thiele.qmd
+      section: Rational functions
+    - contents:
+      - reference/JuliaApprox.qmd
+      - reference/ContinuumApprox.qmd
+      - reference/DiscreteApprox.qmd
+      section: Approximations
+    id: reference
+  - id: dummy-sidebar

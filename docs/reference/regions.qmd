@@ -1,0 +1,673 @@
+# regions { #cxregions.regions }
+
+`regions`
+
+Region classes for the cxregions package.
+
+This module contains all region-related classes including the base JuliaRegion class
+and specific region types like Interior1CRegion, Exterior1CRegion, and Annulus.
+
+## Attributes
+
+| Name | Description |
+| --- | --- |
+| [lefthalfplane](#cxregions.regions.lefthalfplane) | Left half-plane region (Re(z) < 0). |
+| [lowerhalfplane](#cxregions.regions.lowerhalfplane) | Lower half-plane region (Im(z) < 0). |
+| [righthalfplane](#cxregions.regions.righthalfplane) | Right half-plane region (Re(z) > 0). |
+| [unitdisk](#cxregions.regions.unitdisk) | Unit disk region (\|z\| < 1). |
+| [upperhalfplane](#cxregions.regions.upperhalfplane) | Upper half-plane region (Im(z) > 0). |
+
+## Classes
+
+| Name | Description |
+| --- | --- |
+| [Annulus](#cxregions.regions.Annulus) | An annulus (ring-shaped region) between two circles. |
+| [Exterior1CRegion](#cxregions.regions.Exterior1CRegion) | Simply connected exterior region. |
+| [ExteriorRegion](#cxregions.regions.ExteriorRegion) | Exterior region with multiple inner boundaries. |
+| [Interior1CRegion](#cxregions.regions.Interior1CRegion) | Simply connected interior region. |
+| [InteriorConnectedRegion](#cxregions.regions.InteriorConnectedRegion) | Multiply connected interior region. |
+| [JuliaRegion](#cxregions.regions.JuliaRegion) | Base class for wrapping Julia region objects from ComplexRegions.jl. |
+
+### Annulus { #cxregions.regions.Annulus }
+
+```python
+regions.Annulus(outer, inner=None, center=0j)
+```
+
+An annulus (ring-shaped region) between two circles.
+
+This represents the region between an inner and outer circle.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                 | Description                                             | Default    |
+|--------|--------------------------------------|---------------------------------------------------------|------------|
+| outer  | float, Circle, or juliacall.AnyValue | Outer radius, outer circle, or Julia Annulus object     | _required_ |
+| inner  | float or Circle                      | Inner radius or inner circle                            | `None`     |
+| center | complex                              | Center point (if constructing from radii), default is 0 | `0j`       |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type   | Description           |
+|--------|--------|-----------------------|
+| inner  | Circle | Inner boundary circle |
+| outer  | Circle | Outer boundary circle |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Annulus from radii
+>>> annulus1 = Annulus(2, 1, center=0)
+>>> # Annulus from circles
+>>> from cxregions.curves import Circle
+>>> inner_circle = Circle(0, 1)
+>>> outer_circle = Circle(0, 2)
+>>> annulus2 = Annulus(outer_circle, inner_circle)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [isfinite](#cxregions.regions.Annulus.isfinite) | Check if the annulus is finite. |
+| [modulus](#cxregions.regions.Annulus.modulus) | Compute the modulus of the annulus. |
+
+##### isfinite { #cxregions.regions.Annulus.isfinite }
+
+```python
+regions.Annulus.isfinite()
+```
+
+Check if the annulus is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                    |
+|--------|--------|--------------------------------|
+|        | bool   | Always returns True for annuli |
+
+##### modulus { #cxregions.regions.Annulus.modulus }
+
+```python
+regions.Annulus.modulus()
+```
+
+Compute the modulus of the annulus.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                 |
+|--------|--------|---------------------------------------------|
+|        | float  | The modulus (related to the ratio of radii) |
+
+### Exterior1CRegion { #cxregions.regions.Exterior1CRegion }
+
+```python
+regions.Exterior1CRegion(boundary)
+```
+
+Simply connected exterior region.
+
+This represents the region outside a single closed curve, extending to infinity.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type                                           | Description                      | Default    |
+|----------|------------------------------------------------|----------------------------------|------------|
+| boundary | ClosedCurve, ClosedPath, or juliacall.AnyValue | The boundary curve of the region | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name     | Type                      | Description                      |
+|----------|---------------------------|----------------------------------|
+| boundary | ClosedCurve or ClosedPath | The boundary curve of the region |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> circle = Circle(0, 1)
+>>> exterior = Exterior1CRegion(circle)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [isfinite](#cxregions.regions.Exterior1CRegion.isfinite) | Check if the region is finite. |
+
+##### isfinite { #cxregions.regions.Exterior1CRegion.isfinite }
+
+```python
+regions.Exterior1CRegion.isfinite()
+```
+
+Check if the region is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                     |
+|--------|--------|-------------------------------------------------|
+|        | bool   | True if the boundary is finite, False otherwise |
+
+### ExteriorRegion { #cxregions.regions.ExteriorRegion }
+
+```python
+regions.ExteriorRegion(inner)
+```
+
+Exterior region with multiple inner boundaries.
+
+This represents the region outside multiple closed curves, extending to infinity.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                                 | Description               | Default    |
+|--------|------------------------------------------------------|---------------------------|------------|
+| inner  | list of ClosedCurve/ClosedPath or juliacall.AnyValue | The inner boundary curves | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type                           | Description               |
+|--------|--------------------------------|---------------------------|
+| inner  | list of ClosedCurve/ClosedPath | The inner boundary curves |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> circle1 = Circle(0, 1)
+>>> circle2 = Circle(3, 0.5)
+>>> exterior = ExteriorRegion([circle1, circle2])
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [isfinite](#cxregions.regions.ExteriorRegion.isfinite) | Check if the region is finite. |
+
+##### isfinite { #cxregions.regions.ExteriorRegion.isfinite }
+
+```python
+regions.ExteriorRegion.isfinite()
+```
+
+Check if the region is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                               |
+|--------|--------|-------------------------------------------|
+|        | bool   | Always returns False for exterior regions |
+
+### Interior1CRegion { #cxregions.regions.Interior1CRegion }
+
+```python
+regions.Interior1CRegion(boundary)
+```
+
+Simply connected interior region.
+
+This represents the region inside a single closed curve.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type                                           | Description                      | Default    |
+|----------|------------------------------------------------|----------------------------------|------------|
+| boundary | ClosedCurve, ClosedPath, or juliacall.AnyValue | The boundary curve of the region | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name     | Type                      | Description                      |
+|----------|---------------------------|----------------------------------|
+| boundary | ClosedCurve or ClosedPath | The boundary curve of the region |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> circle = Circle(0, 1)
+>>> interior = Interior1CRegion(circle)
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [isfinite](#cxregions.regions.Interior1CRegion.isfinite) | Check if the region is finite. |
+
+##### isfinite { #cxregions.regions.Interior1CRegion.isfinite }
+
+```python
+regions.Interior1CRegion.isfinite()
+```
+
+Check if the region is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                     |
+|--------|--------|-------------------------------------------------|
+|        | bool   | True if the boundary is finite, False otherwise |
+
+### InteriorConnectedRegion { #cxregions.regions.InteriorConnectedRegion }
+
+```python
+regions.InteriorConnectedRegion(outer, inner=[])
+```
+
+Multiply connected interior region.
+
+This represents the region inside an outer boundary but outside inner boundaries.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                           | Description                       | Default    |
+|--------|------------------------------------------------|-----------------------------------|------------|
+| outer  | ClosedCurve, ClosedPath, or juliacall.AnyValue | The outer boundary curve          | _required_ |
+| inner  | list of ClosedCurve/ClosedPath                 | The inner boundary curves (holes) | `[]`       |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type                           | Description               |
+|--------|--------------------------------|---------------------------|
+| outer  | ClosedCurve or ClosedPath      | The outer boundary curve  |
+| inner  | list of ClosedCurve/ClosedPath | The inner boundary curves |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> outer_circle = Circle(0, 2)
+>>> inner_circle = Circle(0, 1)
+>>> region = InteriorConnectedRegion(outer_circle, [inner_circle])
+```
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [isfinite](#cxregions.regions.InteriorConnectedRegion.isfinite) | Check if the region is finite. |
+
+##### isfinite { #cxregions.regions.InteriorConnectedRegion.isfinite }
+
+```python
+regions.InteriorConnectedRegion.isfinite()
+```
+
+Check if the region is finite.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                        |
+|--------|--------|----------------------------------------------------|
+|        | bool   | True if all boundaries are finite, False otherwise |
+
+### JuliaRegion { #cxregions.regions.JuliaRegion }
+
+```python
+regions.JuliaRegion(julia_obj)
+```
+
+Base class for wrapping Julia region objects from ComplexRegions.jl.
+
+This class provides a Python interface to Julia region objects, which represent
+areas in the complex plane bounded by curves.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name      | Type               | Description                                  | Default    |
+|-----------|--------------------|----------------------------------------------|------------|
+| julia_obj | juliacall.AnyValue | A Julia region object from ComplexRegions.jl | _required_ |
+
+#### Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type               | Description                        |
+|--------|--------------------|------------------------------------|
+| julia  | juliacall.AnyValue | The underlying Julia region object |
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [contains](#cxregions.regions.JuliaRegion.contains) | Check if a point is contained in the region. |
+| [get](#cxregions.regions.JuliaRegion.get) | Get a field from the underlying Julia object. |
+| [innerboundary](#cxregions.regions.JuliaRegion.innerboundary) | Get the inner boundary curves of the region. |
+| [intersect](#cxregions.regions.JuliaRegion.intersect) | Compute the intersection of this region with another. |
+| [outerboundary](#cxregions.regions.JuliaRegion.outerboundary) | Get the outer boundary curves of the region. |
+| [union](#cxregions.regions.JuliaRegion.union) | Compute the union of this region with another. |
+
+##### contains { #cxregions.regions.JuliaRegion.contains }
+
+```python
+regions.JuliaRegion.contains(z=None)
+```
+
+Check if a point is contained in the region.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description                   | Default   |
+|--------|---------|-------------------------------|-----------|
+| z      | complex | Point to test for containment | `None`    |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                 |
+|--------|--------|---------------------------------------------|
+|        | bool   | True if z is in the region, False otherwise |
+
+##### get { #cxregions.regions.JuliaRegion.get }
+
+```python
+regions.JuliaRegion.get(field)
+```
+
+Get a field from the underlying Julia object.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                   | Default    |
+|--------|--------|-------------------------------|------------|
+| field  | str    | Name of the field to retrieve | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                      |
+|--------|--------|----------------------------------|
+|        | Any    | The value of the requested field |
+
+##### innerboundary { #cxregions.regions.JuliaRegion.innerboundary }
+
+```python
+regions.JuliaRegion.innerboundary()
+```
+
+Get the inner boundary curves of the region.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                           | Description                           |
+|--------|--------------------------------|---------------------------------------|
+|        | JuliaPath or list of JuliaPath | Inner boundary curve(s) of the region |
+
+##### intersect { #cxregions.regions.JuliaRegion.intersect }
+
+```python
+regions.JuliaRegion.intersect(other)
+```
+
+Compute the intersection of this region with another.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type        | Description                      | Default    |
+|--------|-------------|----------------------------------|------------|
+| other  | JuliaRegion | Another region to intersect with | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type        | Description                     |
+|--------|-------------|---------------------------------|
+|        | JuliaRegion | Intersection of the two regions |
+
+##### outerboundary { #cxregions.regions.JuliaRegion.outerboundary }
+
+```python
+regions.JuliaRegion.outerboundary()
+```
+
+Get the outer boundary curves of the region.
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                           | Description                           |
+|--------|--------------------------------|---------------------------------------|
+|        | JuliaPath or list of JuliaPath | Outer boundary curve(s) of the region |
+
+##### union { #cxregions.regions.JuliaRegion.union }
+
+```python
+regions.JuliaRegion.union(other)
+```
+
+Compute the union of this region with another.
+
+###### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type        | Description                  | Default    |
+|--------|-------------|------------------------------|------------|
+| other  | JuliaRegion | Another region to union with | _required_ |
+
+###### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type        | Description              |
+|--------|-------------|--------------------------|
+|        | JuliaRegion | Union of the two regions |
+
+## Functions
+
+| Name | Description |
+| --- | --- |
+| [Jordan](#cxregions.regions.Jordan) | Construct a Jordan curve from a ClosedPath or ClosedCurve object. |
+| [between](#cxregions.regions.between) | Construct the region between two closed curves. |
+| [disk](#cxregions.regions.disk) | Construct a disk as an interior region. |
+| [exterior](#cxregions.regions.exterior) | Construct the exterior region of a closed curve. |
+| [get_julia](#cxregions.regions.get_julia) | Extract the Julia object from a Python wrapper. |
+| [halfplane](#cxregions.regions.halfplane) | Construct a half-plane as an interior region from a Line. |
+| [interior](#cxregions.regions.interior) | Construct the interior region of a closed curve. |
+| [wrap_jl_region](#cxregions.regions.wrap_jl_region) | Wrap a Julia region object in the appropriate Python class. |
+
+### Jordan { #cxregions.regions.Jordan }
+
+```python
+regions.Jordan(c)
+```
+
+Construct a Jordan curve from a ClosedPath or ClosedCurve object.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                                           | Description                   | Default    |
+|--------|------------------------------------------------|-------------------------------|------------|
+| c      | ClosedPath, ClosedCurve, or juliacall.AnyValue | A closed curve or path object | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                      | Description                                                          |
+|--------|---------------------------|----------------------------------------------------------------------|
+|        | ClosedPath or ClosedCurve | The input object if already a Jordan curve, or wrapped appropriately |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type       | Description                                         |
+|--------|------------|-----------------------------------------------------|
+|        | ValueError | If the argument is not a valid closed curve or path |
+
+### between { #cxregions.regions.between }
+
+```python
+regions.between(curve1, curve2)
+```
+
+Construct the region between two closed curves.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                      | Description           | Default    |
+|--------|---------------------------|-----------------------|------------|
+| curve1 | ClosedCurve or ClosedPath | First boundary curve  | _required_ |
+| curve2 | ClosedCurve or ClosedPath | Second boundary curve | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                    | Description                   |
+|--------|-------------------------|-------------------------------|
+|        | InteriorConnectedRegion | Region between the two curves |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> outer = Circle(0, 2)
+>>> inner = Circle(0, 1)
+>>> region = between(outer, inner)
+```
+
+### disk { #cxregions.regions.disk }
+
+```python
+regions.disk(center, radius)
+```
+
+Construct a disk as an interior region.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type    | Description        | Default    |
+|--------|---------|--------------------|------------|
+| center | complex | Center of the disk | _required_ |
+| radius | float   | Radius of the disk | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type             | Description   |
+|--------|------------------|---------------|
+|        | Interior1CRegion | Disk region   |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> disk_region = disk(1+1j, 2)
+```
+
+### exterior { #cxregions.regions.exterior }
+
+```python
+regions.exterior(curve)
+```
+
+Construct the exterior region of a closed curve.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                      | Description    | Default    |
+|--------|---------------------------|----------------|------------|
+| curve  | ClosedCurve or ClosedPath | Boundary curve | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type             | Description                  |
+|--------|------------------|------------------------------|
+|        | Exterior1CRegion | Exterior region of the curve |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> circle = Circle(0, 1)
+>>> region = exterior(circle)
+```
+
+### get_julia { #cxregions.regions.get_julia }
+
+```python
+regions.get_julia(p)
+```
+
+Extract the Julia object from a Python wrapper.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                            | Description                               | Default    |
+|--------|---------------------------------|-------------------------------------------|------------|
+| p      | JuliaCurve, JuliaPath, or other | Python wrapper object or raw Julia object | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type                        | Description                                                |
+|--------|-----------------------------|------------------------------------------------------------|
+|        | juliacall.AnyValue or other | The underlying Julia object, or the input if not a wrapper |
+
+### halfplane { #cxregions.regions.halfplane }
+
+```python
+regions.halfplane(l)
+```
+
+Construct a half-plane as an interior region from a Line.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                                    | Default    |
+|--------|--------|------------------------------------------------|------------|
+| l      | Line   | Line that forms the boundary of the half-plane | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type             | Description       |
+|--------|------------------|-------------------|
+|        | Interior1CRegion | Half-plane region |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Line
+>>> line = Line(0, direction=1)
+>>> hp = halfplane(line)
+```
+
+### interior { #cxregions.regions.interior }
+
+```python
+regions.interior(curve)
+```
+
+Construct the interior region of a closed curve.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type                      | Description    | Default    |
+|--------|---------------------------|----------------|------------|
+| curve  | ClosedCurve or ClosedPath | Boundary curve | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type             | Description                  |
+|--------|------------------|------------------------------|
+|        | Interior1CRegion | Interior region of the curve |
+
+#### Examples {.doc-section .doc-section-examples}
+
+```python
+>>> from cxregions.curves import Circle
+>>> circle = Circle(0, 1)
+>>> region = interior(circle)
+```
+
+### wrap_jl_region { #cxregions.regions.wrap_jl_region }
+
+```python
+regions.wrap_jl_region(jul)
+```
+
+Wrap a Julia region object in the appropriate Python class.
+
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type               | Description                                  | Default    |
+|--------|--------------------|----------------------------------------------|------------|
+| jul    | juliacall.AnyValue | A Julia region object from ComplexRegions.jl | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type        | Description                           |
+|--------|-------------|---------------------------------------|
+|        | JuliaRegion | The appropriate Python region wrapper |
+
+#### Raises {.doc-section .doc-section-raises}
+
+| Name   | Type       | Description                                                           |
+|--------|------------|-----------------------------------------------------------------------|
+|        | ValueError | If the argument is not a Julia object or not a recognized region type |

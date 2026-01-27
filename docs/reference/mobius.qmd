@@ -1,0 +1,50 @@
+# mobius { #cxregions.mobius }
+
+`mobius`
+
+Möbius transformation class for the cxregions package.
+
+## Classes
+
+| Name | Description |
+| --- | --- |
+| [Mobius](#cxregions.mobius.Mobius) | Representation of a Möbius or bilinear transformation. |
+
+### Mobius { #cxregions.mobius.Mobius }
+
+```python
+mobius.Mobius(*args)
+```
+
+Representation of a Möbius or bilinear transformation.
+
+A Möbius transformation is a function of the form f(z) = (az + b) / (cz + d).
+
+#### Attributes
+
+| Name | Description |
+| --- | --- |
+| [coeff](#cxregions.mobius.Mobius.coeff) | Return the coefficients [a, b, c, d] of the Möbius transformation. |
+
+#### Methods
+
+| Name | Description |
+| --- | --- |
+| [compose](#cxregions.mobius.Mobius.compose) | Compose two Möbius transformations. |
+| [inv](#cxregions.mobius.Mobius.inv) | Return the inverse Möbius transformation. |
+
+##### compose { #cxregions.mobius.Mobius.compose }
+
+```python
+mobius.Mobius.compose(other)
+```
+
+Compose two Möbius transformations.
+
+##### inv { #cxregions.mobius.Mobius.inv }
+
+```python
+mobius.Mobius.inv()
+```
+
+Return the inverse Möbius transformation.
