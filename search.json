@@ -128,6 +128,39 @@
     "text": "Bary\nBary(nodes, values=None, weights=None)\nBarycentric rational interpolant.\nImplements rational interpolation using the barycentric formula, which provides numerical stability and efficient evaluation.\nAttributes: julia: The underlying Julia Barycentric object. weights: Numpy array of barycentric weights."
   },
   {
+    "objectID": "comparison.html",
+    "href": "comparison.html",
+    "title": "Comparison to AAA in SciPy",
+    "section": "",
+    "text": "The SciPy library includes an implementation of the AAA algorithm for rational approximation in its scipy.interpolate module. Below is a comparison of pyratapprox’s AAA and Thiele continued fraction methods against SciPy’s AAA implementation.",
+    "crumbs": [
+      "Home",
+      "Comparison to SciPy"
+    ]
+  },
+  {
+    "objectID": "comparison.html#timing",
+    "href": "comparison.html#timing",
+    "title": "Comparison to AAA in SciPy",
+    "section": "Timing",
+    "text": "Timing\n\nfrom pyratapprox import *\nimport numpy as np\nfrom scipy.interpolate import AAA as spAAA\nimport matplotlib.pyplot as plt\n\nx = np.linspace(-3, 5, 1000)\nf = np.tanh(50 * x)\nplt.plot(x, f, label='f(x) = tanh(50x)')\nplt.title('Function on a real interval')\nplt.legend();\n\nDetected IPython. Loading juliacall extension. See https://juliapy.github.io/PythonCall.jl/stable/compat/#IPython\n\n\n\n\n\n\n\n\n\nHere, we generate rational approximations using all three methods:\n\nr_scipy = spAAA(x, f)\nr_aaa = approximate(f, x, method=AAA)\nr_tcf = approximate(f, x, method=TCF)\nprint(\"Degrees:\")\nd = len(r_scipy.support_points) - 1\nprint(f\"scipy AAA:       ({d}, {d})\")\nprint(f\"pyratapprox AAA: {r_aaa.degrees()}\")\nprint(f\"pyratapprox TCF: {r_tcf.degrees()}\")\n\nDegrees:\nscipy AAA:       (31, 31)\npyratapprox AAA: (32, 32)\npyratapprox TCF: (32, 32)\n\n\nAs you see above, the results of the three methods are nearly identical in terms of the resulting rational type. Both of the AAA results use essentially the same algorithm, while TCF uses an algorithm that is asymptotically faster. The errors are all similar:\n\nfig, ax = plt.subplots()\ntest_pts = np.linspace(-3, 5, 1000)\nax.plot(test_pts, np.tanh(50 * test_pts) - r_scipy(test_pts), '-', label='scipy AAA', lw=2)\nax.plot(test_pts, np.tanh(50 * test_pts) - r_aaa(test_pts), '-', label='pyratapprox AAA', lw=2)\nax.plot(test_pts, np.tanh(50 * test_pts) - r_tcf(test_pts), '-', label='pyratapprox TCF', lw=2)\nax.legend()\nax.set_title('Error comparison');\n\n\n\n\n\n\n\n\nWhen the rational degree exceeds about 20, the pyratapprox methods are significantly faster to build than SciPy’s AAA implementation, as shown below:\n\nimport timeit\nn = 50\ntime_scipy = timeit.timeit('spAAA(x, f)', globals=globals(), number=n) / n\ntime_aaa = timeit.timeit('approximate(f, x, method=AAA)', globals=globals(), number=n) / n\ntime_tcf = timeit.timeit('approximate(f, x, method=TCF)', globals=globals(), number=n) / n\nprint(f\"Average build time over {n} runs:\")\nprint(f\"scipy AAA: {time_scipy*1e3:.2f} milliseconds\")\nprint(f\"pyratapprox AAA: {time_aaa*1e3:.2f} milliseconds\")\nprint(f\"pyratapprox TCF: {time_tcf*1e3:.2f} milliseconds\")\n\nAverage build time over 50 runs:\nscipy AAA: 34.35 milliseconds\npyratapprox AAA: 11.40 milliseconds\npyratapprox TCF: 7.80 milliseconds\n\n\nEvaluation times also favor pyratapprox:\n\nn = 200\ntime_scipy = timeit.timeit('r_scipy(test_pts)', globals=globals(), number=n) / n\ntime_aaa = timeit.timeit('r_aaa(test_pts)', globals=globals(), number=n) / n\ntime_tcf = timeit.timeit('r_tcf(test_pts)', globals=globals(), number=n) / n\nprint(f\"Average evaluation time over {n} runs:\")\nprint(f\"scipy AAA: {time_scipy*1e6:.2f} microseconds\")\nprint(f\"pyratapprox AAA: {time_aaa*1e6:.2f} microseconds\")\nprint(f\"pyratapprox TCF: {time_tcf*1e6:.2f} microseconds\")\n\nAverage evaluation time over 200 runs:\nscipy AAA: 132.04 microseconds\npyratapprox AAA: 109.33 microseconds\npyratapprox TCF: 84.56 microseconds",
+    "crumbs": [
+      "Home",
+      "Comparison to SciPy"
+    ]
+  },
+  {
+    "objectID": "comparison.html#approximation-in-continuous-mode",
+    "href": "comparison.html#approximation-in-continuous-mode",
+    "title": "Comparison to AAA in SciPy",
+    "section": "Approximation in continuous mode",
+    "text": "Approximation in continuous mode\nIn addition, pyratapprox offers automatic refinement of the domain discretization, which can safeguard against accuracy loss when singularities are present near the domain. For example, consider approximation on the unit circle of the function \\(f(z) = \\sqrt{1.001 + z}\\). If we use 400 points in SciPy’s AAA, everything seems OK:\n\nz = np.exp(1j * np.pi * np.linspace(-1, 1, 200))\nf = np.sqrt(1.001 + z)\nr = spAAA(z, f)\nprint(f\"In scipy AAA, degree {len(r.support_points) - 1} achieves estimated accuracy {r.errors[-1]:.2e}\")\n\nIn scipy AAA, degree 17 achieves estimated accuracy 2.79e-13\n\n\nHowever, if we look more closely near the branch point at \\(z = -1.001\\), we see that the domain is badly under-resolved:\n\ntest_pts = np.exp(1j * np.pi * np.linspace(-1, 1, 5000))\ntest_f = np.sqrt(1.001 + test_pts)\nprint(f\"Max observed error on 5000 points: {np.max(np.abs(test_f - r(test_pts))):.2e}\")\n\nMax observed error on 5000 points: 1.93e-04\n\n\nBy approximating on the unitcircle domain without prior discretization, the algorithm automatically refines the point set to achieve the advertised accuracy:\n\nf = lambda z: np.sqrt(1.001 + z)\nr = approximate(f, unitcircle)    # AAA is the default method\nmax_err = np.max(np.abs(test_f - r(test_pts)))\nprint(f\"In pyratapprox AAA, degree {r.degree()} achieves max observed error {max_err:.2e}\")\n\nIn pyratapprox AAA, degree 27 achieves max observed error 3.10e-13",
+    "crumbs": [
+      "Home",
+      "Comparison to SciPy"
+    ]
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "pyratapprox: Rational Approximation in Python",

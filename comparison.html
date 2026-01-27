@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>pyratapprox: Rational Approximation in Python – pyratapprox</title>
+<title>comparison – pyratapprox</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -181,7 +181,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html">Home</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./comparison.html">Comparison to SciPy</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -203,7 +203,7 @@ window.Quarto = {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Home</span></a>
   </div>
 </li>
@@ -215,7 +215,7 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./comparison.html" class="sidebar-item-text sidebar-link">
+  <a href="./comparison.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Comparison to SciPy</span></a>
   </div>
 </li>
@@ -229,16 +229,17 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#examples" id="toc-examples" class="nav-link active" data-scroll-target="#examples">Examples</a></li>
+  <li><a href="#timing" id="toc-timing" class="nav-link active" data-scroll-target="#timing">Timing</a></li>
+  <li><a href="#approximation-in-continuous-mode" id="toc-approximation-in-continuous-mode" class="nav-link" data-scroll-target="#approximation-in-continuous-mode">Approximation in continuous mode</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/complexvariables/pyratapprox/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratapprox/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/complexvariables/pyratapprox/blob/main/comparison.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratapprox/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">pyratapprox: Rational Approximation in Python</h1>
+<h1 class="title">Comparison to AAA in SciPy</h1>
 </div>
 
 
@@ -255,68 +256,132 @@ window.Quarto = {
 </header>
 
 
-<p>This package provides classes and methods for approximating functions or data using rational functions in Python. It includes algorithms for both discrete and continuous approximation, as well as tools for working with various representations of rational functions. It presents a Pythonic interface to the functionality provided by the Julia package <a href="https://complexvariables.github.io/RationalFunctionApproximation.jl/stable/">RationalFunctionApproximation.jl</a>, which is the computational engine. Julia and the necessary dependencies are installed automatically when you first import <code>pyratapprox</code>.</p>
-<section id="examples" class="level2">
-<h2 class="anchored" data-anchor-id="examples">Examples</h2>
-<p>Here are some simple examples of how to use the package:</p>
-<div id="264d9519" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyratapprox <span class="im">import</span> approximate, unitinterval</span>
+<p>The SciPy library includes an <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.AAA.html">implementation</a> of the AAA algorithm for rational approximation in its <code>scipy.interpolate</code> module. Below is a comparison of <code>pyratapprox</code>’s AAA and Thiele continued fraction methods against SciPy’s AAA implementation.</p>
+<section id="timing" class="level2">
+<h2 class="anchored" data-anchor-id="timing">Timing</h2>
+<div id="6c3c3768" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyratapprox <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> x <span class="op">+</span> np.tanh(<span class="dv">20</span> <span class="op">*</span> (x <span class="op">+</span> <span class="fl">0.25</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> approximate(f, unitinterval)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Approximant of rational type"</span>, r.degrees())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.interpolate <span class="im">import</span> AAA <span class="im">as</span> spAAA</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1000</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> np.tanh(<span class="dv">50</span> <span class="op">*</span> x)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>plt.plot(x, f, label<span class="op">=</span><span class="st">'f(x) = tanh(50x)'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Function on a real interval'</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Detected IPython. Loading juliacall extension. See https://juliapy.github.io/PythonCall.jl/stable/compat/#IPython
-Approximant of rational type (17, 17)</code></pre>
+<pre><code>Detected IPython. Loading juliacall extension. See https://juliapy.github.io/PythonCall.jl/stable/compat/#IPython</code></pre>
 </div>
-</div>
-<p>The constructed object can be called like a function to evaluate the approximant:</p>
-<div id="448a9e16" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x, r(x))</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'r(x)'</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Rational approximant'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-3-output-1.png" width="600" height="431" class="figure-img"></p>
+<p><img src="comparison_files/figure-html/cell-2-output-2.png" width="590" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>By default, the approximant is constructed to achieve an accuracy of about <span class="math inline">\(10^{-14}\)</span>, as seen here:</p>
-<div id="d962d74e" class="cell" data-execution_count="3">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>plt.plot(x, f(x) <span class="op">-</span> r(x))</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'f(x) - r(x)'</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Pointwise error'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Here, we generate rational approximations using all three methods:</p>
+<div id="c76a2150" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>r_scipy <span class="op">=</span> spAAA(x, f)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>r_aaa <span class="op">=</span> approximate(f, x, method<span class="op">=</span>AAA)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>r_tcf <span class="op">=</span> approximate(f, x, method<span class="op">=</span>TCF)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Degrees:"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> <span class="bu">len</span>(r_scipy.support_points) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"scipy AAA:       (</span><span class="sc">{</span>d<span class="sc">}</span><span class="ss">, </span><span class="sc">{</span>d<span class="sc">}</span><span class="ss">)"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox AAA: </span><span class="sc">{</span>r_aaa<span class="sc">.</span>degrees()<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox TCF: </span><span class="sc">{</span>r_tcf<span class="sc">.</span>degrees()<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Degrees:
+scipy AAA:       (31, 31)
+pyratapprox AAA: (32, 32)
+pyratapprox TCF: (32, 32)</code></pre>
+</div>
+</div>
+<p>As you see above, the results of the three methods are nearly identical in terms of the resulting rational type. Both of the AAA results use essentially the same algorithm, while TCF uses an algorithm that is asymptotically faster. The errors are all similar:</p>
+<div id="af27e244" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>test_pts <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1000</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.plot(test_pts, np.tanh(<span class="dv">50</span> <span class="op">*</span> test_pts) <span class="op">-</span> r_scipy(test_pts), <span class="st">'-'</span>, label<span class="op">=</span><span class="st">'scipy AAA'</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>ax.plot(test_pts, np.tanh(<span class="dv">50</span> <span class="op">*</span> test_pts) <span class="op">-</span> r_aaa(test_pts), <span class="st">'-'</span>, label<span class="op">=</span><span class="st">'pyratapprox AAA'</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>ax.plot(test_pts, np.tanh(<span class="dv">50</span> <span class="op">*</span> test_pts) <span class="op">-</span> r_tcf(test_pts), <span class="st">'-'</span>, label<span class="op">=</span><span class="st">'pyratapprox TCF'</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>ax.legend()</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>ax.set_title(<span class="st">'Error comparison'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="index_files/figure-html/cell-4-output-1.png" width="587" height="431" class="figure-img"></p>
+<p><img src="comparison_files/figure-html/cell-4-output-1.png" width="569" height="431" class="figure-img"></p>
 </figure>
 </div>
 </div>
 </div>
-<p>If no method is specified, the AAA algorithm is used to construct a barycentric rational approximant:</p>
-<div id="13874970" class="cell" data-execution_count="4">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>r.getfunction()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>Barycentric rational function of type (17, 17)</code></pre>
+<p>When the rational degree exceeds about 20, the <code>pyratapprox</code> methods are significantly faster to build than SciPy’s AAA implementation, as shown below:</p>
+<div id="3e488eb2" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timeit</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>time_scipy <span class="op">=</span> timeit.timeit(<span class="st">'spAAA(x, f)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>time_aaa <span class="op">=</span> timeit.timeit(<span class="st">'approximate(f, x, method=AAA)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>time_tcf <span class="op">=</span> timeit.timeit(<span class="st">'approximate(f, x, method=TCF)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average build time over </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> runs:"</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"scipy AAA: </span><span class="sc">{</span>time_scipy<span class="op">*</span><span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> milliseconds"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox AAA: </span><span class="sc">{</span>time_aaa<span class="op">*</span><span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> milliseconds"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox TCF: </span><span class="sc">{</span>time_tcf<span class="op">*</span><span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> milliseconds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average build time over 50 runs:
+scipy AAA: 34.35 milliseconds
+pyratapprox AAA: 11.40 milliseconds
+pyratapprox TCF: 7.80 milliseconds</code></pre>
 </div>
 </div>
-<p>You can instead request a Thiele continued fraction approximant:</p>
-<div id="cc057743" class="cell" data-execution_count="5">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyratapprox <span class="im">import</span> TCF</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>approximate(f, unitinterval, method<span class="op">=</span>TCF).getfunction()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>Thiele continued fraction of type (17, 17)</code></pre>
+<p>Evaluation times also favor <code>pyratapprox</code>:</p>
+<div id="62ff434a" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">200</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>time_scipy <span class="op">=</span> timeit.timeit(<span class="st">'r_scipy(test_pts)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>time_aaa <span class="op">=</span> timeit.timeit(<span class="st">'r_aaa(test_pts)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>time_tcf <span class="op">=</span> timeit.timeit(<span class="st">'r_tcf(test_pts)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Average evaluation time over </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> runs:"</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"scipy AAA: </span><span class="sc">{</span>time_scipy<span class="op">*</span><span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss"> microseconds"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox AAA: </span><span class="sc">{</span>time_aaa<span class="op">*</span><span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss"> microseconds"</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox TCF: </span><span class="sc">{</span>time_tcf<span class="op">*</span><span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss"> microseconds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Average evaluation time over 200 runs:
+scipy AAA: 132.04 microseconds
+pyratapprox AAA: 109.33 microseconds
+pyratapprox TCF: 84.56 microseconds</code></pre>
 </div>
 </div>
-<p>There is often not much to separate the two methods, but as the total degree <span class="math inline">\(n\)</span> increases, AAA is an <span class="math inline">\(O(n^4)\)</span> algorithm, while the Thiele method is <span class="math inline">\(O(n^3)\)</span>.</p>
-<p>For more examples and information, see the <a href="https://complexvariables.github.io/RationalFunctionApproximation.jl/stable/">Julia package documentation</a>.</p>
+</section>
+<section id="approximation-in-continuous-mode" class="level2">
+<h2 class="anchored" data-anchor-id="approximation-in-continuous-mode">Approximation in continuous mode</h2>
+<p>In addition, <code>pyratapprox</code> offers automatic refinement of the domain discretization, which can safeguard against accuracy loss when singularities are present near the domain. For example, consider approximation on the unit circle of the function <span class="math inline">\(f(z) = \sqrt{1.001 + z}\)</span>. If we use 400 points in SciPy’s AAA, everything seems OK:</p>
+<div id="31a7fd80" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.exp(<span class="ot">1j</span> <span class="op">*</span> np.pi <span class="op">*</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">200</span>))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> np.sqrt(<span class="fl">1.001</span> <span class="op">+</span> z)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> spAAA(z, f)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"In scipy AAA, degree </span><span class="sc">{</span><span class="bu">len</span>(r.support_points) <span class="op">-</span> <span class="dv">1</span><span class="sc">}</span><span class="ss"> achieves estimated accuracy </span><span class="sc">{</span>r<span class="sc">.</span>errors[<span class="op">-</span><span class="dv">1</span>]<span class="sc">:.2e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In scipy AAA, degree 17 achieves estimated accuracy 2.79e-13</code></pre>
+</div>
+</div>
+<p>However, if we look more closely near the branch point at <span class="math inline">\(z = -1.001\)</span>, we see that the domain is badly under-resolved:</p>
+<div id="3f4f18bd" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test_pts <span class="op">=</span> np.exp(<span class="ot">1j</span> <span class="op">*</span> np.pi <span class="op">*</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5000</span>))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>test_f <span class="op">=</span> np.sqrt(<span class="fl">1.001</span> <span class="op">+</span> test_pts)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max observed error on 5000 points: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">max</span>(np.<span class="bu">abs</span>(test_f <span class="op">-</span> r(test_pts)))<span class="sc">:.2e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Max observed error on 5000 points: 1.93e-04</code></pre>
+</div>
+</div>
+<p>By approximating on the <code>unitcircle</code> domain without prior discretization, the algorithm automatically refines the point set to achieve the advertised accuracy:</p>
+<div id="e20cc810" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> z: np.sqrt(<span class="fl">1.001</span> <span class="op">+</span> z)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> approximate(f, unitcircle)    <span class="co"># AAA is the default method</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>max_err <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(test_f <span class="op">-</span> r(test_pts)))</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"In pyratapprox AAA, degree </span><span class="sc">{</span>r<span class="sc">.</span>degree()<span class="sc">}</span><span class="ss"> achieves max observed error </span><span class="sc">{</span>max_err<span class="sc">:.2e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>In pyratapprox AAA, degree 27 achieves max observed error 3.10e-13</code></pre>
+</div>
+</div>
 
 
 </section>
@@ -727,4 +792,4 @@ Approximant of rational type (17, 17)</code></pre>
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/complexvariables/pyratapprox/blob/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratapprox/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/complexvariables/pyratapprox/blob/main/comparison.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratapprox/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
