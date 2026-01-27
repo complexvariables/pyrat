@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/structure.html</loc>
-    <lastmod>2026-01-27T18:18:14.511Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/structure.html</loc>
+    <lastmod>2026-01-27T18:38:01.588Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/paths.html</loc>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/paths.html</loc>
     <lastmod>2026-01-27T15:12:26.264Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/index.html</loc>
-    <lastmod>2026-01-27T18:23:20.974Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/index.html</loc>
+    <lastmod>2026-01-27T18:38:52.077Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/Thiele.html</loc>
-    <lastmod>2026-01-27T18:22:27.982Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/Thiele.html</loc>
+    <lastmod>2026-01-27T18:38:01.611Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/JuliaRatfun.html</loc>
-    <lastmod>2026-01-27T18:22:27.977Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/JuliaRatfun.html</loc>
+    <lastmod>2026-01-27T18:38:01.619Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/DiscreteApprox.html</loc>
-    <lastmod>2026-01-27T18:22:27.995Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/DiscreteApprox.html</loc>
+    <lastmod>2026-01-27T18:38:01.610Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/Bary.html</loc>
-    <lastmod>2026-01-27T18:22:27.981Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/Bary.html</loc>
+    <lastmod>2026-01-27T18:38:01.619Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/index.html</loc>
-    <lastmod>2026-01-27T18:18:06.703Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/index.html</loc>
+    <lastmod>2026-01-27T18:38:01.588Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/ContinuumApprox.html</loc>
-    <lastmod>2026-01-27T18:22:27.992Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/ContinuumApprox.html</loc>
+    <lastmod>2026-01-27T18:38:01.611Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/JuliaApprox.html</loc>
-    <lastmod>2026-01-27T18:22:27.988Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/JuliaApprox.html</loc>
+    <lastmod>2026-01-27T18:38:01.611Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/JuliaRatinterp.html</loc>
-    <lastmod>2026-01-27T18:22:27.980Z</lastmod>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/JuliaRatinterp.html</loc>
+    <lastmod>2026-01-27T18:38:01.619Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/curves.html</loc>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/curves.html</loc>
     <lastmod>2026-01-27T15:12:26.263Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/mobius.html</loc>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/mobius.html</loc>
     <lastmod>2026-01-27T15:12:26.264Z</lastmod>
   </url>
   <url>
-    <loc>https://complexvariables.github.io/pyratfun/reference/regions.html</loc>
+    <loc>https://complexvariables.github.io/pyratapprox/reference/regions.html</loc>
     <lastmod>2026-01-27T15:12:26.264Z</lastmod>
   </url>
 </urlset>

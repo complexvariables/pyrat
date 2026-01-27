@@ -1,1 +1,1 @@
-Sitemap: https://complexvariables.github.io/pyratfun/sitemap.xml
+Sitemap: https://complexvariables.github.io/pyratapprox/sitemap.xml
