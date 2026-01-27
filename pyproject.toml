@@ -1,9 +1,30 @@
 [project]
-authors = [{name = "Toby Driscoll", email = "driscoll@udel.edu"}]
-dependencies = ["juliacall>=0.9.31,<0.10", "cxregions>=0.1.4,<0.2"]
 name = "pyrat"
-requires-python = ">= 3.11"
 version = "0.1.0"
+description = "Python interface for rational function approximation via Julia"
+authors = [{name = "Toby Driscoll", email = "driscoll@udel.edu"}]
+readme = "README.md"
+requires-python = ">= 3.11"
+license = {text = "MIT"}
+keywords = ["rational approximation", "interpolation", "AAA", "numerical analysis"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["juliacall>=0.9.31,<0.10", "cxregions>=0.1.4,<0.2"]
+
+[project.urls]
+Homepage = "https://complexvariables.github.io/pyrat"
+Documentation = "https://complexvariables.github.io/pyrat"
+Repository = "https://github.com/complexvariables/pyrat"
+Issues = "https://github.com/complexvariables/pyrat/issues"
 
 [build-system]
 build-backend = "hatchling.build"
@@ -22,6 +43,8 @@ pyrat = { path = ".", editable = true }
 numpy = ">=2.4.0,<3"
 ipykernel = ">=7.1.0,<8"
 python = "3.13.*"
+hatchling = ">=1.28.0,<2"
+twine = ">=6.2.0,<7"
 
 [tool.pixi.environments]
 dev = ["doc", "test"]
