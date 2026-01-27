@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>juliaratinterp – pyrat</title>
+<title>juliaratinterp – pyratfun</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">pyrat</span>
+    <span class="navbar-title">pyratfun</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/complexvariables/pyrat"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/complexvariables/pyratfun"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -194,17 +194,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pyrat.JuliaRatinterp" id="toc-pyrat.JuliaRatinterp" class="nav-link active" data-scroll-target="#pyrat.JuliaRatinterp">JuliaRatinterp</a>
+  <li><a href="#pyratfun.JuliaRatinterp" id="toc-pyratfun.JuliaRatinterp" class="nav-link active" data-scroll-target="#pyratfun.JuliaRatinterp">JuliaRatinterp</a>
   <ul class="collapse">
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
-  <li><a href="#pyrat.JuliaRatinterp.length" id="toc-pyrat.JuliaRatinterp.length" class="nav-link" data-scroll-target="#pyrat.JuliaRatinterp.length">length</a></li>
-  <li><a href="#pyrat.JuliaRatinterp.nodes" id="toc-pyrat.JuliaRatinterp.nodes" class="nav-link" data-scroll-target="#pyrat.JuliaRatinterp.nodes">nodes</a></li>
-  <li><a href="#pyrat.JuliaRatinterp.values" id="toc-pyrat.JuliaRatinterp.values" class="nav-link" data-scroll-target="#pyrat.JuliaRatinterp.values">values</a></li>
+  <li><a href="#pyratfun.JuliaRatinterp.length" id="toc-pyratfun.JuliaRatinterp.length" class="nav-link" data-scroll-target="#pyratfun.JuliaRatinterp.length">length</a></li>
+  <li><a href="#pyratfun.JuliaRatinterp.nodes" id="toc-pyratfun.JuliaRatinterp.nodes" class="nav-link" data-scroll-target="#pyratfun.JuliaRatinterp.nodes">nodes</a></li>
+  <li><a href="#pyratfun.JuliaRatinterp.values" id="toc-pyratfun.JuliaRatinterp.values" class="nav-link" data-scroll-target="#pyratfun.JuliaRatinterp.values">values</a></li>
   </ul></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/complexvariables/pyrat/blob/main/reference/JuliaRatinterp.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyrat/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/complexvariables/pyratfun/blob/main/reference/JuliaRatinterp.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratfun/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
@@ -212,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="pyrat.JuliaRatinterp" class="level1">
+<section id="pyratfun.JuliaRatinterp" class="level1">
 <h1>JuliaRatinterp</h1>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>JuliaRatinterp(julia_obj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Python wrapper for Julia rational interpolants.</p>
@@ -229,33 +229,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="#pyrat.JuliaRatinterp.length">length</a></td>
+<td><a href="#pyratfun.JuliaRatinterp.length">length</a></td>
 <td>Get the number of interpolation points.</td>
 </tr>
 <tr class="even">
-<td><a href="#pyrat.JuliaRatinterp.nodes">nodes</a></td>
+<td><a href="#pyratfun.JuliaRatinterp.nodes">nodes</a></td>
 <td>Get the interpolation nodes.</td>
 </tr>
 <tr class="odd">
-<td><a href="#pyrat.JuliaRatinterp.values">values</a></td>
+<td><a href="#pyratfun.JuliaRatinterp.values">values</a></td>
 <td>Get the interpolation values at the nodes.</td>
 </tr>
 </tbody>
 </table>
-<section id="pyrat.JuliaRatinterp.length" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaRatinterp.length">length</h3>
+<section id="pyratfun.JuliaRatinterp.length" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaRatinterp.length">length</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>JuliaRatinterp.length()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Get the number of interpolation points.</p>
 <p>Returns: int: Number of nodes in the interpolant.</p>
 </section>
-<section id="pyrat.JuliaRatinterp.nodes" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaRatinterp.nodes">nodes</h3>
+<section id="pyratfun.JuliaRatinterp.nodes" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaRatinterp.nodes">nodes</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>JuliaRatinterp.nodes()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Get the interpolation nodes.</p>
 <p>Returns: np.ndarray: Array of interpolation node locations.</p>
 </section>
-<section id="pyrat.JuliaRatinterp.values" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaRatinterp.values">values</h3>
+<section id="pyratfun.JuliaRatinterp.values" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaRatinterp.values">values</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>JuliaRatinterp.values()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Get the interpolation values at the nodes.</p>
 <p>Returns: np.ndarray: Array of function values at interpolation nodes.</p>
@@ -339,7 +339,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/complexvariables\.github\.io\/pyratfun\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -671,4 +671,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/complexvariables/pyrat/blob/main/reference/JuliaRatinterp.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyrat/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/complexvariables/pyratfun/blob/main/reference/JuliaRatinterp.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratfun/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

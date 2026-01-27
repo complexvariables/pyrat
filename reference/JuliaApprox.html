@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>juliaapprox – pyrat</title>
+<title>juliaapprox – pyratfun</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">pyrat</span>
+    <span class="navbar-title">pyratfun</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -137,7 +137,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/complexvariables/pyrat"> <i class="bi bi-github" role="img">
+    <a class="nav-link" href="https://github.com/complexvariables/pyratfun"> <i class="bi bi-github" role="img">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -194,23 +194,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#pyrat.JuliaApprox" id="toc-pyrat.JuliaApprox" class="nav-link active" data-scroll-target="#pyrat.JuliaApprox">JuliaApprox</a>
+  <li><a href="#pyratfun.JuliaApprox" id="toc-pyratfun.JuliaApprox" class="nav-link active" data-scroll-target="#pyratfun.JuliaApprox">JuliaApprox</a>
   <ul class="collapse">
   <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a>
   <ul class="collapse">
-  <li><a href="#pyrat.JuliaApprox.check" id="toc-pyrat.JuliaApprox.check" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.check">check</a></li>
-  <li><a href="#pyrat.JuliaApprox.degree" id="toc-pyrat.JuliaApprox.degree" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.degree">degree</a></li>
-  <li><a href="#pyrat.JuliaApprox.degrees" id="toc-pyrat.JuliaApprox.degrees" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.degrees">degrees</a></li>
-  <li><a href="#pyrat.JuliaApprox.get" id="toc-pyrat.JuliaApprox.get" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.get">get</a></li>
-  <li><a href="#pyrat.JuliaApprox.isempty" id="toc-pyrat.JuliaApprox.isempty" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.isempty">isempty</a></li>
-  <li><a href="#pyrat.JuliaApprox.poles" id="toc-pyrat.JuliaApprox.poles" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.poles">poles</a></li>
-  <li><a href="#pyrat.JuliaApprox.residues" id="toc-pyrat.JuliaApprox.residues" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.residues">residues</a></li>
-  <li><a href="#pyrat.JuliaApprox.rewind" id="toc-pyrat.JuliaApprox.rewind" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.rewind">rewind</a></li>
-  <li><a href="#pyrat.JuliaApprox.roots" id="toc-pyrat.JuliaApprox.roots" class="nav-link" data-scroll-target="#pyrat.JuliaApprox.roots">roots</a></li>
+  <li><a href="#pyratfun.JuliaApprox.check" id="toc-pyratfun.JuliaApprox.check" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.check">check</a></li>
+  <li><a href="#pyratfun.JuliaApprox.degree" id="toc-pyratfun.JuliaApprox.degree" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.degree">degree</a></li>
+  <li><a href="#pyratfun.JuliaApprox.degrees" id="toc-pyratfun.JuliaApprox.degrees" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.degrees">degrees</a></li>
+  <li><a href="#pyratfun.JuliaApprox.get" id="toc-pyratfun.JuliaApprox.get" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.get">get</a></li>
+  <li><a href="#pyratfun.JuliaApprox.isempty" id="toc-pyratfun.JuliaApprox.isempty" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.isempty">isempty</a></li>
+  <li><a href="#pyratfun.JuliaApprox.poles" id="toc-pyratfun.JuliaApprox.poles" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.poles">poles</a></li>
+  <li><a href="#pyratfun.JuliaApprox.residues" id="toc-pyratfun.JuliaApprox.residues" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.residues">residues</a></li>
+  <li><a href="#pyratfun.JuliaApprox.rewind" id="toc-pyratfun.JuliaApprox.rewind" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.rewind">rewind</a></li>
+  <li><a href="#pyratfun.JuliaApprox.roots" id="toc-pyratfun.JuliaApprox.roots" class="nav-link" data-scroll-target="#pyratfun.JuliaApprox.roots">roots</a></li>
   </ul></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/complexvariables/pyrat/blob/main/reference/JuliaApprox.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyrat/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/complexvariables/pyratfun/blob/main/reference/JuliaApprox.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratfun/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
@@ -218,7 +218,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<section id="pyrat.JuliaApprox" class="level1">
+<section id="pyratfun.JuliaApprox" class="level1">
 <h1>JuliaApprox</h1>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox(julia_obj)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Base class for rational function approximations.</p>
@@ -235,94 +235,94 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td><a href="#pyrat.JuliaApprox.check">check</a></td>
+<td><a href="#pyratfun.JuliaApprox.check">check</a></td>
 <td>Check the quality of the approximation.</td>
 </tr>
 <tr class="even">
-<td><a href="#pyrat.JuliaApprox.degree">degree</a></td>
+<td><a href="#pyratfun.JuliaApprox.degree">degree</a></td>
 <td>Get the total degree of the approximation.</td>
 </tr>
 <tr class="odd">
-<td><a href="#pyrat.JuliaApprox.degrees">degrees</a></td>
+<td><a href="#pyratfun.JuliaApprox.degrees">degrees</a></td>
 <td>Get the numerator and denominator degrees.</td>
 </tr>
 <tr class="even">
-<td><a href="#pyrat.JuliaApprox.get">get</a></td>
+<td><a href="#pyratfun.JuliaApprox.get">get</a></td>
 <td>Get a property from the underlying Julia object.</td>
 </tr>
 <tr class="odd">
-<td><a href="#pyrat.JuliaApprox.isempty">isempty</a></td>
+<td><a href="#pyratfun.JuliaApprox.isempty">isempty</a></td>
 <td>Check if the approximation is empty/undefined.</td>
 </tr>
 <tr class="even">
-<td><a href="#pyrat.JuliaApprox.poles">poles</a></td>
+<td><a href="#pyratfun.JuliaApprox.poles">poles</a></td>
 <td>Compute the poles of the approximation.</td>
 </tr>
 <tr class="odd">
-<td><a href="#pyrat.JuliaApprox.residues">residues</a></td>
+<td><a href="#pyratfun.JuliaApprox.residues">residues</a></td>
 <td>Compute poles and their residues.</td>
 </tr>
 <tr class="even">
-<td><a href="#pyrat.JuliaApprox.rewind">rewind</a></td>
+<td><a href="#pyratfun.JuliaApprox.rewind">rewind</a></td>
 <td>Rewind the approximation history by n steps.</td>
 </tr>
 <tr class="odd">
-<td><a href="#pyrat.JuliaApprox.roots">roots</a></td>
+<td><a href="#pyratfun.JuliaApprox.roots">roots</a></td>
 <td>Compute the zeros of the approximation.</td>
 </tr>
 </tbody>
 </table>
-<section id="pyrat.JuliaApprox.check" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.check">check</h3>
+<section id="pyratfun.JuliaApprox.check" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.check">check</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.check()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Check the quality of the approximation.</p>
 <p>Returns: Approximation quality metrics from Julia.</p>
 </section>
-<section id="pyrat.JuliaApprox.degree" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.degree">degree</h3>
+<section id="pyratfun.JuliaApprox.degree" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.degree">degree</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.degree()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Get the total degree of the approximation.</p>
 <p>Returns: int: Maximum of numerator and denominator degrees.</p>
 </section>
-<section id="pyrat.JuliaApprox.degrees" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.degrees">degrees</h3>
+<section id="pyratfun.JuliaApprox.degrees" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.degrees">degrees</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.degrees()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Get the numerator and denominator degrees.</p>
 <p>Returns: tuple: (numerator_degree, denominator_degree).</p>
 </section>
-<section id="pyrat.JuliaApprox.get" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.get">get</h3>
+<section id="pyratfun.JuliaApprox.get" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.get">get</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.get(field)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Get a property from the underlying Julia object.</p>
 <p>Args: field: Name of the property to retrieve.</p>
 <p>Returns: The value of the requested property.</p>
 </section>
-<section id="pyrat.JuliaApprox.isempty" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.isempty">isempty</h3>
+<section id="pyratfun.JuliaApprox.isempty" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.isempty">isempty</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.isempty()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Check if the approximation is empty/undefined.</p>
 <p>Returns: bool: True if the approximation is empty.</p>
 </section>
-<section id="pyrat.JuliaApprox.poles" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.poles">poles</h3>
+<section id="pyratfun.JuliaApprox.poles" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.poles">poles</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.poles()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compute the poles of the approximation.</p>
 <p>Returns: np.ndarray: Array of pole locations in the complex plane.</p>
 </section>
-<section id="pyrat.JuliaApprox.residues" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.residues">residues</h3>
+<section id="pyratfun.JuliaApprox.residues" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.residues">residues</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.residues()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compute poles and their residues.</p>
 <p>Returns: tuple: (poles, residues) as numpy arrays.</p>
 </section>
-<section id="pyrat.JuliaApprox.rewind" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.rewind">rewind</h3>
+<section id="pyratfun.JuliaApprox.rewind" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.rewind">rewind</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.rewind(n<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Rewind the approximation history by n steps.</p>
 <p>Args: n: Number of steps to rewind (default: 1).</p>
 </section>
-<section id="pyrat.JuliaApprox.roots" class="level3">
-<h3 class="anchored" data-anchor-id="pyrat.JuliaApprox.roots">roots</h3>
+<section id="pyratfun.JuliaApprox.roots" class="level3">
+<h3 class="anchored" data-anchor-id="pyratfun.JuliaApprox.roots">roots</h3>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>JuliaApprox.roots()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Compute the zeros of the approximation.</p>
 <p>Returns: np.ndarray: Array of zero locations in the complex plane.</p>
@@ -406,7 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
+        var filterRegex = new RegExp("https:\/\/complexvariables\.github\.io\/pyratfun\/");
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -738,4 +738,4 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/complexvariables/pyrat/blob/main/reference/JuliaApprox.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyrat/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/complexvariables/pyratfun/blob/main/reference/JuliaApprox.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/complexvariables/pyratfun/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
