@@ -4,7 +4,7 @@ project:
     - "*.qmd"
 
 website:
-  title: "pyratfun"
+  title: "pyratapprox"
   favicon: i-con.ico
   navbar:
     left:
@@ -14,7 +14,7 @@ website:
         text: Reference
     right:
       - icon: github
-        href: https://github.com/complexvariables/pyratfun
+        href: https://github.com/complexvariables/pyratapprox
   sidebar:
     search: true
     contents:
@@ -22,7 +22,7 @@ website:
         text: Home
       - href: structure.qmd
         text: Package structure
-  repo-url: https://github.com/complexvariables/pyratfun
+  repo-url: https://github.com/complexvariables/pyratapprox
   repo-actions: [source, issue] 
 
 format:
@@ -35,14 +35,14 @@ format:
 quartodoc:
   style: pkgdown
   dir: reference
-  package: pyratfun
+  package: pyratapprox
   render_interlinks: true
   sidebar: reference/_sidebar.yml
   css: reference/_styles-quartodoc.css
 
   sections:
     - title: Rational functions
-      desc: How rational functions are represented in `pyratfun`.
+      desc: How rational functions are represented in `pyratapprox`.
       contents:
         - JuliaRatfun
         - JuliaRatinterp
@@ -60,7 +60,7 @@ filters:
 
 # interlinks:
 #   sources:
-#     pyratfun:
-#       url: https://complexvariables.github.io/pyratfun
+#     pyratapprox:
+#       url: https://complexvariables.github.io/pyratapprox
     # cxregions:
       # url: https://complexvariables.github.io/cxregions

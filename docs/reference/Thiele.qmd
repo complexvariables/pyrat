@@ -1,4 +1,4 @@
-# Thiele { #pyratfun.Thiele }
+# Thiele { #pyratapprox.Thiele }
 
 ```python
 Thiele(nodes, values=None, weights=None)

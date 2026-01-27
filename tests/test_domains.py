@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
-from pyratfun import *
-import pyratfun
+from pyratapprox import *
+import pyratapprox
 import cxregions as cr
 
 def test_continuum_segment():
