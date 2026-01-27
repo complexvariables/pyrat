@@ -1,6 +1,6 @@
 # PyPI Deployment Guide
 
-This guide explains how to upload the pyrat package to PyPI.
+This guide explains how to upload the pyratfun package to PyPI.
 
 ## Prerequisites
 
@@ -23,7 +23,7 @@ When prompted:
 
 Test installation from TestPyPI:
 ```bash
-pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ pyrat
+pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple/ pyratfun
 ```
 
 ## Upload to PyPI
@@ -73,8 +73,8 @@ pixi run twine upload dist/*
 ## Verify Upload
 
 After uploading, verify your package at:
-- PyPI: https://pypi.org/project/pyrat/
-- TestPyPI: https://test.pypi.org/project/pyrat/
+- PyPI: https://pypi.org/project/pyratfun/
+- TestPyPI: https://test.pypi.org/project/pyratfun/
 
 ## Updating the Package
 

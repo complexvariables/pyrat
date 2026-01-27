@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from pyrat import *
+from pyratfun import *
 import cxregions as cr
 import juliacall
 

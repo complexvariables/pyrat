@@ -1,4 +1,4 @@
-# Bary { #pyrat.Bary }
+# Bary { #pyratfun.Bary }
 
 ```python
 Bary(nodes, values=None, weights=None)

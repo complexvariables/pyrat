@@ -1,4 +1,4 @@
-# ContinuumApprox { #pyrat.ContinuumApprox }
+# ContinuumApprox { #pyratfun.ContinuumApprox }
 
 ```python
 ContinuumApprox(julia_obj)
@@ -23,13 +23,13 @@ Attributes:
 
 | Name | Description |
 | --- | --- |
-| [getfunction](#pyrat.ContinuumApprox.getfunction) | Get the underlying rational function. |
-| [isapprox](#pyrat.ContinuumApprox.isapprox) | Check if this approximation is close to another function. |
-| [nodes](#pyrat.ContinuumApprox.nodes) | Get the interpolation nodes of the approximation. |
-| [testpoints](#pyrat.ContinuumApprox.testpoints) | Get the test points used to validate the approximation. |
-| [values](#pyrat.ContinuumApprox.values) | Get the function values at the interpolation nodes. |
+| [getfunction](#pyratfun.ContinuumApprox.getfunction) | Get the underlying rational function. |
+| [isapprox](#pyratfun.ContinuumApprox.isapprox) | Check if this approximation is close to another function. |
+| [nodes](#pyratfun.ContinuumApprox.nodes) | Get the interpolation nodes of the approximation. |
+| [testpoints](#pyratfun.ContinuumApprox.testpoints) | Get the test points used to validate the approximation. |
+| [values](#pyratfun.ContinuumApprox.values) | Get the function values at the interpolation nodes. |
 
-### getfunction { #pyrat.ContinuumApprox.getfunction }
+### getfunction { #pyratfun.ContinuumApprox.getfunction }
 
 ```python
 ContinuumApprox.getfunction()
@@ -40,7 +40,7 @@ Get the underlying rational function.
 Returns:
     Thiele, Bary, or JuliaRatfun: The rational function approximation.
 
-### isapprox { #pyrat.ContinuumApprox.isapprox }
+### isapprox { #pyratfun.ContinuumApprox.isapprox }
 
 ```python
 ContinuumApprox.isapprox(other)
@@ -54,7 +54,7 @@ Args:
 Returns:
     bool: True if approximations are close on test points.
 
-### nodes { #pyrat.ContinuumApprox.nodes }
+### nodes { #pyratfun.ContinuumApprox.nodes }
 
 ```python
 ContinuumApprox.nodes()
@@ -65,7 +65,7 @@ Get the interpolation nodes of the approximation.
 Returns:
     np.ndarray: Array of node locations.
 
-### testpoints { #pyrat.ContinuumApprox.testpoints }
+### testpoints { #pyratfun.ContinuumApprox.testpoints }
 
 ```python
 ContinuumApprox.testpoints()
@@ -76,7 +76,7 @@ Get the test points used to validate the approximation.
 Returns:
     np.ndarray: Array of test point locations.
 
-### values { #pyrat.ContinuumApprox.values }
+### values { #pyratfun.ContinuumApprox.values }
 
 ```python
 ContinuumApprox.values()

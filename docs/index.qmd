@@ -1,16 +1,16 @@
 ---
-title: "pyrat: Rational Approximation in Python"
+title: "pyratfun: Rational Approximation in Python"
 kernelspec: 
     name: python3
 ---
 
-This package provides classes and methods for approximating functions or data using rational functions in Python. It includes algorithms for both discrete and continuous approximation, as well as tools for working with various representations of rational functions. It presents a Pythonic interface to the functionality provided by the Julia package [RationalFunctionApproximation.jl](https://complexvariables.github.io/RationalFunctionApproximation.jl/stable/), which is the computational engine. Julia and the necessary dependencies are installed automatically when you first import `pyrat`.
+This package provides classes and methods for approximating functions or data using rational functions in Python. It includes algorithms for both discrete and continuous approximation, as well as tools for working with various representations of rational functions. It presents a Pythonic interface to the functionality provided by the Julia package [RationalFunctionApproximation.jl](https://complexvariables.github.io/RationalFunctionApproximation.jl/stable/), which is the computational engine. Julia and the necessary dependencies are installed automatically when you first import `pyratfun`.
 
 ## Examples
 Here are some simple examples of how to use the package:
 
 ```{python}
-from pyrat import approximate, unitinterval
+from pyratfun import approximate, unitinterval
 import numpy as np
 def f(x):
     return x + np.tanh(20 * (x + 0.25))
@@ -46,7 +46,7 @@ r.getfunction()
 You can instead request a Thiele continued fraction approximant:
 
 ```{python}
-from pyrat import TCF
+from pyratfun import TCF
 approximate(f, unitinterval, method=TCF).getfunction()
 ```
 

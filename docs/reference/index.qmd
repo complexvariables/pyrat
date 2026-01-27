@@ -2,14 +2,14 @@
 
 ## Rational functions
 
-How rational functions are represented in `pyrat`.
+How rational functions are represented in `pyratfun`.
 
 | | |
 | --- | --- |
-| [JuliaRatfun](JuliaRatfun.qmd#pyrat.JuliaRatfun) | Python wrapper for Julia rational functions. |
-| [JuliaRatinterp](JuliaRatinterp.qmd#pyrat.JuliaRatinterp) | Python wrapper for Julia rational interpolants. |
-| [Bary](Bary.qmd#pyrat.Bary) | Barycentric rational interpolant. |
-| [Thiele](Thiele.qmd#pyrat.Thiele) | Thiele continued fraction interpolant. |
+| [JuliaRatfun](JuliaRatfun.qmd#pyratfun.JuliaRatfun) | Python wrapper for Julia rational functions. |
+| [JuliaRatinterp](JuliaRatinterp.qmd#pyratfun.JuliaRatinterp) | Python wrapper for Julia rational interpolants. |
+| [Bary](Bary.qmd#pyratfun.Bary) | Barycentric rational interpolant. |
+| [Thiele](Thiele.qmd#pyratfun.Thiele) | Thiele continued fraction interpolant. |
 
 ## Approximations
 
@@ -17,6 +17,6 @@ Rational approximations over domains.
 
 | | |
 | --- | --- |
-| [JuliaApprox](JuliaApprox.qmd#pyrat.JuliaApprox) | Base class for rational function approximations. |
-| [ContinuumApprox](ContinuumApprox.qmd#pyrat.ContinuumApprox) | Rational approximation on a continuum domain. |
-| [DiscreteApprox](DiscreteApprox.qmd#pyrat.DiscreteApprox) | Rational approximation on a discrete point set. |
+| [JuliaApprox](JuliaApprox.qmd#pyratfun.JuliaApprox) | Base class for rational function approximations. |
+| [ContinuumApprox](ContinuumApprox.qmd#pyratfun.ContinuumApprox) | Rational approximation on a continuum domain. |
+| [DiscreteApprox](DiscreteApprox.qmd#pyratfun.DiscreteApprox) | Rational approximation on a discrete point set. |

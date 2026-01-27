@@ -2,13 +2,13 @@
 Unit tests for examples from docstring documentation.
 
 This test file validates all the code examples provided in the docstrings
-of the pyrat package to ensure they work correctly.
+of the pyratfun package to ensure they work correctly.
 """
 
 import pytest
 import numpy as np
-from pyrat import *
-from pyrat import JuliaRatfun, JuliaRatinterp  # Import internal classes for type checking
+from pyratfun import *
+from pyratfun import JuliaRatfun, JuliaRatinterp  # Import internal classes for type checking
 
 
 class TestThieleExamples:

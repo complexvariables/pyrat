@@ -2,7 +2,7 @@
 ---
 # Package structure
 
-The most straightforward way to use `pyrat` is to call the `approximate` function, which returns a rational approximation to a given function or data set in the form of an object. The primary properties of such an object are the rational function representation and the domain of approximation.
+The most straightforward way to use `pyratfun` is to call the `approximate` function, which returns a rational approximation to a given function or data set in the form of an object. The primary properties of such an object are the rational function representation and the domain of approximation.
 
 ## Approximation over domains
 

@@ -1,11 +1,11 @@
-# PyRat: Python Rational Function Approximation
+# pyratfun: Python Rational Function Approximation
 
-PyRat provides a Python interface to Julia's RationalFunctionApproximation library, enabling efficient computation of rational function approximations and interpolations.
+pyratfun provides a Python interface to Julia's RationalFunctionApproximation library, enabling efficient computation of rational function approximations and interpolations.
 
 ## Installation
 
 ```bash
-pip install pyrat
+pip install pyratfun
 ```
 
 **Note**: Requires Julia to be installed. The required Julia packages will be installed automatically on first use.
@@ -14,7 +14,7 @@ pip install pyrat
 
 ```python
 import numpy as np
-from pyrat import approximate, unitinterval, AAA
+from pyratfun import approximate, unitinterval, AAA
 
 # Approximate a function on the unit interval [-1, 1]
 f = approximate(np.sin, unitinterval, method=AAA)
@@ -29,7 +29,7 @@ poles, residues = f.residues()
 
 ## Documentation
 
-Full documentation is available at: https://complexvariables.github.io/pyrat
+Full documentation is available at: https://complexvariables.github.io/pyratfun
 
 ## License
 

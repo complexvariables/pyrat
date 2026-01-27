@@ -1,5 +1,5 @@
 """
-PyRat: Python interface for Rational Function Approximation
+pyratfun: Python interface for Rational Function Approximation
 
 This package provides Python wrappers for Julia's RationalFunctionApproximation
 library, enabling efficient computation of rational function approximations and
@@ -17,7 +17,7 @@ import numpy as np
 import cxregions as cr
 
 # Initialize Julia module and load dependencies
-jl = juliacall.newmodule("pyrat")
+jl = juliacall.newmodule("pyratfun")
 jl.seval('import Pkg')
 installed = False
 for v in jl.Pkg.dependencies().values():

@@ -1,5 +1,5 @@
 [project]
-name = "pyrat"
+name = "pyratfun"
 version = "0.1.0"
 description = "Python interface for rational function approximation via Julia"
 authors = [{name = "Toby Driscoll", email = "driscoll@udel.edu"}]
@@ -18,13 +18,13 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["juliacall>=0.9.31,<0.10", "cxregions>=0.1.4,<0.2"]
+dependencies = ["juliacall>=0.9.31,<0.10", "cxregions>=0.1.4,<0.2", "hatch>=1.16.3,<2"]
 
 [project.urls]
-Homepage = "https://complexvariables.github.io/pyrat"
-Documentation = "https://complexvariables.github.io/pyrat"
-Repository = "https://github.com/complexvariables/pyrat"
-Issues = "https://github.com/complexvariables/pyrat/issues"
+Homepage = "https://complexvariables.github.io/pyratfun"
+Documentation = "https://complexvariables.github.io/pyratfun"
+Repository = "https://github.com/complexvariables/pyratfun"
+Issues = "https://github.com/complexvariables/pyratfun/issues"
 
 [build-system]
 build-backend = "hatchling.build"
@@ -35,7 +35,7 @@ channels = ["conda-forge"]
 platforms = ["osx-arm64"]
 
 [tool.pixi.pypi-dependencies]
-pyrat = { path = ".", editable = true }
+pyratfun = { path = ".", editable = true }
 
 [tool.pixi.tasks]
 
@@ -43,7 +43,6 @@ pyrat = { path = ".", editable = true }
 numpy = ">=2.4.0,<3"
 ipykernel = ">=7.1.0,<8"
 python = "3.13.*"
-hatchling = ">=1.28.0,<2"
 twine = ">=6.2.0,<7"
 
 [tool.pixi.environments]
@@ -60,3 +59,6 @@ quartodoc = "*"
 
 [tool.pixi.feature.doc.tasks]
 build-docs = "cd docs && quartodoc build && quarto render"
+
+[dependency-groups]
+doc = ["matplotlib>=3.10.8,<4"]

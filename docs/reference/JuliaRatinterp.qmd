@@ -1,4 +1,4 @@
-# JuliaRatinterp { #pyrat.JuliaRatinterp }
+# JuliaRatinterp { #pyratfun.JuliaRatinterp }
 
 ```python
 JuliaRatinterp(julia_obj)
@@ -17,11 +17,11 @@ Attributes:
 
 | Name | Description |
 | --- | --- |
-| [length](#pyrat.JuliaRatinterp.length) | Get the number of interpolation points. |
-| [nodes](#pyrat.JuliaRatinterp.nodes) | Get the interpolation nodes. |
-| [values](#pyrat.JuliaRatinterp.values) | Get the interpolation values at the nodes. |
+| [length](#pyratfun.JuliaRatinterp.length) | Get the number of interpolation points. |
+| [nodes](#pyratfun.JuliaRatinterp.nodes) | Get the interpolation nodes. |
+| [values](#pyratfun.JuliaRatinterp.values) | Get the interpolation values at the nodes. |
 
-### length { #pyrat.JuliaRatinterp.length }
+### length { #pyratfun.JuliaRatinterp.length }
 
 ```python
 JuliaRatinterp.length()
@@ -32,7 +32,7 @@ Get the number of interpolation points.
 Returns:
     int: Number of nodes in the interpolant.
 
-### nodes { #pyrat.JuliaRatinterp.nodes }
+### nodes { #pyratfun.JuliaRatinterp.nodes }
 
 ```python
 JuliaRatinterp.nodes()
@@ -43,7 +43,7 @@ Get the interpolation nodes.
 Returns:
     np.ndarray: Array of interpolation node locations.
 
-### values { #pyrat.JuliaRatinterp.values }
+### values { #pyratfun.JuliaRatinterp.values }
 
 ```python
 JuliaRatinterp.values()
