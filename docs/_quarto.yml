@@ -27,6 +27,8 @@ website:
   repo-url: https://github.com/complexvariables/pyratapprox
   repo-actions: [source, issue] 
 
+jupyter: python3
+
 format:
   html:
     theme:
