@@ -34,6 +34,15 @@ requires = ["hatchling"]
 channels = ["conda-forge"]
 platforms = ["osx-arm64"]
 
+# Make Quarto/Jupyter use THIS environment for every `pixi run`. QUARTO_PYTHON
+# pins Quarto's interpreter; JUPYTER_PATH puts the env's kernel registry first so
+# the `python3` kernelspec is actually found here (it only exists in this env).
+# Without JUPYTER_PATH, the lookup falls back to ~/Library/Jupyter/kernels (and a
+# globally-active nb_conda_kernels), and Quarto starts the wrong kernel.
+[tool.pixi.activation.env]
+QUARTO_PYTHON = "$CONDA_PREFIX/bin/python"
+JUPYTER_PATH = "$CONDA_PREFIX/share/jupyter"
+
 [tool.pixi.pypi-dependencies]
 pyratapprox = { path = ".", editable = true }
 
@@ -57,6 +66,9 @@ scipy = ">=1.17.0,<2"
 
 [tool.pixi.feature.doc.pypi-dependencies]
 quartodoc = "*"
+# quartodoc requires only "griffe>=0.33", but griffe 2.0 split into
+# griffe/griffelib/griffecli and broke quartodoc's import shim. Pin to 1.x.
+griffe = ">=1.5.1,<2"
 
 [tool.pixi.feature.doc.tasks]
 build-docs = "cd docs && quartodoc build && quarto render"
