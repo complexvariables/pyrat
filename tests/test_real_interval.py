@@ -18,9 +18,12 @@ def test_continuum_build():
             f"Expected f.domain to be a wrapped region/curve type, got {type(f.domain)}"
         assert hasattr(f.fun, 'julia') and callable(f.fun), \
             f"Expected f.fun to be a wrapped Julia rational function, got {type(f.fun)}"
-        assert isinstance(f.allowed, juliacall.AnyValue) # type: ignore
+        # As of RFA v0.4.0, `allowed` is a bool unless a policy or predicate is given
+        assert isinstance(f.allowed, (bool, juliacall.AnyValue)) # type: ignore
         assert isinstance(f.path, juliacall.AnyValue) # type: ignore
         assert isinstance(f.history, juliacall.AnyValue) # type: ignore
+        assert isinstance(f.status, ConvergenceStatus)
+        assert f.isconverged()
 
 def test_continuum_accuracy():
     pts = np.linspace(-1, 1, 2000)
@@ -64,6 +67,8 @@ def test_discrete_build():
         assert isinstance(f.test_index, np.ndarray)
         assert hasattr(f, 'allowed')
         assert hasattr(f, 'history')
+        assert isinstance(f.status, ConvergenceStatus)
+        assert f.isconverged()
 
 
 def test_discrete_accuracy():

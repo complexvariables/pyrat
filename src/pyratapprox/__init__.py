@@ -32,16 +32,43 @@ jl.seval("using RationalFunctionApproximation, ComplexRegions, PythonCall")
 RFA = jl.RationalFunctionApproximation
 CR = jl.ComplexRegions
 
-__all__ = ['Thiele', 'Bary', 'JuliaApprox', 'ContinuumApprox', 'DiscreteApprox', 'approximate', 'unitcircle', 'unitinterval', 'unitdisk', 'RFA', 'CR', 'TCF', 'AAA']
+# The interface here follows RationalFunctionApproximation v0.4, which changed how the
+# approximation method is selected and what approximate() records about convergence.
+if jl.seval('pkgversion(RationalFunctionApproximation) < v"0.4"'):
+    raise ImportError(
+        "pyratapprox requires RationalFunctionApproximation v0.4 or later, but v"
+        f"{jl.seval('string(pkgversion(RationalFunctionApproximation))')} is installed. "
+        "Update it with Pkg.update() in the Julia environment used by juliacall."
+        )
+
+__all__ = ['Thiele', 'Bary', 'JuliaApprox', 'ContinuumApprox', 'DiscreteApprox', 'ConvergenceStatus', 'approximate', 'unitcircle', 'unitinterval', 'unitdisk', 'RFA', 'CR', 'TCF', 'AAA', 'PartialFractions']
 
 # Predefined domains for common use cases
 unitcircle = cr.Circle(0.0, 1.0)  # Unit circle in the complex plane
 unitinterval = cr.Segment(-1.0, 1.0)  # Real interval [-1, 1]
 unitdisk = jl.unit_disk  # Unit disk in the complex plane
 
-# Approximation methods
-TCF = jl.TCF  # Transformed Chebyshev-Frobenius method
-AAA = jl.AAA  # Adaptive Antoulas-Anderson algorithm
+# Approximation methods. As of RationalFunctionApproximation v0.4.0, Julia selects the
+# method by dispatching on an *instance* passed as the last positional argument of
+# approximate(); the types below are instantiated by approximate() as needed.
+TCF = jl.TCF  # Thiele continued fraction (default)
+AAA = jl.AAA  # Adaptive Antoulas-Anderson algorithm (barycentric)
+PartialFractions = jl.PartialFractions  # partial fractions with prescribed poles
+
+# Predicate for "is this Julia object a rational function type?"
+_is_ratfun_type = jl.seval(
+    "T -> (T isa Type) && (T <: RationalFunctionApproximation.AbstractRationalFunction)"
+    )
+
+# Method names accepted as strings, mapped to their Julia types.
+_method_aliases = {
+    "tcf": "Thiele",
+    "thiele": "Thiele",
+    "aaa": "Barycentric",
+    "bary": "Barycentric",
+    "barycentric": "Barycentric",
+    "partialfractions": "PartialFractions",
+    }
 
 class JuliaRatfun:
     """
@@ -403,6 +430,68 @@ def wrap_jl_ratfun(julia_obj):
     else:
         raise ValueError("Unknown rational function type")
 
+class ConvergenceStatus:
+    """
+    Explanation of why an approximation iteration stopped.
+
+    Wraps Julia's ConvergenceStatus, which is recorded by approximate() as of
+    RationalFunctionApproximation v0.4.0.
+
+    Attributes:
+        julia: The underlying Julia ConvergenceStatus object.
+        reason: str, the cause of termination. One of "converged", "stagnated",
+            "max_degree", "node_failure", "nan_weight", "refinement",
+            "exhausted", or "rewound".
+        best: int, index into the history of the interpolant that was returned.
+        iterations: int, number of iterations completed.
+        error: float, estimated error of the returned interpolant.
+    """
+
+    def __init__(self, julia_obj):
+        """
+        Initialize a ConvergenceStatus wrapper.
+
+        Args:
+            julia_obj: A Julia object of type ConvergenceStatus.
+
+        Raises:
+            ValueError: If julia_obj is not a valid ConvergenceStatus.
+        """
+        if not (isinstance(julia_obj, juliacall.AnyValue)  # type: ignore
+                and jl.isa(julia_obj, RFA.ConvergenceStatus)):
+            raise ValueError("Invalid argument to constructor")
+        self.julia = julia_obj
+        self.reason = str(jl.getproperty(julia_obj, jl.Symbol("reason")))
+        self.best = int(jl.getproperty(julia_obj, jl.Symbol("best")))
+        self.iterations = int(jl.getproperty(julia_obj, jl.Symbol("iterations")))
+        self.error = float(jl.getproperty(julia_obj, jl.Symbol("error")))
+
+    def isconverged(self):
+        """
+        Check whether the iteration reached the requested tolerance.
+
+        Returns:
+            bool: True if the reason for stopping was convergence.
+        """
+        return self.reason == "converged"
+
+    def __repr__(self):
+        """String representation showing why the iteration stopped."""
+        return (f"Stopped by {self.reason} after {self.iterations} iterations "
+                f"with estimated error {self.error:.4g}")
+
+def wrap_status(julia_obj):
+    """
+    Wrap a Julia ConvergenceStatus, if one was recorded.
+
+    Args:
+        julia_obj: A Julia ConvergenceStatus object, or None.
+
+    Returns:
+        ConvergenceStatus or None: None if no status was recorded.
+    """
+    return None if julia_obj is None else ConvergenceStatus(julia_obj)
+
 class JuliaApprox:
     """
     Base class for rational function approximations.
@@ -526,6 +615,16 @@ class JuliaApprox:
         """
         return jl.check(self.julia)
     
+    def isconverged(self):
+        """
+        Check whether the iteration reached the requested tolerance.
+        
+        Returns:
+            bool: True if the approximation stopped by converging, and False if it
+                stagnated, exhausted its degree budget, failed, or recorded no status.
+        """
+        return bool(jl.isconverged(self.julia))
+    
     def rewind(self, n=1):
         """
         Rewind the approximation history by n steps.
@@ -575,6 +674,8 @@ class ContinuumApprox(JuliaApprox):
         allowed: Allowed pole locations.
         path: Integration path used in approximation.
         history: History of the approximation process.
+        status: ConvergenceStatus saying why the iteration stopped, or None if
+            none was recorded.
     """
     
     def __init__(self, julia_obj):
@@ -599,6 +700,7 @@ class ContinuumApprox(JuliaApprox):
         self.allowed = JuliaApprox.get(self, "allowed")
         self.path = JuliaApprox.get(self, "path")
         self.history = JuliaApprox.get(self, "history")
+        self.status = wrap_status(JuliaApprox.get(self, "status"))
 
     def __repr__(self):
         """String representation showing approximation type and domain."""
@@ -675,6 +777,8 @@ class DiscreteApprox(JuliaApprox):
         test_index: Indices of points used for testing.
         allowed: Allowed pole locations.
         history: History of the approximation process.
+        status: ConvergenceStatus saying why the iteration stopped, or None if
+            none was recorded.
     """
     
     def __init__(self, julia_obj):
@@ -699,6 +803,7 @@ class DiscreteApprox(JuliaApprox):
         self.test_index = np.array(JuliaApprox.get(self, "test_index"))
         self.allowed = JuliaApprox.get(self, "allowed")
         self.history = JuliaApprox.get(self, "history")
+        self.status = wrap_status(JuliaApprox.get(self, "status"))
 
     def __repr__(self):
         """String representation showing approximation type and discrete domain."""
@@ -759,40 +864,113 @@ class DiscreteApprox(JuliaApprox):
             x = self.domain
             return np.all([np.isclose(self(xk), other(xk)) for xk in x])
 
-def approximate(fun, domain, zeta=None, **kwargs):
+def _method_instance(method):
+    """
+    Convert a method selector into a Julia rational function instance.
+
+    As of RationalFunctionApproximation v0.4.0, Julia selects the type of interpolant
+    by dispatching on an instance passed as the last positional argument of
+    approximate(). Accepted selectors are a Julia type (e.g. TCF, AAA,
+    PartialFractions) or instance of one, the Python classes Thiele and Bary or an
+    instance of one, a name such as "thiele", or None for the Julia default.
+
+    Args:
+        method: A method selector, or None.
+
+    Returns:
+        A Julia rational function instance, or None if method is None.
+
+    Raises:
+        ValueError: If method is not a recognized selector.
+    """
+    if method is None:
+        return None
+    if isinstance(method, str):
+        name = _method_aliases.get(method.lower().replace("_", ""))
+        if name is None:
+            raise ValueError(f"Unknown approximation method '{method}'")
+        return jl.getproperty(RFA, jl.Symbol(name))()
+    if method is Thiele:
+        return RFA.Thiele()
+    if method is Bary:
+        return RFA.Barycentric()
+    if isinstance(method, JuliaRatfun):
+        return method.julia
+    if isinstance(method, juliacall.AnyValue):  # type: ignore
+        if _is_ratfun_type(method):
+            return method()    # empty instance, used only as a selector
+        if jl.isa(method, RFA.AbstractRationalFunction):
+            return method
+    raise ValueError(f"Invalid approximation method: {method}")
+
+def _is_method(arg):
+    """
+    Check whether an argument can be interpreted as a method selector.
+
+    Args:
+        arg: Any value.
+
+    Returns:
+        bool: True if arg names or is a rational function type.
+    """
+    if arg is None:
+        return False
+    try:
+        _method_instance(arg)
+    except ValueError:
+        return False
+    return True
+
+def approximate(fun, domain=unitinterval, zeta=None, method=None, **kwargs):
     """
     Compute a rational function approximation.
     
     This is the main entry point for creating rational approximations. It
     automatically selects between continuum and discrete approximation based
-    on the domain type, and uses adaptive algorithms (AAA or TCF) to construct
+    on the domain type, and uses adaptive algorithms (TCF or AAA) to construct
     high-quality approximations.
     
     Args:
         fun: Callable function to approximate, or array of function values.
-        domain: Approximation domain - can be:
+        domain: Approximation domain (default: the interval [-1, 1]) - can be:
             - A continuum domain (Circle, Segment, Region, Curve, Path)
             - A discrete array of points
-        zeta: Optional parameter point for parametric approximations.
+        zeta: Optional array of prescribed poles, which switches the default method
+            to partial fractions.
+        method: Type of rational interpolant, given either positionally (in place of
+            zeta, as in Julia) or by keyword. It may be a Julia type or instance
+            (TCF, AAA, PartialFractions), the Python class Thiele or Bary or an
+            instance of one, or a name such as "thiele". The default is TCF, or
+            PartialFractions when zeta is given.
         **kwargs: Additional keyword arguments passed to Julia's approximate():
-            - method: Approximation method (AAA or TCF)
-            - tol: Tolerance for adaptive approximation
-            - max_degree: Maximum degree allowed
-            - And other method-specific parameters
+            - tol: Relative tolerance for stopping
+            - max_degree: Maximum degree of the approximation (on a discrete domain,
+              TCF takes max_iter instead)
+            - allowed: True to accept all poles (default), "strict" to require poles
+              off the curve or outside the region, or a predicate on pole locations
+            - refinement: Number of test points between adjacent nodes (continuum only)
+            - stagnation: Number of iterations used to detect stagnation
+            - float_type: Floating point type used in the computation
     
     Returns:
         ContinuumApprox or DiscreteApprox: The computed approximation.
         
     Raises:
-        ValueError: If the approximation type is not recognized.
+        ValueError: If the method or the approximation type is not recognized.
         
     Examples:
-        >>> # Approximate on the unit interval
-        >>> f = approximate(np.sin, unitinterval, method=AAA)
+        >>> # Approximate on the unit interval, using the default method
+        >>> f = approximate(np.sin)
+        >>>
+        >>> # Choose a method positionally, as in Julia
+        >>> f = approximate(np.sin, unitinterval, AAA)
         >>>
         >>> # Approximate on discrete points
         >>> x = np.linspace(-1, 1, 100)
         >>> f = approximate(np.exp, x, method=TCF)
+        >>>
+        >>> # Keep the poles away from the domain
+        >>> f = approximate(lambda x: np.abs(x), unitinterval, allowed="strict")
         >>>
         >>> # Evaluate the approximation
         >>> y = f(0.5)
@@ -800,7 +978,15 @@ def approximate(fun, domain, zeta=None, **kwargs):
         >>> # Get poles and residues
         >>> poles = f.poles()
         >>> poles, residues = f.residues()
+        >>>
+        >>> # Find out why the iteration stopped
+        >>> f.isconverged(), f.status.error
     """
+    # Julia takes the method as the last positional argument, so it may show up here
+    # in the zeta slot.
+    if method is None and _is_method(zeta):
+        zeta, method = None, zeta
+
     if not callable(fun):
         fun = np.array(fun).flatten()
 
@@ -809,10 +995,18 @@ def approximate(fun, domain, zeta=None, **kwargs):
     else:
         domain = np.array(domain).flatten()
 
-    if zeta is None:
-        julia_approx = RFA.approximate(fun, domain, **kwargs)
-    else:
-        julia_approx = RFA.approximate(fun, domain, zeta, **kwargs)
+    # A policy for allowed poles is named by a Julia symbol, e.g. allowed="strict".
+    if isinstance(kwargs.get("allowed"), str):
+        kwargs["allowed"] = jl.Symbol(kwargs["allowed"].lstrip(":"))
+
+    args = [fun, domain]
+    if zeta is not None:
+        args.append(np.array(zeta).flatten())
+    method = _method_instance(method)
+    if method is not None:
+        args.append(method)
+
+    julia_approx = RFA.approximate(*args, **kwargs)
     
     if jl.isa(julia_approx, RFA.ContinuumApproximation):
         return ContinuumApprox(julia_approx)

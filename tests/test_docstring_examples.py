@@ -47,10 +47,10 @@ class TestBaryExamples:
 class TestApproximateExamples:
     """Test examples from approximate function docstring."""
     
-    def test_approximate_on_unit_interval(self):
-        """Test approximation on the unit interval."""
-        # Approximate on the unit interval
-        f = approximate(np.sin, unitinterval, method=AAA)
+    def test_approximate_default_domain_and_method(self):
+        """Test approximation with the default domain and method."""
+        # Approximate on the unit interval, using the default method
+        f = approximate(np.sin)
         
         assert isinstance(f, ContinuumApprox)
         assert callable(f)
@@ -59,6 +59,35 @@ class TestApproximateExamples:
         test_points = np.linspace(-1, 1, 100)
         for x in test_points:
             assert f(x) == pytest.approx(np.sin(x), rel=1e-10, abs=1e-10)
+    
+    def test_approximate_on_unit_interval(self):
+        """Test approximation on the unit interval."""
+        # Choose a method positionally, as in Julia
+        f = approximate(np.sin, unitinterval, AAA)
+        
+        assert isinstance(f, ContinuumApprox)
+        assert callable(f)
+        
+        # Verify approximation quality
+        test_points = np.linspace(-1, 1, 100)
+        for x in test_points:
+            assert f(x) == pytest.approx(np.sin(x), rel=1e-10, abs=1e-10)
+    
+    def test_approximate_with_strict_poles(self):
+        """Test keeping the poles away from the domain."""
+        f = approximate(lambda x: np.abs(x), unitinterval, allowed="strict")
+        
+        assert isinstance(f, ContinuumApprox)
+        assert f.allowed is not True
+        assert f(0.5) == pytest.approx(0.5, rel=1e-4, abs=1e-4)
+    
+    def test_approximate_convergence_status(self):
+        """Test finding out why the iteration stopped."""
+        f = approximate(np.sin, unitinterval, AAA)
+        
+        assert f.isconverged()
+        assert isinstance(f.status, ConvergenceStatus)
+        assert f.status.error < 1e-10
     
     def test_approximate_on_discrete_points(self):
         """Test approximation on discrete points."""
