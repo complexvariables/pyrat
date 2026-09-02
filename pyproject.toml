@@ -68,7 +68,7 @@ scipy = ">=1.18.0,<2"
 quartodoc = ">=0.11.1, <0.12"
 # quartodoc requires only "griffe>=0.33", but griffe 2.0 split into
 # griffe/griffelib/griffecli and broke quartodoc's import shim. Pin to 1.x.
-griffe = ">=2.2.0, <3"
+griffe = ">=1.5.1,<2"
 
 [tool.pixi.feature.doc.tasks]
 build-docs = "cd docs && quartodoc build && quarto render"
