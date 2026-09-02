@@ -18,7 +18,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Mathematics",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = ["juliacall>=0.9.31,<0.10", "cxregions>=0.1.4,<0.2", "hatch>=1.16.3,<2"]
+dependencies = ["juliacall>=0.9.35,<0.10", "cxregions>=0.1.6,<0.2", "hatch>=1.18.0,<2"]
 
 [project.urls]
 Homepage = "https://complexvariables.github.io/pyratapprox"
@@ -49,29 +49,29 @@ pyratapprox = { path = ".", editable = true }
 [tool.pixi.tasks]
 
 [tool.pixi.dependencies]
-numpy = ">=2.4.0,<3"
-ipykernel = ">=7.1.0,<8"
+numpy = ">=2.5.2,<3"
+ipykernel = ">=7.3.0,<8"
 python = "3.13.*"
-twine = ">=6.2.0,<7"
+twine = ">=7.0.0,<8"
 
 [tool.pixi.environments]
 dev = ["doc", "test"]
 
 [tool.pixi.feature.test.dependencies]
-pytest = ">=9.0.2,<10"
+pytest = ">=9.1.1,<10"
 
 [tool.pixi.feature.doc.dependencies]
-jupyter = "*"
-scipy = ">=1.17.0,<2"
+jupyter = ">=1.1.1,<2"
+scipy = ">=1.18.0,<2"
 
 [tool.pixi.feature.doc.pypi-dependencies]
-quartodoc = "*"
+quartodoc = ">=0.11.1, <0.12"
 # quartodoc requires only "griffe>=0.33", but griffe 2.0 split into
 # griffe/griffelib/griffecli and broke quartodoc's import shim. Pin to 1.x.
-griffe = ">=1.5.1,<2"
+griffe = ">=2.2.0, <3"
 
 [tool.pixi.feature.doc.tasks]
 build-docs = "cd docs && quartodoc build && quarto render"
 
 [dependency-groups]
-doc = ["matplotlib>=3.10.8,<4"]
+doc = ["matplotlib>=3.11.1,<4"]
