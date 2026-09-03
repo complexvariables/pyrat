@@ -39,12 +39,17 @@ format:
 quartodoc:
   style: pkgdown
   dir: reference
+  parser: google
   package: pyratapprox
   render_interlinks: true
   sidebar: reference/_sidebar.yml
   css: reference/_styles-quartodoc.css
 
   sections:
+    - title: Approximation
+      desc: The main entry point of the package.
+      contents:
+        - approximate
     - title: Rational functions
       desc: How rational functions are represented in `pyratapprox`.
       contents:
@@ -58,6 +63,7 @@ quartodoc:
         - JuliaApprox
         - ContinuumApprox
         - DiscreteApprox
+        - ConvergenceStatus
 
 filters:
   - interlinks

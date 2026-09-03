@@ -43,20 +43,27 @@ plt.ylabel('f(x) - r(x)')
 plt.title('Pointwise error');
 ```
 
-If no method is specified, the AAA algorithm is used to construct a barycentric rational approximant:
+If no method is specified, a Thiele continued fraction (TCF) approximant is constructed:
 
 ```{python}
 r.getfunction()
 ```
 
-You can instead request a Thiele continued fraction approximant:
+You can instead request the AAA algorithm, which produces a barycentric rational approximant. The method is given as the final positional argument, as in the Julia package, or as the `method` keyword:
 
 ```{python}
-from pyratapprox import TCF
-approximate(f, unitinterval, method=TCF).getfunction()
+from pyratapprox import AAA
+approximate(f, unitinterval, AAA).getfunction()
 ```
 
 There is often not much to separate the two methods, but as the total degree $n$ increases, AAA is an $O(n^4)$ algorithm, while the Thiele method is $O(n^3)$.
+
+Every approximation records why its iteration stopped:
+
+```{python}
+print(r.isconverged())
+r.status
+```
 
 For more examples and information, see the [Julia package documentation](https://complexvariables.github.io/RationalFunctionApproximation.jl/stable/).
 

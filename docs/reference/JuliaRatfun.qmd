@@ -10,8 +10,11 @@ This class wraps Julia's AbstractRationalFunction type, providing a Python
 interface for rational function operations including evaluation, arithmetic,
 and analysis of poles, zeros, and residues.
 
-Attributes:
-    julia: The underlying Julia rational function object.
+## Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type   | Description                                    |
+|--------|--------|------------------------------------------------|
+| julia  |        | The underlying Julia rational function object. |
 
 ## Methods
 
@@ -34,8 +37,11 @@ JuliaRatfun.degree()
 
 Get the total degree of the rational function.
 
-Returns:
-    int: Maximum of numerator and denominator degrees.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                   |
+|--------|--------|-----------------------------------------------|
+| int    |        | Maximum of numerator and denominator degrees. |
 
 ### degrees { #pyratapprox.JuliaRatfun.degrees }
 
@@ -45,8 +51,11 @@ JuliaRatfun.degrees()
 
 Get the numerator and denominator degrees.
 
-Returns:
-    tuple: (numerator_degree, denominator_degree).
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                             |
+|--------|--------|-----------------------------------------|
+| tuple  |        | (numerator_degree, denominator_degree). |
 
 ### get { #pyratapprox.JuliaRatfun.get }
 
@@ -56,11 +65,17 @@ JuliaRatfun.get(field)
 
 Get a property from the underlying Julia object.
 
-Args:
-    field: Name of the property to retrieve.
+#### Parameters {.doc-section .doc-section-parameters}
 
-Returns:
-    The value of the requested property.
+| Name   | Type   | Description                       | Default    |
+|--------|--------|-----------------------------------|------------|
+| field  |        | Name of the property to retrieve. | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                          |
+|--------|--------|--------------------------------------|
+|        |        | The value of the requested property. |
 
 ### isempty { #pyratapprox.JuliaRatfun.isempty }
 
@@ -70,8 +85,11 @@ JuliaRatfun.isempty()
 
 Check if the rational function is empty/undefined.
 
-Returns:
-    bool: True if the function is empty.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                    |
+|--------|--------|--------------------------------|
+| bool   |        | True if the function is empty. |
 
 ### isreal { #pyratapprox.JuliaRatfun.isreal }
 
@@ -81,8 +99,11 @@ JuliaRatfun.isreal()
 
 Check if the rational function has real coefficients.
 
-Returns:
-    bool: True if all coefficients are real.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                        |
+|--------|--------|------------------------------------|
+| bool   |        | True if all coefficients are real. |
 
 ### poles { #pyratapprox.JuliaRatfun.poles }
 
@@ -92,8 +113,11 @@ JuliaRatfun.poles()
 
 Compute the poles of the rational function.
 
-Returns:
-    np.ndarray: Array of pole locations in the complex plane.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                               |
+|--------|--------|-----------------------------------------------------------|
+|        |        | np.ndarray: Array of pole locations in the complex plane. |
 
 ### residues { #pyratapprox.JuliaRatfun.residues }
 
@@ -103,8 +127,11 @@ JuliaRatfun.residues()
 
 Compute poles and their residues.
 
-Returns:
-    tuple: (poles, residues) as numpy arrays.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                        |
+|--------|--------|------------------------------------|
+| tuple  |        | (poles, residues) as numpy arrays. |
 
 ### roots { #pyratapprox.JuliaRatfun.roots }
 
@@ -114,5 +141,8 @@ JuliaRatfun.roots()
 
 Compute the zeros of the rational function.
 
-Returns:
-    np.ndarray: Array of zero locations in the complex plane.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                               |
+|--------|--------|-----------------------------------------------------------|
+|        |        | np.ndarray: Array of zero locations in the complex plane. |

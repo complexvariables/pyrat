@@ -21,8 +21,8 @@ Here, we generate rational approximations using all three methods:
 
 ```{python}
 r_scipy = spAAA(x, f)
-r_aaa = approximate(f, x, method=AAA)
-r_tcf = approximate(f, x, method=TCF)
+r_aaa = approximate(f, x, AAA)
+r_tcf = approximate(f, x, TCF)
 print("Degrees:")
 d = len(r_scipy.support_points) - 1
 print(f"scipy AAA:       ({d}, {d})")
@@ -46,10 +46,10 @@ When the rational degree exceeds about 20, the `pyratapprox` methods are signifi
 
 ```{python}
 import timeit
-n = 50
+n = 100
 time_scipy = timeit.timeit('spAAA(x, f)', globals=globals(), number=n) / n
-time_aaa = timeit.timeit('approximate(f, x, method=AAA)', globals=globals(), number=n) / n
-time_tcf = timeit.timeit('approximate(f, x, method=TCF)', globals=globals(), number=n) / n
+time_aaa = timeit.timeit('approximate(f, x, AAA)', globals=globals(), number=n) / n
+time_tcf = timeit.timeit('approximate(f, x, TCF)', globals=globals(), number=n) / n
 print(f"Average build time over {n} runs:")
 print(f"scipy AAA: {time_scipy*1e3:.2f} milliseconds")
 print(f"pyratapprox AAA: {time_aaa*1e3:.2f} milliseconds")
@@ -59,7 +59,7 @@ print(f"pyratapprox TCF: {time_tcf*1e3:.2f} milliseconds")
 Evaluation times also favor `pyratapprox`:
 
 ```{python}
-n = 200
+n = 500
 time_scipy = timeit.timeit('r_scipy(test_pts)', globals=globals(), number=n) / n
 time_aaa = timeit.timeit('r_aaa(test_pts)', globals=globals(), number=n) / n
 time_tcf = timeit.timeit('r_tcf(test_pts)', globals=globals(), number=n) / n

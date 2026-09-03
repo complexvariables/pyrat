@@ -10,14 +10,18 @@ Represents a rational function approximation computed on a continuous domain
 such as a curve, path, or region in the complex plane. The approximation is
 constructed adaptively using methods like AAA or TCF.
 
-Attributes:
-    julia: The underlying Julia ContinuumApproximation object.
-    original: The original function being approximated.
-    domain: The continuum domain (curve, path, or region).
-    fun: The rational function approximation (Thiele, Bary, etc.).
-    allowed: Allowed pole locations.
-    path: Integration path used in approximation.
-    history: History of the approximation process.
+## Attributes {.doc-section .doc-section-attributes}
+
+| Name     | Type   | Description                                                                       |
+|----------|--------|-----------------------------------------------------------------------------------|
+| julia    |        | The underlying Julia ContinuumApproximation object.                               |
+| original |        | The original function being approximated.                                         |
+| domain   |        | The continuum domain (curve, path, or region).                                    |
+| fun      |        | The rational function approximation (Thiele, Bary, etc.).                         |
+| allowed  |        | Allowed pole locations.                                                           |
+| path     |        | Integration path used in approximation.                                           |
+| history  |        | History of the approximation process.                                             |
+| status   |        | ConvergenceStatus saying why the iteration stopped, or None if none was recorded. |
 
 ## Methods
 
@@ -37,8 +41,11 @@ ContinuumApprox.getfunction()
 
 Get the underlying rational function.
 
-Returns:
-    Thiele, Bary, or JuliaRatfun: The rational function approximation.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                        |
+|--------|--------|--------------------------------------------------------------------|
+|        |        | Thiele, Bary, or JuliaRatfun: The rational function approximation. |
 
 ### isapprox { #pyratapprox.ContinuumApprox.isapprox }
 
@@ -48,11 +55,17 @@ ContinuumApprox.isapprox(other)
 
 Check if this approximation is close to another function.
 
-Args:
-    other: Another JuliaApprox or callable function.
+#### Parameters {.doc-section .doc-section-parameters}
 
-Returns:
-    bool: True if approximations are close on test points.
+| Name   | Type   | Description                               | Default    |
+|--------|--------|-------------------------------------------|------------|
+| other  |        | Another JuliaApprox or callable function. | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                      |
+|--------|--------|--------------------------------------------------|
+| bool   |        | True if approximations are close on test points. |
 
 ### nodes { #pyratapprox.ContinuumApprox.nodes }
 
@@ -62,8 +75,11 @@ ContinuumApprox.nodes()
 
 Get the interpolation nodes of the approximation.
 
-Returns:
-    np.ndarray: Array of node locations.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                          |
+|--------|--------|--------------------------------------|
+|        |        | np.ndarray: Array of node locations. |
 
 ### testpoints { #pyratapprox.ContinuumApprox.testpoints }
 
@@ -73,8 +89,11 @@ ContinuumApprox.testpoints()
 
 Get the test points used to validate the approximation.
 
-Returns:
-    np.ndarray: Array of test point locations.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                |
+|--------|--------|--------------------------------------------|
+|        |        | np.ndarray: Array of test point locations. |
 
 ### values { #pyratapprox.ContinuumApprox.values }
 
@@ -84,5 +103,8 @@ ContinuumApprox.values()
 
 Get the function values at the interpolation nodes.
 
-Returns:
-    np.ndarray: Array of function values.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                           |
+|--------|--------|---------------------------------------|
+|        |        | np.ndarray: Array of function values. |

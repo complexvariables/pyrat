@@ -1,0 +1,61 @@
+# approximate { #pyratapprox.approximate }
+
+```python
+approximate(fun, domain=unitinterval, zeta=None, method=None, **kwargs)
+```
+
+Compute a rational function approximation.
+
+This is the main entry point for creating rational approximations. It
+automatically selects between continuum and discrete approximation based
+on the domain type, and uses adaptive algorithms (TCF or AAA) to construct
+high-quality approximations.
+
+## Parameters {.doc-section .doc-section-parameters}
+
+| Name     | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Default        |
+|----------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------|
+| fun      |        | Callable function to approximate, or array of function values.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | _required_     |
+| domain   |        | Approximation domain (default: the interval [-1, 1]) - can be: - A continuum domain (Circle, Segment, Region, Curve, Path) - A discrete array of points                                                                                                                                                                                                                                                                                                                                                                                                         | `unitinterval` |
+| zeta     |        | Optional array of prescribed poles, which switches the default method to partial fractions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | `None`         |
+| method   |        | Type of rational interpolant, given either positionally (in place of zeta, as in Julia) or by keyword. It may be a Julia type or instance (TCF, AAA, PartialFractions), the Python class Thiele or Bary or an instance of one, or a name such as "thiele". The default is TCF, or PartialFractions when zeta is given.                                                                                                                                                                                                                                          | `None`         |
+| **kwargs |        | Additional keyword arguments passed to Julia's approximate(): - tol: Relative tolerance for stopping - max_degree: Maximum degree of the approximation (on a discrete domain,   TCF takes max_iter instead) - allowed: True to accept all poles (default), "strict" to require poles   off the curve or outside the region, or a predicate on pole locations - refinement: Number of test points between adjacent nodes (continuum only) - stagnation: Number of iterations used to detect stagnation - float_type: Floating point type used in the computation | `{}`           |
+
+## Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                    |
+|--------|--------|----------------------------------------------------------------|
+|        |        | ContinuumApprox or DiscreteApprox: The computed approximation. |
+
+## Raises {.doc-section .doc-section-raises}
+
+| Name   | Type                       | Description                                                |
+|--------|----------------------------|------------------------------------------------------------|
+|        | [ValueError](`ValueError`) | If the method or the approximation type is not recognized. |
+
+## Examples {.doc-section .doc-section-examples}
+
+```python
+>>> # Approximate on the unit interval, using the default method
+>>> f = approximate(np.sin)
+>>>
+>>> # Choose a method positionally, as in Julia
+>>> f = approximate(np.sin, unitinterval, AAA)
+>>>
+>>> # Approximate on discrete points
+>>> x = np.linspace(-1, 1, 100)
+>>> f = approximate(np.exp, x, method=TCF)
+>>>
+>>> # Keep the poles away from the domain
+>>> f = approximate(lambda x: np.abs(x), unitinterval, allowed="strict")
+>>>
+>>> # Evaluate the approximation
+>>> y = f(0.5)
+>>>
+>>> # Get poles and residues
+>>> poles = f.poles()
+>>> poles, residues = f.residues()
+>>>
+>>> # Find out why the iteration stopped
+>>> f.isconverged(), f.status.error
+```

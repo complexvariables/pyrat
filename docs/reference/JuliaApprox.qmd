@@ -10,8 +10,11 @@ Wraps Julia's AbstractApproximation type, providing methods for evaluating
 approximations, analyzing their properties, and managing the approximation
 history.
 
-Attributes:
-    julia: The underlying Julia approximation object.
+## Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type   | Description                                |
+|--------|--------|--------------------------------------------|
+| julia  |        | The underlying Julia approximation object. |
 
 ## Methods
 
@@ -21,6 +24,7 @@ Attributes:
 | [degree](#pyratapprox.JuliaApprox.degree) | Get the total degree of the approximation. |
 | [degrees](#pyratapprox.JuliaApprox.degrees) | Get the numerator and denominator degrees. |
 | [get](#pyratapprox.JuliaApprox.get) | Get a property from the underlying Julia object. |
+| [isconverged](#pyratapprox.JuliaApprox.isconverged) | Check whether the iteration reached the requested tolerance. |
 | [isempty](#pyratapprox.JuliaApprox.isempty) | Check if the approximation is empty/undefined. |
 | [poles](#pyratapprox.JuliaApprox.poles) | Compute the poles of the approximation. |
 | [residues](#pyratapprox.JuliaApprox.residues) | Compute poles and their residues. |
@@ -35,8 +39,11 @@ JuliaApprox.check()
 
 Check the quality of the approximation.
 
-Returns:
-    Approximation quality metrics from Julia.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                               |
+|--------|--------|-------------------------------------------|
+|        |        | Approximation quality metrics from Julia. |
 
 ### degree { #pyratapprox.JuliaApprox.degree }
 
@@ -46,8 +53,11 @@ JuliaApprox.degree()
 
 Get the total degree of the approximation.
 
-Returns:
-    int: Maximum of numerator and denominator degrees.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                   |
+|--------|--------|-----------------------------------------------|
+| int    |        | Maximum of numerator and denominator degrees. |
 
 ### degrees { #pyratapprox.JuliaApprox.degrees }
 
@@ -57,8 +67,11 @@ JuliaApprox.degrees()
 
 Get the numerator and denominator degrees.
 
-Returns:
-    tuple: (numerator_degree, denominator_degree).
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                             |
+|--------|--------|-----------------------------------------|
+| tuple  |        | (numerator_degree, denominator_degree). |
 
 ### get { #pyratapprox.JuliaApprox.get }
 
@@ -68,11 +81,31 @@ JuliaApprox.get(field)
 
 Get a property from the underlying Julia object.
 
-Args:
-    field: Name of the property to retrieve.
+#### Parameters {.doc-section .doc-section-parameters}
 
-Returns:
-    The value of the requested property.
+| Name   | Type   | Description                       | Default    |
+|--------|--------|-----------------------------------|------------|
+| field  |        | Name of the property to retrieve. | _required_ |
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                          |
+|--------|--------|--------------------------------------|
+|        |        | The value of the requested property. |
+
+### isconverged { #pyratapprox.JuliaApprox.isconverged }
+
+```python
+JuliaApprox.isconverged()
+```
+
+Check whether the iteration reached the requested tolerance.
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                                                                                             |
+|--------|--------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| bool   |        | True if the approximation stopped by converging, and False if it stagnated, exhausted its degree budget, failed, or recorded no status. |
 
 ### isempty { #pyratapprox.JuliaApprox.isempty }
 
@@ -82,8 +115,11 @@ JuliaApprox.isempty()
 
 Check if the approximation is empty/undefined.
 
-Returns:
-    bool: True if the approximation is empty.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                         |
+|--------|--------|-------------------------------------|
+| bool   |        | True if the approximation is empty. |
 
 ### poles { #pyratapprox.JuliaApprox.poles }
 
@@ -93,8 +129,11 @@ JuliaApprox.poles()
 
 Compute the poles of the approximation.
 
-Returns:
-    np.ndarray: Array of pole locations in the complex plane.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                               |
+|--------|--------|-----------------------------------------------------------|
+|        |        | np.ndarray: Array of pole locations in the complex plane. |
 
 ### residues { #pyratapprox.JuliaApprox.residues }
 
@@ -104,8 +143,11 @@ JuliaApprox.residues()
 
 Compute poles and their residues.
 
-Returns:
-    tuple: (poles, residues) as numpy arrays.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                        |
+|--------|--------|------------------------------------|
+| tuple  |        | (poles, residues) as numpy arrays. |
 
 ### rewind { #pyratapprox.JuliaApprox.rewind }
 
@@ -115,8 +157,11 @@ JuliaApprox.rewind(n=1)
 
 Rewind the approximation history by n steps.
 
-Args:
-    n: Number of steps to rewind (default: 1).
+#### Parameters {.doc-section .doc-section-parameters}
+
+| Name   | Type   | Description                             | Default   |
+|--------|--------|-----------------------------------------|-----------|
+| n      |        | Number of steps to rewind (default: 1). | `1`       |
 
 ### roots { #pyratapprox.JuliaApprox.roots }
 
@@ -126,5 +171,8 @@ JuliaApprox.roots()
 
 Compute the zeros of the approximation.
 
-Returns:
-    np.ndarray: Array of zero locations in the complex plane.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                               |
+|--------|--------|-----------------------------------------------------------|
+|        |        | np.ndarray: Array of zero locations in the complex plane. |

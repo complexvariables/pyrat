@@ -1,5 +1,13 @@
 # Function reference {.doc .doc-index}
 
+## Approximation
+
+The main entry point of the package.
+
+| | |
+| --- | --- |
+| [approximate](approximate.qmd#pyratapprox.approximate) | Compute a rational function approximation. |
+
 ## Rational functions
 
 How rational functions are represented in `pyratapprox`.
@@ -20,3 +28,4 @@ Rational approximations over domains.
 | [JuliaApprox](JuliaApprox.qmd#pyratapprox.JuliaApprox) | Base class for rational function approximations. |
 | [ContinuumApprox](ContinuumApprox.qmd#pyratapprox.ContinuumApprox) | Rational approximation on a continuum domain. |
 | [DiscreteApprox](DiscreteApprox.qmd#pyratapprox.DiscreteApprox) | Rational approximation on a discrete point set. |
+| [ConvergenceStatus](ConvergenceStatus.qmd#pyratapprox.ConvergenceStatus) | Explanation of why an approximation iteration stopped. |

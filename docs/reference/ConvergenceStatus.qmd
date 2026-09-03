@@ -1,0 +1,40 @@
+# ConvergenceStatus { #pyratapprox.ConvergenceStatus }
+
+```python
+ConvergenceStatus(julia_obj)
+```
+
+Explanation of why an approximation iteration stopped.
+
+Wraps Julia's ConvergenceStatus, which is recorded by approximate() as of
+RationalFunctionApproximation v0.4.0.
+
+## Attributes {.doc-section .doc-section-attributes}
+
+| Name       | Type   | Description                                                                                                                                          |
+|------------|--------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| julia      |        | The underlying Julia ConvergenceStatus object.                                                                                                       |
+| reason     |        | str, the cause of termination. One of "converged", "stagnated", "max_degree", "node_failure", "nan_weight", "refinement", "exhausted", or "rewound". |
+| best       |        | int, index into the history of the interpolant that was returned.                                                                                    |
+| iterations |        | int, number of iterations completed.                                                                                                                 |
+| error      |        | float, estimated error of the returned interpolant.                                                                                                  |
+
+## Methods
+
+| Name | Description |
+| --- | --- |
+| [isconverged](#pyratapprox.ConvergenceStatus.isconverged) | Check whether the iteration reached the requested tolerance. |
+
+### isconverged { #pyratapprox.ConvergenceStatus.isconverged }
+
+```python
+ConvergenceStatus.isconverged()
+```
+
+Check whether the iteration reached the requested tolerance.
+
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                      |
+|--------|--------|--------------------------------------------------|
+| bool   |        | True if the reason for stopping was convergence. |

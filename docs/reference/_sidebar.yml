@@ -3,6 +3,9 @@ website:
   - contents:
     - reference/index.qmd
     - contents:
+      - reference/approximate.qmd
+      section: Approximation
+    - contents:
       - reference/JuliaRatfun.qmd
       - reference/JuliaRatinterp.qmd
       - reference/Bary.qmd
@@ -12,6 +15,7 @@ website:
       - reference/JuliaApprox.qmd
       - reference/ContinuumApprox.qmd
       - reference/DiscreteApprox.qmd
+      - reference/ConvergenceStatus.qmd
       section: Approximations
     id: reference
   - id: dummy-sidebar

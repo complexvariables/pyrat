@@ -10,8 +10,11 @@ Extends JuliaRatfun to include interpolation-specific functionality such as
 accessing interpolation nodes and values. This is the base class for specific
 interpolation methods like Thiele and Barycentric.
 
-Attributes:
-    julia: The underlying Julia rational interpolant object.
+## Attributes {.doc-section .doc-section-attributes}
+
+| Name   | Type   | Description                                       |
+|--------|--------|---------------------------------------------------|
+| julia  |        | The underlying Julia rational interpolant object. |
 
 ## Methods
 
@@ -29,8 +32,11 @@ JuliaRatinterp.length()
 
 Get the number of interpolation points.
 
-Returns:
-    int: Number of nodes in the interpolant.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                         |
+|--------|--------|-------------------------------------|
+| int    |        | Number of nodes in the interpolant. |
 
 ### nodes { #pyratapprox.JuliaRatinterp.nodes }
 
@@ -40,8 +46,11 @@ JuliaRatinterp.nodes()
 
 Get the interpolation nodes.
 
-Returns:
-    np.ndarray: Array of interpolation node locations.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                        |
+|--------|--------|----------------------------------------------------|
+|        |        | np.ndarray: Array of interpolation node locations. |
 
 ### values { #pyratapprox.JuliaRatinterp.values }
 
@@ -51,5 +60,8 @@ JuliaRatinterp.values()
 
 Get the interpolation values at the nodes.
 
-Returns:
-    np.ndarray: Array of function values at interpolation nodes.
+#### Returns {.doc-section .doc-section-returns}
+
+| Name   | Type   | Description                                                  |
+|--------|--------|--------------------------------------------------------------|
+|        |        | np.ndarray: Array of function values at interpolation nodes. |

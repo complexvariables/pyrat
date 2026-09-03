@@ -9,6 +9,9 @@ Thiele continued fraction interpolant.
 Implements rational interpolation using Thiele's continued fraction method,
 which provides a stable representation for rational interpolants.
 
-Attributes:
-    julia: The underlying Julia Thiele object.
-    weights: Numpy array of interpolation weights.
+## Attributes {.doc-section .doc-section-attributes}
+
+| Name    | Type   | Description                           |
+|---------|--------|---------------------------------------|
+| julia   |        | The underlying Julia Thiele object.   |
+| weights |        | Numpy array of interpolation weights. |
