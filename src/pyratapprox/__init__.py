@@ -544,7 +544,7 @@ class JuliaApprox:
         """
         if np.ndim(z) > 0:
             vec_z = juliacall.convert(jl.Vector, z)
-            result = jl.map(self.julia, vec_z)
+            result = self.julia(vec_z)
             return np.array(result)
         else:
             return np.complex128(self.julia(z))
