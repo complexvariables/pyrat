@@ -270,7 +270,7 @@ window.Quarto = {
 <section id="examples" class="level2">
 <h2 class="anchored" data-anchor-id="examples">Examples</h2>
 <p>Here are some simple examples of how to use the package:</p>
-<div id="1d6fdec0" class="cell" data-execution_count="1">
+<div id="b17b1d78" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyratapprox <span class="im">import</span> approximate, unitinterval</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> f(x):</span>
@@ -283,7 +283,7 @@ Approximant of rational type (17, 17)</code></pre>
 </div>
 </div>
 <p>The constructed object can be called like a function to evaluate the approximant:</p>
-<div id="eba142a9" class="cell" data-execution_count="2">
+<div id="0f3ebccc" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1000</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.plot(x, r(x))</span>
@@ -298,7 +298,7 @@ Approximant of rational type (17, 17)</code></pre>
 </div>
 </div>
 <p>By default, the approximant is constructed to achieve an accuracy of about <span class="math inline">\(10^{-14}\)</span>, as seen here:</p>
-<div id="47f514dd" class="cell" data-execution_count="3">
+<div id="43247ec6" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>plt.plot(x, f(x) <span class="op">-</span> r(x))</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'f(x) - r(x)'</span>)</span>
@@ -312,14 +312,14 @@ Approximant of rational type (17, 17)</code></pre>
 </div>
 </div>
 <p>If no method is specified, a Thiele continued fraction (TCF) approximant is constructed:</p>
-<div id="2610cbf7" class="cell" data-execution_count="4">
+<div id="c8f168a3" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>r.getfunction()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 <pre><code>Thiele continued fraction of type (17, 17)</code></pre>
 </div>
 </div>
 <p>You can instead request the AAA algorithm, which produces a barycentric rational approximant. The method is given as the final positional argument, as in the Julia package, or as the <code>method</code> keyword:</p>
-<div id="0c3d4a41" class="cell" data-execution_count="5">
+<div id="7d0d418d" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyratapprox <span class="im">import</span> AAA</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>approximate(f, unitinterval, AAA).getfunction()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
@@ -328,7 +328,7 @@ Approximant of rational type (17, 17)</code></pre>
 </div>
 <p>There is often not much to separate the two methods, but as the total degree <span class="math inline">\(n\)</span> increases, AAA is an <span class="math inline">\(O(n^4)\)</span> algorithm, while the Thiele method is <span class="math inline">\(O(n^3)\)</span>.</p>
 <p>Every approximation records why its iteration stopped:</p>
-<div id="104ac07e" class="cell" data-execution_count="6">
+<div id="73f9dd50" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(r.isconverged())</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>r.status</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

@@ -264,7 +264,7 @@ window.Quarto = {
 <p>The SciPy library includes an <a href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.AAA.html">implementation</a> of the AAA algorithm for rational approximation in its <code>scipy.interpolate</code> module. Below is a comparison of <code>pyratapprox</code>’s AAA and Thiele continued fraction methods against SciPy’s AAA implementation.</p>
 <section id="timing" class="level2">
 <h2 class="anchored" data-anchor-id="timing">Timing</h2>
-<div id="4601a6ad" class="cell" data-execution_count="1">
+<div id="94a474c9" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pyratapprox <span class="im">import</span> <span class="op">*</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.interpolate <span class="im">import</span> AAA <span class="im">as</span> spAAA</span>
@@ -287,7 +287,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Here, we generate rational approximations using all three methods:</p>
-<div id="7d6e6e0c" class="cell" data-execution_count="2">
+<div id="f9c23100" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>r_scipy <span class="op">=</span> spAAA(x, f)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>r_aaa <span class="op">=</span> approximate(f, x, AAA)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>r_tcf <span class="op">=</span> approximate(f, x, TCF)</span>
@@ -304,7 +304,7 @@ pyratapprox TCF: (32, 32)</code></pre>
 </div>
 </div>
 <p>As you see above, the results of the three methods are nearly identical in terms of the resulting rational type. Both of the AAA results use essentially the same algorithm, while TCF uses an algorithm that is asymptotically faster. The errors are all similar:</p>
-<div id="4c32692b" class="cell" data-execution_count="3">
+<div id="a955875b" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>test_pts <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">1000</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>ax.plot(test_pts, np.tanh(<span class="dv">50</span> <span class="op">*</span> test_pts) <span class="op">-</span> r_scipy(test_pts), <span class="st">'-'</span>, label<span class="op">=</span><span class="st">'scipy AAA'</span>, lw<span class="op">=</span><span class="dv">2</span>)</span>
@@ -321,7 +321,7 @@ pyratapprox TCF: (32, 32)</code></pre>
 </div>
 </div>
 <p>When the rational degree exceeds about 20, the <code>pyratapprox</code> methods are significantly faster to build than SciPy’s AAA implementation, as shown below:</p>
-<div id="318ae861" class="cell" data-execution_count="4">
+<div id="4e679a4b" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> timeit</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>time_scipy <span class="op">=</span> timeit.timeit(<span class="st">'spAAA(x, f)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
@@ -333,13 +333,13 @@ pyratapprox TCF: (32, 32)</code></pre>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox TCF: </span><span class="sc">{</span>time_tcf<span class="op">*</span><span class="fl">1e3</span><span class="sc">:.2f}</span><span class="ss"> milliseconds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average build time over 100 runs:
-scipy AAA: 35.47 milliseconds
-pyratapprox AAA: 15.54 milliseconds
-pyratapprox TCF: 2.04 milliseconds</code></pre>
+scipy AAA: 35.19 milliseconds
+pyratapprox AAA: 15.36 milliseconds
+pyratapprox TCF: 2.07 milliseconds</code></pre>
 </div>
 </div>
 <p>Evaluation times also favor <code>pyratapprox</code>:</p>
-<div id="1d49a9c0" class="cell" data-execution_count="5">
+<div id="83c7035b" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">500</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>time_scipy <span class="op">=</span> timeit.timeit(<span class="st">'r_scipy(test_pts)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>time_aaa <span class="op">=</span> timeit.timeit(<span class="st">'r_aaa(test_pts)'</span>, <span class="bu">globals</span><span class="op">=</span><span class="bu">globals</span>(), number<span class="op">=</span>n) <span class="op">/</span> n</span>
@@ -350,16 +350,16 @@ pyratapprox TCF: 2.04 milliseconds</code></pre>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"pyratapprox TCF: </span><span class="sc">{</span>time_tcf<span class="op">*</span><span class="fl">1e6</span><span class="sc">:.2f}</span><span class="ss"> microseconds"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Average evaluation time over 500 runs:
-scipy AAA: 161.23 microseconds
-pyratapprox AAA: 255.08 microseconds
-pyratapprox TCF: 29.89 microseconds</code></pre>
+scipy AAA: 143.01 microseconds
+pyratapprox AAA: 241.67 microseconds
+pyratapprox TCF: 34.06 microseconds</code></pre>
 </div>
 </div>
 </section>
 <section id="approximation-in-continuous-mode" class="level2">
 <h2 class="anchored" data-anchor-id="approximation-in-continuous-mode">Approximation in continuous mode</h2>
 <p>In addition, <code>pyratapprox</code> offers automatic refinement of the domain discretization, which can safeguard against accuracy loss when singularities are present near the domain. For example, consider approximation on the unit circle of the function <span class="math inline">\(f(z) = \sqrt{1.001 + z}\)</span>. If we use 400 points in SciPy’s AAA, everything seems OK:</p>
-<div id="ec564901" class="cell" data-execution_count="6">
+<div id="a3f93eee" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> np.exp(<span class="ot">1j</span> <span class="op">*</span> np.pi <span class="op">*</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">200</span>))</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> np.sqrt(<span class="fl">1.001</span> <span class="op">+</span> z)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> spAAA(z, f)</span>
@@ -369,7 +369,7 @@ pyratapprox TCF: 29.89 microseconds</code></pre>
 </div>
 </div>
 <p>However, if we look more closely near the branch point at <span class="math inline">\(z = -1.001\)</span>, we see that the domain is badly under-resolved:</p>
-<div id="fe8dfb26" class="cell" data-execution_count="7">
+<div id="60c74e9a" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>test_pts <span class="op">=</span> np.exp(<span class="ot">1j</span> <span class="op">*</span> np.pi <span class="op">*</span> np.linspace(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">5000</span>))</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>test_f <span class="op">=</span> np.sqrt(<span class="fl">1.001</span> <span class="op">+</span> test_pts)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Max observed error on 5000 points: </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">max</span>(np.<span class="bu">abs</span>(test_f <span class="op">-</span> r(test_pts)))<span class="sc">:.2e}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -378,7 +378,7 @@ pyratapprox TCF: 29.89 microseconds</code></pre>
 </div>
 </div>
 <p>By approximating on the <code>unitcircle</code> domain without prior discretization, the algorithm automatically refines the point set to achieve the advertised accuracy:</p>
-<div id="ea15032c" class="cell" data-execution_count="8">
+<div id="0ee1e1f0" class="cell" data-execution_count="8">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>f <span class="op">=</span> <span class="kw">lambda</span> z: np.sqrt(<span class="fl">1.001</span> <span class="op">+</span> z)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> approximate(f, unitcircle)    <span class="co"># AAA is the default method</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>max_err <span class="op">=</span> np.<span class="bu">max</span>(np.<span class="bu">abs</span>(test_f <span class="op">-</span> r(test_pts)))</span>
