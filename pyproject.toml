@@ -1,6 +1,6 @@
 [project]
 name = "pyratapprox"
-version = "0.1.0"
+version = "0.2.0"
 description = "Python interface for rational function approximation via Julia"
 authors = [{name = "Toby Driscoll", email = "driscoll@udel.edu"}]
 readme = "README.md"
